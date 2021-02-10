@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="10.625" height="14.167" viewBox="0 0 10.625 14.167">
+  <g id="profit-report" transform="translate(-64)">
+    <g id="Group_559" data-name="Group 559" transform="translate(71.083)">
+      <g id="Group_558" data-name="Group 558">
+        <path id="Path_302" data-name="Path 302" d="M320,0V3.542h3.542Z" transform="translate(-320)" fill="#a7acb2"/>
+      </g>
+    </g>
+    <g id="Group_561" data-name="Group 561" transform="translate(64)">
+      <g id="Group_560" data-name="Group 560">
+        <path id="Path_303" data-name="Path 303" d="M71.083,4.427a.887.887,0,0,1-.885-.885V0H64.885A.887.887,0,0,0,64,.885v12.4a.886.886,0,0,0,.885.885H73.74a.886.886,0,0,0,.885-.885V4.427ZM67.542,12.4H65.771V9.74h1.771Zm2.656,0H68.427V7.969H70.2Zm2.656,0H71.083V6.2h1.771Z" transform="translate(-64)" fill="#a7acb2"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,335 @@
+.Background_img{
+    width: 110%;
+    position: absolute;
+    z-index: 0;
+    height: 100%;
+    overflow: hidden;
+    object-fit: cover;
+}
+.sendquery24hour{
+    font-size: 11px;
+
+}
+.img_Text{
+    color: white;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    top: 93%;
+}
+.img_Text1{
+    color: white;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    top: 9%;
+}
+.login-container
+{
+    background-color: white;
+    border-bottom-left-radius: 80px;
+    border-top-left-radius: 80px;
+    padding-top: 52px;
+    padding-bottom: 52px;
+    padding-left: 50px;
+    padding-right: 50px;
+        z-index: 1;
+}
+.div-cotainer{
+    background-color: gray;
+    overflow: auto;
+
+}
+.welcome-text{
+    font-size: 23px;
+    
+}
+.login_text{
+    font-size: 13px;
+    color: #2D2926;
+}
+
+.logininout{
+    height: 41px;
+    border: none;
+    width: 100%;
+    box-shadow: 0px 3px 6px 0px #d6d6d6;
+    margin-top: 15px;
+    padding-left: 15px;
+}
+.logininout:focus{
+    border: 2px solid #bb423b;
+
+}
+
+.vericationbtn{
+    height: 41px;
+    border: none;
+    width: 100%;
+    box-shadow: 0px 3px 6px 0px #d6d6d6;
+    margin-top: 15px;
+    padding-left: 15px;
+    background-color: #B5322A;
+    border-radius: 42px;
+    margin-left: 25px;
+    color: white;
+    font-size: 12px;
+}
+.vericationbtn:focus{
+    outline: none;
+    opacity: 1 !important;
+    background-color: #B5322A;
+}
+.vericationbtn:hover{
+    opacity: 0.8;
+    background-color: #B5322A;
+}
+.login_btn{
+    height: 54px;
+    width: 280px;
+    border-radius: 54px;
+    border: none;
+    background-color: #9a9a9a;
+    font-size: 19px;
+    color: #fff;
+}
+.login_btn:hover{
+    opacity: 0.7;
+    background-color: #B5322A;
+}
+.login_btn:focus{
+    opacity: 1 ;
+    outline: none;
+    background-color: #B5322A;
+
+}
+.registerbtn{
+    height: 51px;
+    width: 183px;
+    border-radius: 54px;
+    border: none;
+    background-color: #9a9a9a;
+    font-size: 14px;
+    color: #fff;
+}
+.registerbtn:focus{
+    opacity: 1 !important;
+    outline: none;
+    background-color: #bb423b;
+    border: 2px solid #bb423b;
+
+
+}
+.registerbtn:hover{
+    opacity: 0.8;
+    background-color: #B5322A;
+
+
+}
+
+
+.register-container {
+    background-color: #F6F6F6;
+    border-bottom-left-radius: 80px;
+    border-top-left-radius: 80px;
+    padding-top: 35px;
+    padding-bottom: 35px;
+    padding-left: 50px;
+    padding-right: 50px;
+    z-index: 1;
+    height: 100%;
+}
+.verficationbackArrow{
+    position: absolute;
+    left: 20px;
+    top: 28px;
+}
+.verficationInput{
+    height: 95px;
+    width: 66px;
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 42px;
+    padding-left: 17px;
+    font-family: Montserrat;
+    color: #B5322A;
+    border: none;
+    box-shadow: 0px 0px 3px 0px black;
+}
+.verficationInput:focus{
+    border: 1px solid #B5322A;
+}
+.timetext{
+    font-size: 12px;
+    color: #B5322A;
+    font-family: roboto;
+    font-weight: 600;
+}
+.invaliderrorLogin
+{
+    color: red;
+    right: 3%;
+    margin-top: 7px;
+    text-align: right;
+    margin-bottom: 0px;
+    line-height: 1;
+    position: absolute;
+    font-size: 12px;
+}
+.invaliderrorRegister {
+    color: red;
+    right: 3%;
+    margin-top: 6px;
+    text-align: right;
+    margin-bottom: 0px;
+    line-height: 1;
+    position: ABSOLUTE;
+    font-size: 11px;
+}
+.invaliderrorRegister2 {
+    color: red;
+    right: 52%;
+    margin-top: 6px;
+    text-align: right;
+    margin-bottom: 0px;
+    line-height: 1;
+    position: ABSOLUTE;
+    font-size: 11px;
+}
+button[disabled], html input[disabled] {
+    cursor: not-allowed;
+    background-color: #9a9a9a;
+    opacity: 1;
+
+}
+
+.registerLogo{
+    height: 59px;
+    width: 125px;
+}
+.imgg_text1{
+    font-size: 12px;
+    font-family: Montserrat;
+}
+.imgg_text2{
+    font-size: 15px;
+    font-family: Montserrat;
+    font-weight: 800;
+}
+.imgg_text3{
+    font-size: 37px;
+    font-family: Montserrat;
+    font-weight: 800;
+    line-height: 1;
+}
+.imgg_text4{
+    font-size: 12px;
+    font-family: Montserrat;
+    font-weight: 400;
+}
+.imgg_text5{
+    color: white;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    top: 76%;
+}
+@media (max-width: 992px){
+    .img_Text1 {
+        display: none;
+         }
+         .Background_img{
+            display: none;
+        }
+        .img_Text{
+            display: none;
+        }
+        .login-container {
+            background-color: white;
+            border-bottom-left-radius: 0px;
+            border-top-left-radius: 0px;
+            padding-top: 15px;
+
+        }
+        .register-container {
+            border-bottom-left-radius: 0px;
+            border-top-left-radius: 0px;
+            padding-top: 15px;
+        }
+        .logininout {
+            height: 36px;
+            margin-top: 10px;
+        }
+        .vericationbtn{
+            height: 36px;
+            margin-top: 10px;
+
+        }
+}
+@media (max-width: 768px){
+    .Background_img{
+        display: none;
+    }
+    .img_Text{
+        display: none;
+    }
+    .login-container {
+        background-color: white;
+        border-bottom-left-radius: 0px;
+        border-top-left-radius: 0px;
+    }
+    .img_Text1 {
+   display: none;
+    }
+    
+    // .register-container {
+    //     background-color: white;
+    //     border-bottom-left-radius: 0px;
+    //     border-top-left-radius: 0px;
+    //     padding-top: 15px;
+    //     padding-bottom: 15px;
+    //     padding-left: 15px;
+    //     padding-right: 15px;
+    //     z-index: 1;
+    // }
+
+  
+}
+@media (max-width: 567px){
+    .login-container {
+        
+        border-bottom-left-radius: 0px;
+        border-top-left-radius: 0px;
+        padding-top: 13px;
+        padding-left: 10px;
+        padding-right: 10px;
+
+    }
+    .vericationbtn{
+        font-size: 8px;
+        margin-top: 0px;
+        height: 37px;
+
+
+    }
+    .logininout {
+        height: 37px;
+        border: none;
+        width: 100%;
+        box-shadow: 0px 3px 6px 0px #d6d6d6;
+        margin-top: 10px;
+        padding-left: 15px;
+    }
+    .register-container {
+        border-bottom-left-radius: 0px;
+        border-top-left-radius: 0px;
+        padding-top: 13px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .welcome-text {
+        font-size: 17px;
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
+}

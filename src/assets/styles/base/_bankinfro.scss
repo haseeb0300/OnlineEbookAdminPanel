@@ -1,0 +1,101 @@
+.bankinfocontainer{
+    width: 90%;
+    background-color: white;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+.bankinfoinputlabel{
+    font-size: 13px;
+    margin: 0px;
+    margin-top: 10px;
+}
+.bankinfoInput{
+    height: 41px;
+    border: none;
+    width: 100%;
+    box-shadow: 0px 3px 6px 0px #d6d6d6;
+    margin-top: 15px;
+    padding-left: 15px;
+    
+}
+.bankinfoInput:focus{
+
+    border: 2px solid #B5322A;
+}
+.sendqueryInput{
+    height: 54px;
+    border: none;
+    width: 100%;
+    box-shadow: 0px 3px 6px 0px #d6d6d6;
+    margin-top: 15px;
+    padding-left: 15px;
+    color: #000;
+    font-size: 13px;
+    font-family: 'Montserrat';
+    border-radius: 6px;
+}
+.sendqueryTextArea{
+    height: 198px;
+    border: none;
+    width: 100%;
+    box-shadow: 0px 3px 6px 0px #d6d6d6;
+    margin-top: 15px;
+    padding-left: 15px;
+    color: #000;
+    font-size: 13px;
+    font-family: 'Montserrat';
+    border-radius: 6px;
+    padding-top: 15px;
+
+}
+.sendqueryInput:focus{
+    outline: none;
+    box-shadow: 0px 4px 8px 0px #9e9999;
+
+}
+
+.sendqueryTextArea:focus{
+    outline: none;
+    box-shadow: 0px 4px 8px 0px #9e9999;
+
+}
+.sendquerybtn {
+    color: white;
+    font-size: 12px;
+    height: 38px;
+    width: 143px;
+    background: #B5322A;
+    border: none;
+    border-radius: 3px;
+    font-family: 'Montserrat' !important;
+}
+
+.saveinfobtn{
+    color: white;
+    font-size: 14px;
+    height: 51px;
+    width: 234px;
+    background: #B5322A;
+    border: none;
+    border-radius: 32px;
+}
+.saveinfobtn:hover{
+    opacity: 0.8;
+    box-shadow: 0px 0px 2px 0px #B5322A ;
+    cursor: pointer;
+}
+.heading_bank{
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-weight: 500;
+}
+.pointerr{
+    // display: block;
+}
+.pointerr:hover{
+    opacity: 0.9;
+    cursor: pointer;
+}
+

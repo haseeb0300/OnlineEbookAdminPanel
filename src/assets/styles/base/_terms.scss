@@ -1,0 +1,138 @@
+.termsandcondtionContainer{
+    background-color: white;
+    padding: 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.termsHeading{
+    font-size: 18px;
+    color: #0D1B2A;
+    margin: 0px;
+
+}
+.printText{
+    font-size: 11px;
+    font-family: 'Montserrat';
+
+}
+.termText{
+    font-size: 13px;
+    font-family: 'Montserrat';
+}
+//profile
+
+.profileContainer{
+    width: 171px;
+    height: 171px;
+    background-color: #BBBBBB;
+}
+.profileimg{
+    width: 116px;
+    height: 116px;
+    margin-top: 27.5px;
+}
+.profileinput {
+    height: 40px;
+    border: none;
+    width: 100%;
+    box-shadow: 0px 3px 6px 0px #d6d6d6;
+    padding-left: 15px;
+    color: #000;
+    font-size: 12px;
+    font-family: 'Montserrat';
+    border-radius: 6px;
+}
+.profileinput:focus{
+    outline: none;
+    border: 2px solid #B5322A;
+
+
+
+
+}
+.profileinputLabel{
+    font-size: 12px;
+    font-family: 'Montserrat';
+    font-weight: 500;
+    margin-top: 10px;
+
+
+}
+.text_align_R{
+    text-align: right;
+}
+.profile_TextArea{
+    height: 170px;
+    border: none;
+    width: 100%;
+    box-shadow: 0px 3px 6px 0px #d6d6d6;
+    padding-left: 15px;
+    color: #000;
+    font-size: 12px;
+    font-family: 'Montserrat';
+    border-radius: 6px;
+
+}
+.profile_TextArea:focus{
+    outline: none;
+    box-shadow: 0px 4px 8px 0px #c2bebe;
+
+}
+.profileEditButton{
+    height: 38px;
+    width: 143px;
+    border-radius: 6px;
+    border: none;
+    background-color: #FAC85B;
+    font-size: 12px;
+    font-family: 'Montserrat';
+    font-weight: 500;
+
+}
+.profileSaveButton{
+    height: 38px;
+    width: 143px;
+    border-radius: 6px;
+    border: none;
+    background-color: #B5322A;
+    font-size: 12px;
+    font-family: 'Montserrat';
+    font-weight: 500;
+    color: white;
+
+}
+//notification
+.notificationCotainer{
+    background-color: white;
+    padding: 20px;
+    height: 500px;
+    overflow: auto;
+
+}
+.notificationHeading{
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-weight: 500;
+}
+.notificationColorRow{
+    background-color: #f4f6fb;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+.notificationWhiteRow{
+    background-color: #FFF;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+.notificationtext{
+    font-size: 12px;
+}
+@media (max-width: 767px){
+    .text_align_R{
+        text-align: left;
+    }
+}

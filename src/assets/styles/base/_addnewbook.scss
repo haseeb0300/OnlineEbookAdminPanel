@@ -1,0 +1,347 @@
+.managebookContainer{
+    padding-left: 40px !important;
+    padding-right: 50px !important;
+}
+.invaliderrorAddNewBook {
+    color: red;
+    right: 6%;
+    margin-top: 9px;
+    text-align: right;
+    margin-bottom: 0px;
+    line-height: 0.1;
+    font-size: 11px;
+    position: absolute;
+}
+.invaliderrorAddNewBookDescription {
+    color: red;
+    right: 6%;
+    margin-top: 3px;
+    text-align: right;
+    margin-bottom: 0px;
+    line-height: 0.1;
+    font-size: 11px;
+    position: absolute;
+}
+.invaliderrorAddNewBookImage {
+    color: red;
+    left: 4%;
+    margin-top: 17px;
+    text-align: right;
+    margin-bottom: 0px;
+    line-height: 0.1;
+    font-size: 11px;
+    position: absolute;
+}
+.managebookheading{
+    font-size: 18px;
+    color: #0D1B2A;
+    opacity: 0.35;
+}
+.pointerr{
+    // opacity: 1;
+    }
+    .pointerr:hover{
+      cursor: pointer;
+      opacity: 0.9;
+    }
+.manageBookTopBarCard{
+    -webkit-box-shadow: 0px 1px 2px 0px rgba(141, 137, 137, 0.75);
+-moz-box-shadow: 0px 1px 2px 0px rgba(141, 137, 137, 0.75);
+box-shadow: 0px 1px 2px 0px rgba(141, 137, 137, 0.75);
+background-color: white;
+height: 66px;
+
+}
+.input-feedback{
+    position: absolute;
+    color: red;
+    /* left: 15px; */
+    right: 15px;
+    font-size: 11px;
+}
+.manageBookTopBarCard_active{
+    -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.75);
+background-color: white;
+height: 66px;
+border-bottom: 2px solid #B5322A;
+
+}
+.manageBookTopBarCard:hover{
+    cursor: not-allowed;
+    opacity: 0.9;
+    // border-bottom: 2px solid #B5322A;
+    
+}
+.manageBookTopBarCard-Heading{
+    font-size: 14px;
+    color: #0D1B2A;
+}
+.manageBookTopBarCard-Text{
+    font-size: 12px;
+    color: #0D1B2A;
+
+}
+.bookDescriptionCard{
+    background-color: white;
+    background-color: white;
+    padding: 25px;
+    margin-top: 20px;
+    box-shadow: 0px 0px 3px 0px;
+
+}
+.managebookInput{
+  
+    height: 25px;
+    border-radius: 3px;
+    border: 1px solid #828991;
+    // opacity: 0.5;
+}
+.managebookInput:focus{
+    border: 2px solid #B5322A;
+}
+.managebooktextarea{
+    height: 109px;
+    border-radius: 3px;
+    border: 1px solid #828991;
+    opacity: 0.5;
+}
+.managebooktextarea:focus{
+    border: 2px solid #B5322A;
+    opacity: 1;
+    outline: none;
+
+}
+
+.managebooktextarea:hover{
+    border: 2px solid #B5322A !important;
+    opacity: 1;
+
+}
+.vertical_center{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.bookDescriptionCardTextSide{
+    width: 23%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.bookDescriptionCardInputSide{
+    width: 35%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.bookDescriptionCardTextSide1{
+    width: 15%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.bookDescriptionCardInputSide1{
+    width: 25%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.img-placeholder{
+    height: 94px;
+    width: 96px;
+    background-color: #F2F2F2;
+    border: 2px dashed #173CA5;
+    text-align: center;
+    border-radius: 12px;
+
+   
+}
+.img-placeholder:hover{
+    cursor: pointer;
+    opacity: 0.9;
+    box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.75);
+
+}
+.img-placeholder:focus{
+    opacity: 0.8;
+
+}
+.img-placeholderText{
+    margin-top: 28px;
+    font-size: 12px;
+    font-family: Montserrat;
+    font-weight: 500;
+    opacity: 0.54;
+}
+.uploadbtn{
+    height: 30px;
+    font-size: 11px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    background-color: #FAC85B;
+    border: none;
+    -webkit-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+
+}
+.uploadbtn:hover{
+    box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.75);
+opacity: 0.9;
+cursor: pointer;
+}
+.uploadbtn:focus{
+    box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.75);
+outline: none;
+opacity: 0.8;
+}
+//epub files
+.EpubFile_roundDiv{
+    height: 42px;
+    width: 42px;
+    background-color: #FAC85B;
+    border-radius: 50%;
+}
+.EpubFile_roundDiv_text{
+    font-size: 20px;
+    margin-left: 17px;
+    margin-top: 6px;
+}
+.bookimg-placeholder {
+    height: 181px;
+    width: 116px;
+    background-color: #F2F2F2;
+    border: 2px dashed #173CA5;
+    text-align: center;
+    border-radius: 12px;
+}
+.bookimg-placeholderText {
+    /* margin-top: auto; */
+    /* margin-bottom: auto; */
+    font-size: 12px;
+    font-family: Montserrat;
+    font-weight: 500;
+    opacity: 0.54;
+    padding: 22px;
+    text-align: center;
+    margin-top: 50px;
+}
+//price
+.labelinside{
+    position: absolute;
+    background: #FAC85B;
+    height: 25px;
+    padding-left: 8px;
+    font-size: 12px;
+    padding-right: 8px;
+    padding-top: 3px;
+    z-index: 1;
+
+}
+.pricebookInput {
+    height: 25px;
+    border-radius: 3px;
+    border: 1px solid #828991;
+    padding-left: 120px !important;
+    font-size: 12px;
+    font-family: 'Poppins';
+    font-weight: 300;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+.modal-content {
+   
+    border-radius: 35px !important;
+}
+.congratulation_text{
+    font-size: 32px;
+}
+.modal_text{
+    font-size: 15px;
+}
+.modalbtn{
+    height: 40.62px;
+    font-size: 14px;
+    margin-top: 5px;
+    background-color: #FAC85B;
+    border: none;
+    -webkit-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+
+}
+.modalbtn:hover{
+    box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.75);
+opacity: 0.9;
+cursor: pointer;
+}
+.modalbtn:focus{
+    box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.75);
+outline: none;
+opacity: 0.8;
+}
+@media (max-width: 992px){
+
+
+
+.managebookContainer {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+.managebookheading {
+    font-size: 21px;
+    color: #0D1B2A;
+    opacity: 0.35;
+    margin-left: 20px;
+}
+}
+
+@media (max-width: 502px){
+
+
+
+    .manageBookTopBarCard_active {
+      
+        height: 102px;
+    }
+    .manageBookTopBarCard {
+      
+        height: 102px;
+    }
+    .uploadbtn {
+        height: 25px;
+        font-size: 8px;
+    }
+    .labelinside {
+       
+        display: none;
+    }
+    .pricebookInput {
+       
+        padding-left: 10px !important;
+    }
+    .manageBookTopBarCard-Heading {
+        font-size: 12px;
+    }
+    .manageBookTopBarCard-Text {
+        font-size: 10px;
+    }
+    .bookDescriptionCard {
+ 
+        padding: 10px;
+        }
+        .managebookheading {
+          
+            margin-left: 17px;
+        }
+}
+
+

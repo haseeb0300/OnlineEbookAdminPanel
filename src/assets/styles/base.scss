@@ -1,0 +1,230 @@
+$pe-7s-font-path: "~pe7-icon/dist/fonts" !default;
+@import 'base/variables';
+@import 'base/sidebar';
+@import 'base/navbar';
+@import 'base/managebook';
+@import 'base/addnewbook';
+@import 'base/sellingbook';
+@import 'base/bankinfro';
+@import 'base/trackmyrecord';
+@import 'base/reports.scss';
+@import 'base/createnewbook';
+@import 'base/login';
+@import 'base/dashboard';
+@import 'base/terms';
+
+
+
+
+
+
+
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("../fonts/Roboto-Regular.ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("../fonts/Roboto-Medium.ttf");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("../fonts/Roboto-Bold.ttf");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/Montserrat/Montserrat-Regular.ttf');  
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  src: url('../fonts/Montserrat/Montserrat-Medium.ttf');  
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/Montserrat/Montserrat-Bold.ttf');  
+}
+
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 900;
+  src: url('../fonts/Montserrat/Montserrat-ExtraBold.ttf');  
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+
+  src: url('../fonts/poppins/Poppins-Thin.ttf') format('truetype');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+
+  src: url('../fonts/poppins/Poppins-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+
+  src: url('../fonts/poppins/Poppins-Light.ttf') format('truetype');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+
+  src: url('../fonts/poppins/Poppins-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+
+  src: url('../fonts/poppins/Poppins-Medium.ttf') format('truetype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+
+  src: url('../fonts/poppins/Poppins-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+
+  src: url('../fonts/poppins/Poppins-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+
+  src: url('../fonts/poppins/Poppins-ExtraBold.ttf') format('truetype');
+  font-weight: 900;
+}
+
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+
+
+html, body {
+  font-size: 14px!important;
+  font-family: "Montserrat"!important;
+  background:  #F7F7F7 !important;
+   
+}
+
+  
+.loader-large{
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top:16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  margin: auto;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+.loader-small {
+  border: 6px solid #f3f3f3; /* Light grey */
+  border-top:6px solid #3498db; /* Blue */
+  border-radius: 50%;
+  margin: auto;
+  width: 30px;
+  height: 30px;
+  animation: spin 2s linear infinite;
+}
+
+
+input:focus {
+  background-color: none;
+  border-color: black;
+  outline: none !important;
+}
+.poppins_thin{
+  font-family: poppins;
+  font-weight: 100;;
+
+}
+.poppins_extralight{
+ font-family: poppins;
+ font-weight: 200;
+}
+.poppins_light{
+ font-family: poppins;
+ font-weight: 300;;
+
+}
+.poppins_regular{
+ font-family: poppins;
+ font-weight: 400;;
+
+}
+.poppins_medium{
+ font-family: poppins;
+ font-weight: 500;;
+
+}
+.poppins_semibold{
+ font-family: poppins;
+ font-weight: 600;;
+
+}
+.poppins_bold{
+ font-family: poppins;
+ font-weight: 700;;
+
+}
+.poppins_extrabold{
+ font-family: poppins;
+ font-weight: 900;;
+
+}
+.vertical_center{
+ margin-top: auto;
+ margin-bottom: auto;
+}
+.horizontal_center{
+ margin-left: auto;
+ margin-right: auto;
+}
+.primary-color{
+ color: #BB423B;
+}
+a {
+  color: inherit !important;
+  text-decoration: none;
+background-color: transparent !important;
+}
