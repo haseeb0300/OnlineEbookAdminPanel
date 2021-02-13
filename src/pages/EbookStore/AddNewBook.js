@@ -39,7 +39,7 @@ class ManageBook extends Component {
             errors: {},
             serverError: {},
             isLoading: false,
-            activeTab: 2,
+            activeTab: 1,
             Url: "",
             Preview:"",
             epub: "",
@@ -104,7 +104,7 @@ class ManageBook extends Component {
             Price: book.Price,
             Price_USD: book.Price_USD,
             Url: book.Url,
-            Preview: book.Preview,
+            Preview: book.Preview == null?"":book.Preview,
             Book_ID: book.Book_ID,
         })
     }
@@ -240,6 +240,7 @@ class ManageBook extends Component {
             "Author_Email": this.state.Author_Email,
             "ISBN_Num": this.state.ISBN_Num,
             "Url": this.state.Url,
+            "Preview": this.state.Preview,
             "Image": this.state.Image,
             "Price": this.state.Price,
             "Price_USD": this.state.Price_USD,
@@ -256,6 +257,7 @@ class ManageBook extends Component {
                         activeTab: 1,
                         CongratulationModal: !this.state.CongratulationModal,
                         Url: "",
+                        Preview: "",
                         epub: "",
                         original_book_name: "",
                         Author_Email: "",
@@ -757,9 +759,9 @@ class ManageBook extends Component {
 
                                                                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ml-4 ">
                                                                         <p className="manageBookTopBarCard-Heading poppins_medium   mt-2 mb-0">Choose File</p>
-                                                                        <label className="poppins_light  manageBookTopBarCard-Text mt-2 mb-0">Preview EPUB file</label><br></br>
+                                                                        <label className="poppins_light  manageBookTopBarCard-Text mt-2 mb-0">Complete EPUB file</label><br></br>
 
-                                                                        <label className=" mt-2 mb-0"><img src={epubuploadicon}></img> <label className="poppins_light  manageBookTopBarCard-Text ml-2"> {this.state.original_book_name === '' ? 'No File Uploaded' : this.state.original_book_name}  </label></label> <br></br>
+                                                                        <label className=" mt-2 mb-0"><img src={epubuploadicon}></img> <label className="poppins_light  manageBookTopBarCard-Text ml-2"> {this.state.Url === '' ? 'No File Uploaded' : this.state.Name+ '.epub'}  </label></label> <br></br>
                                                                         <button className="col-xl-5 poppins_semibold uploadbtn" onClick={(e) => this.upload.click()} > UPLOAD FILES<input id="myInput2" type="file" onChange={(event) => this.onFileChange(event,"Url")} name="Url" ref={(ref) => this.upload = ref} style={{ display: 'none' }} /></button>
 
                                                                     </div>
@@ -786,9 +788,9 @@ class ManageBook extends Component {
 
                                                                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ml-4 ">
                                                                         <p className="manageBookTopBarCard-Heading poppins_medium   mt-2 mb-0">Choose File</p>
-                                                                        <label className="poppins_light  manageBookTopBarCard-Text mt-2 mb-0">Compelte EPUB file</label><br></br>
+                                                                        <label className="poppins_light  manageBookTopBarCard-Text mt-2 mb-0">Preview EPUB file</label><br></br>
 
-                                                                        <label className=" mt-2 mb-0"><img src={epubuploadicon}></img> <label className="poppins_light  manageBookTopBarCard-Text ml-2"> {this.state.original_book_name === '' ? 'No File Uploaded' : this.state.original_book_name}  </label></label> <br></br>
+                                                                        <label className=" mt-2 mb-0"><img src={epubuploadicon}></img> <label className="poppins_light  manageBookTopBarCard-Text ml-2"> {this.state.Preview === '' ? 'No File Uploaded' : this.state.Name+ ".epub"}  </label></label> <br></br>
                                                                         <button className="col-xl-5 poppins_semibold uploadbtn" onClick={(e) => this.upload.click()} > UPLOAD FILES<input id="myInput2" type="file" onChange={(event) => this.onFileChange(event,"Preview")} name="Preview" ref={(ref) => this.upload = ref} style={{ display: 'none' }} /></button>
 
                                                                     </div>

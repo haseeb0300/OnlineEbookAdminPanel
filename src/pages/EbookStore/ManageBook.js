@@ -306,6 +306,7 @@ class ManageBook extends Component {
                          ["tableSelect_Blocked"] :item.Status ==="Blocked",
                          
                         })} onChange={(e) => {
+                            console.log(e.target.value)
                             var addBookData = {
                                 "Name": item.Name,
                                 "Language": item.Language,
@@ -321,17 +322,20 @@ class ManageBook extends Component {
                                 "Status": e.target.value,
                                 "Book_ID": item.Book_ID,
                             }
+                            console.log(addBookData)
+                            const status = e.target.value 
+                            const index = i
                             this.props.createBook(addBookData).then((res) => {
                                 console.log(res)
                                 if (res.status) {
                                     this.setState(({ bookList }) => ({
                                         bookList: [
-                                            ...bookList.slice(0, i),
+                                            ...bookList.slice(0, index),
                                             {
-                                                ...bookList[i],
-                                                Status: e.target.value,
+                                                ...bookList[index],
+                                                Status: status,
                                             },
-                                            ...bookList.slice(i + 1)
+                                            ...bookList.slice(index + 1)
                                         ]
                                     }));
                                 }
@@ -362,10 +366,10 @@ class ManageBook extends Component {
                             //
                           
                         }} >
-                            <option>Review</option>
-                            <option>Published</option>
-                            <option>UnPublished</option>
-                            <option>Blocked</option>
+                            <option value="On Review">On Review</option>
+                            <option value="Published">Published</option>
+                            <option value="UnPublished">UnPublished</option>
+                            <option value="Blocked">Blocked</option>
 
 
 

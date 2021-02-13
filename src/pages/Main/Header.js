@@ -55,11 +55,11 @@ class Header extends Component {
             
      
               {/* <button class="nav-item"  onClick={logoutUser}>Log out</button> */}
-              <Link to="/setting">
+              {/* <Link to="/setting">
 
               <img className="header-img" src={setting}></img>
               </Link>
-              
+               */}
               <Link to="/notification">
 
               <img className="header-img" src={notification}></img>

@@ -67,7 +67,13 @@ class Nav extends Component {
          <li className={location.pathname === '/managebook' ? 'active' : null}>
           <Link to="/managebook" >
             <i ><img src={location.pathname === '/managebook' ? ManageBookActive : ManageBook}></img> </i>
-             <p className="poppins_regular">Manage Books</p>
+             <p className="poppins_regular">Categories</p>
+           </Link>
+         </li>
+         <li className={location.pathname === '/managebook' ? 'active' : null}>
+          <Link to="/managebook" >
+            <i ><img src={location.pathname === '/managebook' ? ManageBookActive : ManageBook}></img> </i>
+             <p className="poppins_regular">Books</p>
            </Link>
          </li>
          <li className={location.pathname === '/addnewbook' ? 'active' : null}>
@@ -76,13 +82,197 @@ class Nav extends Component {
              <p className="poppins_regular">Add New Book</p>
            </Link>
          </li>
+
+
+
+         <li className="heading">
+          <span className="poppins_semibold" >Users</span>
+         </li>
+         <li className={location.pathname === '/a' ? 'active' : null}>
+          <Link to="/a" >
+            <i ><img src={location.pathname === '/a' ? ManageBookActive : ManageBook}></img> </i>
+             <p className="poppins_regular">Authors</p>
+           </Link>
+         </li>
+         <li className={location.pathname === '/b' ? 'active' : null}>
+          <Link to="/b" >
+            <i ><img src={location.pathname === '/b' ? ManageBookActive : ManageBook}></img> </i>
+             <p className="poppins_regular">Publishers</p>
+           </Link>
+         </li>
+         <li className={location.pathname === '/c' ? 'active' : null}>
+          <Link to="/c" >
+            <i ><img src={location.pathname === '/c' ? AddNewBookActive : AddNewBook}></img> </i>
+             <p className="poppins_regular">Users</p>
+           </Link>
+         </li>
+
+
+         <li className="heading">
+          <span className="poppins_semibold" >eCommerce</span>
+         </li>
+         <li className={location.pathname === '/d' ? 'active' : null}>
+          <Link to="/d" >
+            <i ><img src={location.pathname === '/d' ? AddNewBookActive : AddNewBook}></img> </i>
+             <p className="poppins_regular">Banner</p>
+           </Link>
+         </li>
+         <li className={location.pathname === '/e' ? 'active' : null}>
+          <Link to="/e" >
+            <i ><img src={location.pathname === '/e' ? AddNewBookActive : AddNewBook}></img> </i>
+             <p className="poppins_regular">Side Cards</p>
+           </Link>
+         </li>
+        
+
+
+
+         <li className="heading">
+          <span className="poppins_semibold" >Offers</span>
+         </li>
+         <li className={location.pathname === '/f' ? 'active' : null}>
+          <Link to="/f" >
+            <i ><img src={location.pathname === '/f' ? AddNewBookActive : AddNewBook}></img> </i>
+             <p className="poppins_regular">Add Offers</p>
+           </Link>
+         </li>
+         <li className={location.pathname === '/g' ? 'active' : null}>
+          <Link to="/g" >
+            <i ><img src={location.pathname === '/g' ? AddNewBookActive : AddNewBook}></img> </i>
+             <p className="poppins_regular">Add Promotions</p>
+           </Link>
+         </li>
+        
+
+         <li className="heading">
+          <span className="poppins_semibold" >Translations</span>
+         </li>
+         <li className={location.pathname === '/h' ? 'active' : null}>
+          <Link to="/h" >
+            <i ><img src={location.pathname === '/h' ? AddNewBookActive : AddNewBook}></img> </i>
+             <p className="poppins_regular">Add Languages</p>
+           </Link>
+         </li>
+         <li className={location.pathname === '/i' ? 'active' : null}>
+          <Link to="/i" >
+            <i ><img src={location.pathname === '/i' ? AddNewBookActive : AddNewBook}></img> </i>
+             <p className="poppins_regular">Add Translations</p>
+           </Link>
+         </li>
+        
+
+         <li className="heading">
+          <span className="poppins_semibold" >Online Purchases</span>
+         </li>
+         <li className={location.pathname === '/j' ? 'active' : null}>
+          <Link to="/j" >
+            <i ><img src={location.pathname === '/j' ? AddNewBookActive : AddNewBook}></img> </i>
+             <p className="poppins_regular">Purchase History</p>
+           </Link>
+         </li>
+      
+         <li className={location.pathname === '/k' ? 'active' : null}>
+          <Link to="/k" >
+            <i ><img src={location.pathname === '/k' ? AddNewBookActive : AddNewBook}></img> </i>
+             <p className="poppins_regular">Selling Management</p>
+           </Link>
+         </li>
+         <li className={location.pathname === '/l' ? 'active' : null}>
+          <Link to="/l" >
+            <i ><img src={location.pathname === '/l' ? AddNewBookActive : AddNewBook}></img> </i>
+             <p className="poppins_regular">Reports</p>
+           </Link>
+         </li>
+
+
+
+         <li className="heading">
+          <span className="poppins_semibold" >Notifications</span>
+         </li>
+         <li className={location.pathname === '/m' ? 'active' : null}>
+          <Link to="/m" >
+            <i ><img src={location.pathname === '/m' ? AddNewBookActive : AddNewBook}></img> </i>
+             <p className="poppins_regular">Push Notification</p>
+           </Link>
+         </li>
+      
+        
+         <li className="heading">
+          <span className="poppins_semibold" >Support</span>
+         </li>
+         <li className={location.pathname === '/n' ? 'active' : null}>
+          <Link to="/n" >
+            <i ><img src={location.pathname === '/n' ? AddNewBookActive : AddNewBook}></img> </i>
+             <p className="poppins_regular">Feedback</p>
+           </Link>
+         </li>
+         <li className={location.pathname === '/o' ? 'active' : null}>
+          <Link to="/o" >
+            <i ><img src={location.pathname === '/o' ? AddNewBookActive : AddNewBook}></img> </i>
+             <p className="poppins_regular">Our Details</p>
+           </Link>
+         </li>      
+
+
+
+         <li className="heading">
+          <span className="poppins_semibold" >Contract</span>
+         </li>
+         <li className={location.pathname === '/p' ? 'active' : null}>
+          <Link to="/p" >
+            <i ><img src={location.pathname === '/p' ? AddNewBookActive : AddNewBook}></img> </i>
+             <p className="poppins_regular">Terms & Contitions</p>
+           </Link>
+         </li>
+        
+
+         <li className="heading">
+          <span className="poppins_semibold" >Roles Manage</span>
+         </li>
+         <li className={location.pathname === '/q' ? 'active' : null}>
+          <Link to="/q" >
+            <i ><img src={location.pathname === '/q' ? AddNewBookActive : AddNewBook}></img> </i>
+             <p className="poppins_regular">Create Roles</p>
+           </Link>
+         </li>
+         <li className={location.pathname === '/r' ? 'active' : null}>
+          <Link to="/r" >
+            <i ><img src={location.pathname === '/r' ? AddNewBookActive : AddNewBook}></img> </i>
+             <p className="poppins_regular">Manage Roles</p>
+           </Link>
+         </li>
+        
+
+
+
+         <li className="heading">
+          <span className="poppins_semibold" >Themes Settings</span>
+         </li>
+         <li className={location.pathname === '/s' ? 'active' : null}>
+          <Link to="/s" >
+            <i ><img src={location.pathname === '/s' ? AddNewBookActive : AddNewBook}></img> </i>
+             <p className="poppins_regular">Manage Themes</p>
+           </Link>
+         </li>
+        
+
+
+
+
+
+
+
+
+
+
+
          {/* <li className={location.pathname === '/b' ? 'active' : null}>
           <Link to="/b" >
             <i ><img src={location.pathname === '/b' ? HOME_WHITE : HOME}></img> </i>
              <p className="poppins_regular">eBooks Conversion</p>
            </Link>
          </li> */}
-         <li className={cx("list-drop-down", { ["active"]: this.isPathActive('/orders') && !this.state.ordersMenuOpen, ["active-dropdown"]: this.state.ordersMenuOpen })}>
+         {/* <li className={cx("list-drop-down", { ["active"]: this.isPathActive('/orders') && !this.state.ordersMenuOpen, ["active-dropdown"]: this.state.ordersMenuOpen })}>
           <a onClick={() => this.setState({ ordersMenuOpen: !this.state.ordersMenuOpen })}
             data-toggle="collapse">
             <i  ><img src={this.isPathActive('/orders') && !this.state.ordersMenuOpen ? EbookConversionActive : EbookConversion}></img></i>
@@ -94,7 +284,6 @@ class Nav extends Component {
 
 
 
-              {/* <ul className="nav"> */}
               <li className={location.pathname === '/createbook' ? 'active' : null}>
           <Link to="/createbook" >
             <div className="dropdown_nav mt-2"> 
@@ -115,16 +304,15 @@ class Nav extends Component {
          </li>
                
 
-              {/* </ul> */}
             </div>
           </Collapse>
-        </li>
+        </li> */}
 
 
 
 
 
-         <li className={location.pathname === '/bankdetails' ? 'active' : null}>
+         {/* <li className={location.pathname === '/bankdetails' ? 'active' : null}>
           <Link to="/bankdetails" >
             <i ><img src={location.pathname === '/bankdetails' ? BankActive : Bank}></img> </i>
              <p className="poppins_regular">Bank Details</p>
@@ -140,6 +328,7 @@ class Nav extends Component {
              <p className="poppins_regular">Selling History</p>
            </Link>
          </li>
+        */}
          {/* <li className={location.pathname === '/e' ? 'active' : null}>
           <Link to="/e" >
             <i ><img src={location.pathname === '/e' ? HOME_WHITE : HOME}></img> </i>
@@ -147,7 +336,7 @@ class Nav extends Component {
            </Link>
          </li>
          */}
-         <li className={location.pathname === '/reports' ? 'active' : null}>
+         {/* <li className={location.pathname === '/reports' ? 'active' : null}>
           <Link to="/reports" >
             <i ><img className="report_img" src={location.pathname === '/reports' ? ReportActive : Report}></img> </i>
              <p className="poppins_regular">Reports</p>
@@ -162,6 +351,7 @@ class Nav extends Component {
              <p className="poppins_regular">Send Message</p>
            </Link>
          </li>
+         */}
          {/* <li className="heading">
           <span className="poppins_semibold" >Support</span>
          </li> */}
@@ -177,7 +367,7 @@ class Nav extends Component {
              <p className="poppins_regular">Contact Details</p>
            </Link>
          </li> */}
-         <li className="heading">
+         {/* <li className="heading">
           <span className="poppins_semibold" >Contract</span>
          </li>
          <li className={location.pathname === '/termsandcondition' ? 'active' : null}>
@@ -186,7 +376,7 @@ class Nav extends Component {
              <p className="poppins_regular">Terms & Contitions</p>
            </Link>
          </li>
-         
+          */}
          
             </ul>
              <div className="ml_20 mt-2 "   >

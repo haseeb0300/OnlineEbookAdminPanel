@@ -18,7 +18,7 @@ import deleteImg from '../../assets/images/Dashborad/delete.svg'
 import star from '../../assets/images/Dashborad/star.svg'
 import { Link, withRouter } from 'react-router-dom';
 import { getTotalEarning } from '../../store/actions/orderAction';
-import { getTotalOrdersAndBook, getTopSellingBooks,getLatestBook } from '../../store/actions/dashboardAction';
+import { getTotalOrdersAndBook, getTopSellingBooks, getLatestBook } from '../../store/actions/dashboardAction';
 
 
 
@@ -57,7 +57,7 @@ class Dashboard extends Component {
             totalBooks: "",
             totalorders: "",
             bookList: [],
-            newBookList:[],
+            newBookList: [],
 
         };
 
@@ -68,7 +68,7 @@ class Dashboard extends Component {
 
     }
 
-    
+
 
     componentDidMount() {
 
@@ -142,7 +142,7 @@ class Dashboard extends Component {
 
 
     viewMore = () => {
-        this.props.history.push('/managebook',{book: this.state.newBookList});
+        this.props.history.push('/managebook', { book: this.state.newBookList });
     }
 
 
@@ -169,9 +169,10 @@ class Dashboard extends Component {
                             </div>
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 p-0">
                                 <div className="row">
-                                    <div className="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                    <div className="col-12">
                                         <div className="row">
-                                            <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mt-3 ">
+
+                                            <div className="w_20 mt-3 ">
                                                 <div className="earing_card">
                                                     <img src={earingCardIcon}></img>
                                                     <img className="costinner" src={cost}></img>
@@ -184,7 +185,7 @@ class Dashboard extends Component {
                                                 </div>
 
                                             </div>
-                                            <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mt-3 ">
+                                            <div className="w_20  mt-3 ">
                                                 <div className="totalSold_card">
                                                     <img src={earingCardIcon}></img>
                                                     <img className="costinner" src={buy}></img>
@@ -197,7 +198,7 @@ class Dashboard extends Component {
                                                 </div>
 
                                             </div>
-                                            <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mt-3 ">
+                                            <div className="w_20  mt-3 ">
                                                 <div className="totalBook_card ">
                                                     <img src={earingCardIcon}></img>
                                                     <img className="costinner" src={openbook}></img>
@@ -211,6 +212,41 @@ class Dashboard extends Component {
                                                 </div>
 
                                             </div>
+                                            <div className="w_20  mt-3 ">
+                                                <div className="totalSold_card">
+                                                    <img src={earingCardIcon}></img>
+                                                    <img className="costinner" src={buy}></img>
+                                                    <label className="ml-2 mb-0 earningText poppins_semibold">Total Book Sold</label> <br></br>
+                                                    <div className="text-right mt-2">
+                                                        <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalorders}</label>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+                                            <div className="w_20  mt-3 ">
+                                                <div className="totalBook_card ">
+                                                    <img src={earingCardIcon}></img>
+                                                    <img className="costinner" src={openbook}></img>
+                                                    <label className="ml-2 mb-0 earningText poppins_semibold">Total Books</label> <br></br>
+                                                    <div className="text-right mt-2">
+                                                        <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalBooks}</label>
+                                                    </div>
+                                                    <img className="editicon" src={editbook}></img>
+
+
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <div className="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                        <div className="row">
+
+
                                             <div className="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-12 mt-3 ">
                                                 <div className="sellinghistory_card ">
                                                     <div className="row pl-3 pr-3 ">
@@ -324,8 +360,8 @@ class Dashboard extends Component {
                                                         <div className="col-4 text-right p-0  ">
 
 
-                                                                <label className=" mr-3 mb-0 recentBookpublishSeeText pointerr poppins_medium" onClick={() => this.viewMore()}>See All</label> <br></br>
-                                                            
+                                                            <label className=" mr-3 mb-0 recentBookpublishSeeText pointerr poppins_medium" onClick={() => this.viewMore()}>See All</label> <br></br>
+
                                                         </div>
                                                     </div>
 
@@ -352,7 +388,7 @@ class Dashboard extends Component {
                                                         <div className="col-12">
                                                             <div className="row  ">
                                                                 <div className="col-3 vertical_center ">
-                                                                    <img src={this.state.newBookList[0]?.Image} style={{width: '45px'}}></img>
+                                                                    <img src={this.state.newBookList[0]?.Image} style={{ width: '45px' }}></img>
 
                                                                 </div>
                                                                 <div className="col-5 vertical_center">
@@ -494,9 +530,8 @@ class Dashboard extends Component {
 
                                     </div>
                                 </div>
-
-
                             </div>
+
 
 
 
