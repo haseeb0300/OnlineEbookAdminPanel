@@ -270,9 +270,9 @@ class Dashboard extends Component {
 
                                                         <PieChart
                                                             data={[
-                                                                { title: 'One', value: 7, color: '#FAC85B' },
-                                                                { title: 'Two', value: 20, color: '#B5322A' },
-                                                                { title: 'Three', value: 4, color: '#517A95' },
+                                                                { title: 'Sindhi', value: 7, color: '#FAC85B' },
+                                                                { title: 'Urdu', value: 20, color: '#B5322A' },
+                                                                { title: 'English', value: 4, color: '#517A95' },
 
                                                             ]}
                                                         />

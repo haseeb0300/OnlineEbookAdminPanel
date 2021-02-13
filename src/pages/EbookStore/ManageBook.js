@@ -257,7 +257,7 @@ class ManageBook extends Component {
                     <td>{item.Author_Name}</td>
                     <td><Moment format="DD-MM-YY HH:MM">{item.createdAt}</Moment></td>
                     <td>
-                        <div class={item.Status == 'Published'? "table-badge-publish": item.Status == 'On Review'?"table-badge-review": item.Status == "UnPublished"?'table-badge-unpublish':"table-badge-blocked"}>
+                        <div class={item.Status == 'Published' ? "table-badge-publish" : item.Status == 'On Review' ? "table-badge-review" : item.Status == "UnPublished" ? 'table-badge-unpublish' : "table-badge-blocked"}>
                             <label className="badge-label">
                                 {item.Status}
                             </label>
@@ -293,12 +293,48 @@ class ManageBook extends Component {
                     <td>{item.Author_Name}</td>
                     <td><Moment format="DD-MM-YY HH:MM">{item.createdAt}</Moment></td>
                     <td>
-                    <div class={item.Status == 'Published'? "table-badge-publish": item.Status == 'On Review'?"table-badge-review": item.Status == "UnPublished"?'table-badge-unpublish':"table-badge-blocked"}>
+                        {/* <div class={item.Status == 'Published'? "table-badge-publish": item.Status == 'On Review'?"table-badge-review": item.Status == "UnPublished"?'table-badge-unpublish':"table-badge-blocked"}>
                             <label className="badge-label">
                                 {item.Status}
                             </label>
-                        </div>
+                        </div> */}
+                        <select className={cx("tableSelect_Review",
+                         {["tableSelect_Published"] :item.status ==="Published",
+                         ["tableSelect_Unpublished"] :item.status ==="UnPublished",
+                         ["tableSelect_Blocked"] :item.status ==="Blocked",
+                         
+                        })} onChange={(e) => {
+
+                            this.setState(({ bookList }) => ({
+                                bookList: [
+                                    ...bookList.slice(0, i),
+                                    {
+                                        ...bookList[i],
+                                        status: e.target.value,
+                                    },
+                                    ...bookList.slice(i + 1)
+                                ]
+                            }));
+                        }} >
+                            <option>Review</option>
+                            <option>Published</option>
+                            <option>UnPublished</option>
+                            <option>Blocked</option>
+
+
+
+                        </select>
+                        {/* tableSelect_Review
+tableSelect_Published
+tableSelect_Unpublished
+tableSelect_Blocked */}
+
+
+
+
+
                     </td>
+
 
                     <td>
                         <label class="blackSwitch">

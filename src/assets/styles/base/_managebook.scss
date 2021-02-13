@@ -48,6 +48,74 @@
     font-weight: 300;
 }
 .checkout_container{
+.tableSelect_Review{
+  background-color: #517A95;
+  padding-left: 18px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-right: 5px;
+  border-radius: 3px;
+  color: white;
+  font-size: 10px;
+  color: white;
+  font-family: 'Montserrat';
+  margin-bottom: 0px;
+}
+.tableSelect_Review:focus{
+  outline: none;
+}
+.tableSelect_Published:focus{
+  outline: none;
+}
+.tableSelect_Unpublished:focus{
+  outline: none;
+}
+.tableSelect_Blocked:focus{
+  outline: none;
+}
+
+.tableSelect_Published{
+  background-color: #0E7542;
+  padding-left: 18px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-right: 5px;
+  border-radius: 3px;
+  color: white;
+  font-size: 10px;
+  color: white;
+  font-family: 'Montserrat';
+  margin-bottom: 0px;
+}
+
+.tableSelect_Unpublished{
+  background-color: #545454;
+  padding-left: 18px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-right: 5px;
+  border-radius: 3px;
+  color: white;
+  font-size: 10px;
+  color: white;
+  font-family: 'Montserrat';
+  margin-bottom: 0px;
+}
+.tableSelect_Blocked{
+  background-color: #B5322A;
+  padding-left: 18px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-right: 5px;
+  border-radius: 3px;
+  color: white;
+  font-size: 10px;
+  color: white;
+  font-family: 'Montserrat';
+  margin-bottom: 0px;
+}
+
+
     .table-badge-review{
         background-color: #517A95;
      
