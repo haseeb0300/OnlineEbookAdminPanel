@@ -53,6 +53,7 @@ class ManageBook extends Component {
             bookList: {},
             newBoolList: [],
             search: '',
+            Active_Status:false,
 
         };
         this.handleChange = this.handleChange.bind(this);
@@ -299,9 +300,9 @@ class ManageBook extends Component {
                             </label>
                         </div> */}
                         <select className={cx("tableSelect_Review",
-                         {["tableSelect_Published"] :item.status ==="Published",
-                         ["tableSelect_Unpublished"] :item.status ==="UnPublished",
-                         ["tableSelect_Blocked"] :item.status ==="Blocked",
+                         {["tableSelect_Published"] :item.Status ==="Published",
+                         ["tableSelect_Unpublished"] :item.Status ==="UnPublished",
+                         ["tableSelect_Blocked"] :item.Status ==="Blocked",
                          
                         })} onChange={(e) => {
 
@@ -310,7 +311,7 @@ class ManageBook extends Component {
                                     ...bookList.slice(0, i),
                                     {
                                         ...bookList[i],
-                                        status: e.target.value,
+                                        Status: e.target.value,
                                     },
                                     ...bookList.slice(i + 1)
                                 ]
@@ -338,7 +339,7 @@ tableSelect_Blocked */}
 
                     <td>
                         <label class="blackSwitch">
-                            <input type="checkbox" checked={item.Active_Status} />
+                            <input type="checkbox" checked={item.Active_Status} name="Active_Status" onChange={this.onChange}/>
                             <span class="blackslider round"></span>
                         </label>
                     </td>

@@ -41,6 +41,7 @@ class ManageBook extends Component {
             isLoading: false,
             activeTab: 2,
             Url: "",
+            Preview:"",
             epub: "",
             original_book_name: "",
             Author_Email: "",
@@ -103,6 +104,7 @@ class ManageBook extends Component {
             Price: book.Price,
             Price_USD: book.Price_USD,
             Url: book.Url,
+            Preview: book.Preview,
             Book_ID: book.Book_ID,
         })
     }
@@ -122,7 +124,7 @@ class ManageBook extends Component {
                 break
         }
     }
-    onFileChange(event) {
+    onFileChange(event,epubType) {
 
         event.preventDefault();
 
@@ -134,13 +136,13 @@ class ManageBook extends Component {
                 file: file,
                 epub: readers.result
             }, () => {
-                this.uploadEpub();
+                this.uploadEpub(epubType);
             });
 
         }
         readers.readAsDataURL(file)
     }
-    uploadEpub() {
+    uploadEpub(epubType) {
         const payload = new FormData();
         //payload.append('imageType', 'RESTAURENT_OWNER')
         payload.append('book', this.state.file);
@@ -150,7 +152,12 @@ class ManageBook extends Component {
             this.setState({ isUploading: false })
             if (res.content.length > 0) {
                 console.log(res.content[0].url)
+                if(epubType === 'Url'){
                 this.setState({ Url: res.content[0].url, original_book_name: res.content[0].originalname })
+            }else if(epubType === 'Preview'){
+                this.setState({ Preview: res.content[0].url, preview_name: res.content[0].originalname })
+ 
+            }
             }
         }).catch((err) => {
             this.setState({ isUploading: false })
@@ -753,7 +760,7 @@ class ManageBook extends Component {
                                                                         <label className="poppins_light  manageBookTopBarCard-Text mt-2 mb-0">Preview EPUB file</label><br></br>
 
                                                                         <label className=" mt-2 mb-0"><img src={epubuploadicon}></img> <label className="poppins_light  manageBookTopBarCard-Text ml-2"> {this.state.original_book_name === '' ? 'No File Uploaded' : this.state.original_book_name}  </label></label> <br></br>
-                                                                        <button className="col-xl-5 poppins_semibold uploadbtn" onClick={(e) => this.upload.click()} > UPLOAD FILES<input id="myInput2" type="file" onChange={(event) => this.onFileChange(event)} name="Url" ref={(ref) => this.upload = ref} style={{ display: 'none' }} /></button>
+                                                                        <button className="col-xl-5 poppins_semibold uploadbtn" onClick={(e) => this.upload.click()} > UPLOAD FILES<input id="myInput2" type="file" onChange={(event) => this.onFileChange(event,"Url")} name="Url" ref={(ref) => this.upload = ref} style={{ display: 'none' }} /></button>
 
                                                                     </div>
 
@@ -782,7 +789,7 @@ class ManageBook extends Component {
                                                                         <label className="poppins_light  manageBookTopBarCard-Text mt-2 mb-0">Compelte EPUB file</label><br></br>
 
                                                                         <label className=" mt-2 mb-0"><img src={epubuploadicon}></img> <label className="poppins_light  manageBookTopBarCard-Text ml-2"> {this.state.original_book_name === '' ? 'No File Uploaded' : this.state.original_book_name}  </label></label> <br></br>
-                                                                        <button className="col-xl-5 poppins_semibold uploadbtn" onClick={(e) => this.upload.click()} > UPLOAD FILES<input id="myInput2" type="file" onChange={(event) => this.onFileChange(event)} name="Url" ref={(ref) => this.upload = ref} style={{ display: 'none' }} /></button>
+                                                                        <button className="col-xl-5 poppins_semibold uploadbtn" onClick={(e) => this.upload.click()} > UPLOAD FILES<input id="myInput2" type="file" onChange={(event) => this.onFileChange(event,"Preview")} name="Preview" ref={(ref) => this.upload = ref} style={{ display: 'none' }} /></button>
 
                                                                     </div>
 
