@@ -13,7 +13,7 @@ import searchicon from '../../assets/images/Managebooks/searchicon.svg'
 import Polygon from '../../assets/images/Managebooks/Polygon.svg'
 import tableBook from '../../assets/images/Managebooks/tableBook.svg'
 import visibility from '../../assets/images/Managebooks/visibility.svg'
-import { getAllBooks, sortAllBooks, searchBook } from '../../store/actions/bookAction';
+import { getAllBooks, sortAllBooks, searchBook,createBook } from '../../store/actions/bookAction';
 import moment from 'moment'
 import Moment from 'react-moment';
 
@@ -299,23 +299,68 @@ class ManageBook extends Component {
                                 {item.Status}
                             </label>
                         </div> */}
-                        <select className={cx("tableSelect_Review",
+                        <select   value={item.Status}
+                        className={cx("tableSelect_Review",
                          {["tableSelect_Published"] :item.Status ==="Published",
                          ["tableSelect_Unpublished"] :item.Status ==="UnPublished",
                          ["tableSelect_Blocked"] :item.Status ==="Blocked",
                          
                         })} onChange={(e) => {
+                            var addBookData = {
+                                "Name": item.Name,
+                                "Language": item.Language,
+                                //"Age_Group": item.Age_Group,
+                                "Author_Image": item.Author_Image,
+                                "Author_Name": item.Author_Name,
+                                "Author_Description": item.Author_Description,
+                                "Description": item.Description,
+                                "Category_ID": item.Category_ID,
+                                "Publisher_Name": item.Publisher_Name,
+                                "Author_Email": item.Author_Email,
+                                "Url": item.Url,
+                                "Status": e.target.value,
+                                "Book_ID": item.Book_ID,
+                            }
+                            this.props.createBook(addBookData).then((res) => {
+                                console.log(res)
+                                if (res.status) {
+                                    this.setState(({ bookList }) => ({
+                                        bookList: [
+                                            ...bookList.slice(0, i),
+                                            {
+                                                ...bookList[i],
+                                                Status: e.target.value,
+                                            },
+                                            ...bookList.slice(i + 1)
+                                        ]
+                                    }));
+                                }
+                            }).catch((err) => {
+ 
+                                var validationError = {}
+                                var serverError = []
+                                console.log(err.hasOwnProperty('validation'))
+                    
+                                if (err.hasOwnProperty('validation')) {
+                                    console.log(err)
+                    
+                                    err.validation.map(obj => {
+                                        if (obj.hasOwnProperty('param')) {
+                                            validationError[obj["param"]] = obj["msg"]
+                                        } else {
+                                            serverError = [...serverError, obj]
+                                        }
+                                        console.log(obj["msg"])
+                                    });
+                                    this.setState({ errors: validationError });
+                                    this.setState({ serverError: serverError });
+                                } else {
+                                    this.setState({ serverError: [{ "msg": "server not responding" }] })
+                                }
+                            });
 
-                            this.setState(({ bookList }) => ({
-                                bookList: [
-                                    ...bookList.slice(0, i),
-                                    {
-                                        ...bookList[i],
-                                        Status: e.target.value,
-                                    },
-                                    ...bookList.slice(i + 1)
-                                ]
-                            }));
+                            //
+                          
                         }} >
                             <option>Review</option>
                             <option>Published</option>
@@ -339,7 +384,65 @@ tableSelect_Blocked */}
 
                     <td>
                         <label class="blackSwitch">
-                            <input type="checkbox" checked={item.Active_Status} name="Active_Status" onChange={this.onChange}/>
+                            <input type="checkbox" checked={item.Active_Status} name="Active_Status" onChange={ ()=>{
+                          var addBookData = {
+                            "Name": item.Name,
+                            "Language": item.Language,
+                            //"Age_Group": item.Age_Group,
+                            "Author_Image": item.Author_Image,
+                            "Author_Name": item.Author_Name,
+                            "Author_Description": item.Author_Description,
+                            "Description": item.Description,
+                            "Category_ID": item.Category_ID,
+                            "Publisher_Name": item.Publisher_Name,
+                            "Author_Email": item.Author_Email,
+                            "Url": item.Url,
+                            "Active_Status": !item.Active_Status,
+                            "Book_ID": item.Book_ID,
+                        }
+                        this.props.createBook(addBookData).then((res) => {
+                            console.log(res)
+                            if (res.status) {
+                                this.setState(({ bookList }) => ({
+
+                            
+                                    bookList: [
+                                        ...bookList.slice(0, i),
+                                        {
+                                            ...bookList[i],
+                                            Active_Status: !item.Active_Status,
+                                        },
+                                        ...bookList.slice(i + 1)
+                                    ]
+                                }));
+                            }
+                        }).catch((err) => {
+
+                            var validationError = {}
+                            var serverError = []
+                            console.log(err.hasOwnProperty('validation'))
+                
+                            if (err.hasOwnProperty('validation')) {
+                                console.log(err)
+                
+                                err.validation.map(obj => {
+                                    if (obj.hasOwnProperty('param')) {
+                                        validationError[obj["param"]] = obj["msg"]
+                                    } else {
+                                        serverError = [...serverError, obj]
+                                    }
+                                    console.log(obj["msg"])
+                                });
+                                this.setState({ errors: validationError });
+                                this.setState({ serverError: serverError });
+                            } else {
+                                this.setState({ serverError: [{ "msg": "server not responding" }] })
+                            }
+                        });
+                       
+                   
+                       
+                            }}/>
                             <span class="blackslider round"></span>
                         </label>
                     </td>
@@ -634,5 +737,6 @@ const mapDispatchToProps = ({
     getAllBooks,
     sortAllBooks,
     searchBook,
+    createBook,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ManageBook);
