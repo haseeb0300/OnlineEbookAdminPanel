@@ -60,7 +60,7 @@ export const uploadEpub = restaurantData => dispatch => {
 
   export const createBook = bookData => dispatch => {
     return axios
-      .post('api/book', bookData)
+      .post('api/admin/book', bookData)
       .then(res => {
         return Promise.resolve(res.data)
       })
