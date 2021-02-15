@@ -471,7 +471,8 @@ class ManageBook extends Component {
 
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div className="row">
-                                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-3">
+                                    
+                                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-3" onClick={() => this.onClickBottomBar(1)}>
                                         {/* <button className={cx({ "aboutbook_btn_slider_btn": true, "aboutbook_btn_slider_btn_active": this.state.activeTab === 1 })} onClick={() => this.onClickBottomBar(1)}>About Book</button> */}
 
                                         <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 1 })} >
@@ -480,19 +481,42 @@ class ManageBook extends Component {
 
                                         </div>
                                     </div>
-                                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-3">
+                                    {this.state.Name && this.state.Language && this.state.Category_ID && this.state.Description && this.state.Author_Name && this.state.Author_Email && this.state.Author_Description && this.state.Author_Image ? (
+                                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-3" onClick={() => this.onClickBottomBar(2)}>
+                                        {/* <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 2 })} > */}
                                         <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 2 })} >
+
                                             <label className="poppins_medium ml-3 manageBookTopBarCard-Heading mt-2 mb-0">ebook Content</label><br></br>
                                             <label className="poppins_light ml-4 manageBookTopBarCard-Text mt-2 mb-0"><img className="ml-2 mr-2" src={progressicon}></img>{this.state.activeTab === 2? "In Progress...":this.state.activeTab === 1? "Not Started...":"Completed..."}</label>
 
                                         </div>
                                     </div>
-                                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-3">
+                                    ):(
+                                        <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-3">
+                                        {/* <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 2 })} > */}
+                                        <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 2 })} >
+
+                                            <label className="poppins_medium ml-3 manageBookTopBarCard-Heading mt-2 mb-0">ebook Content</label><br></br>
+                                            <label className="poppins_light ml-4 manageBookTopBarCard-Text mt-2 mb-0"><img className="ml-2 mr-2" src={progressicon}></img>{this.state.activeTab === 2? "In Progress...":this.state.activeTab === 1? "Not Started...":"Completed..."}</label>
+
+                                        </div>
+                                    </div> 
+                                    )}
+                                    {this.state.Url && this.state.Preview && this.state.Image ? (
+                                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-3" onClick={() => this.onClickBottomBar(3)}>
                                         <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 3 })} >
                                             <label className="poppins_medium ml-3 manageBookTopBarCard-Heading mt-2 mb-0">ebook Pricing</label><br></br>
                                             <label className="poppins_light ml-4 manageBookTopBarCard-Text mt-2 mb-0"><img className="ml-2 mr-2" src={progressicon}></img>{this.state.activeTab !== 3? "Not Started...": "In Progress..."}</label>
                                         </div>
                                     </div>
+                                    ):(
+                                        <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-3">
+                                        <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 3 })} >
+                                            <label className="poppins_medium ml-3 manageBookTopBarCard-Heading mt-2 mb-0">ebook Pricing</label><br></br>
+                                            <label className="poppins_light ml-4 manageBookTopBarCard-Text mt-2 mb-0"><img className="ml-2 mr-2" src={progressicon}></img>{this.state.activeTab !== 3? "Not Started...": "In Progress..."}</label>
+                                        </div>
+                                    </div>
+                                    )}
 
                                 </div>
 
@@ -839,7 +863,7 @@ class ManageBook extends Component {
                                                                                 </div>
                                                                                 <div className="col-xl-7 col-lg-7 col-md-6 col-sm-6 col-12 mt-4">
                                                                                     {/* <button className="col-xl-12 poppins_semibold uploadbtn">UPLOAD FILE</button> */}
-                                                                                    <button className="col-xl-12 poppins_semibold uploadbtn" onClick={(e) => this.uploads.click()}>UPLOAD FILE<input id="myInput" type="file" onChange={(e) => this.onImageChange(e, 'BOOK')} name="Url" ref={(ref) => this.uploads = ref} style={{ display: 'none' }} /></button>
+                                                                                    <button className="col-xl-12 poppins_semibold uploadbtn" onClick={(e) => this.uploads.click()}>UPLOAD FILE<input id="myInput" type="file" onChange={(e) => this.onImageChange(e, 'BOOK')} name="Image" ref={(ref) => this.uploads = ref} style={{ display: 'none' }} /></button>
 
                                                                                     <p className="mb-0 poppins_light  manageBookTopBarCard-Text">Not be more then 2 MB</p>
                                                                                     <p className="mb-0 poppins_light  manageBookTopBarCard-Text">Pixel Size 1645 x 2550 (Recommended)</p>
