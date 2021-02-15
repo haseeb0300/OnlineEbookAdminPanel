@@ -31,7 +31,7 @@ export const validateUser =  UserData  => dispatch => {
 export const loginUser = userData => dispatch => {
   
     return axios
-       .post('/api/publisher/login', userData )
+       .post('/api/admin/login', userData )
        .then(res => {
          // Save to localStorage
          console.log(res)
