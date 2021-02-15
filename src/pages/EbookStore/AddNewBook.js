@@ -871,7 +871,7 @@ class ManageBook extends Component {
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
                                                 <div className="row">
                                                     <div className="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 mt-4">
-                                                        <p className="manageBookTopBarCard-Text poppins_regular text-center  mb-3">Little Book Company takes 40% of per sale.</p>
+                                                        <p className="manageBookTopBarCard-Text poppins_regular text-center  mb-3">Little Book Company takes 30% of per sale.</p>
 
                                                         <div className="row">
 

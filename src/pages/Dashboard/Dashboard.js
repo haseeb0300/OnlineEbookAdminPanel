@@ -178,7 +178,7 @@ class Dashboard extends Component {
                                                     <img className="costinner" src={cost}></img>
                                                     <label className="ml-2 mb-0 earningText poppins_semibold">Earning</label> <br></br>
                                                     <div className="text-right mt-2">
-                                                        <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalearning + ',00 RS'}</label>
+                                                        <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalearning + '.00 RS'}</label>
                                                     </div>
 
 

@@ -330,7 +330,7 @@ class SellingHistory extends Component {
                                         <div className="SellingHistoryTopBarCard">
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
 
-                                                <p className="EaringRs">{this.state.totalearning + ',00 RS'}</p>
+                                                <p className="EaringRs">{this.state.totalearning + '.00 RS'}</p>
                                                 <p className="totalEaring">Total Earning</p>
                                             </div>
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
@@ -357,7 +357,7 @@ class SellingHistory extends Component {
                                         <div className="SellingHistoryTopBarCard">
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
 
-                                                <p className="PendingRs">{this.state.pendingTotal + ',00 RS'}</p>
+                                                <p className="PendingRs">{this.state.pendingTotal + '.00 RS'}</p>
                                                 <p className="totalEaring">Pending Amounts</p>
                                             </div>
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
