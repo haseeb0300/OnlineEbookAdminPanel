@@ -60,6 +60,7 @@ class ManageBook extends Component {
             Price: "",
             Price_USD:"",
             CtaegoryList: [],
+            tab2error:false,
             // errors: {},
             // serverError: {},
             Book_ID: "",
@@ -71,6 +72,10 @@ class ManageBook extends Component {
         };
         this.handleChange = this.handleChange.bind(this);
 
+    }
+
+    tab2Error = () =>{
+        this.setState({tab2error:!this.state.tab2error})
     }
 
     componentWillMount() {
@@ -756,7 +761,12 @@ class ManageBook extends Component {
 
                                     </div>
 
+                                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
+                                <div className="text-right">
+                                    <button className="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-6  poppins_semibold uploadbtn" onClick={this.onAddBook}>Save & Continue</button>
 
+                                </div>
+                            </div>
                                 </>
                             ) : this.state.activeTab === 2 ? (
                                 <>
@@ -766,10 +776,12 @@ class ManageBook extends Component {
                                             <p className="manageBookTopBarCard-Heading poppins_medium   mt-2 mb-0">Ebook Files</p>
                                             <label className="poppins_light  manageBookTopBarCard-Text mt-2 mb-0">Please upload your book content</label>
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
+                                                {this.state.tab2error && (
                                                 <div className ="text-center">
 
-                                                <p className="error_allfield">Please fullfil all requirments</p>
+                                                <p className="error_allfield">Please Provide all required details</p>
                                                 </div>
+                                                )}
 
                                                 <div className="row">
 
@@ -886,6 +898,22 @@ class ManageBook extends Component {
                                         </div>
 
                                     </div>
+
+                                    {this.state.Url && this.state.Preview && this.state.Image ?(
+                                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
+                                <div className="text-right">
+                                    <button className="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-6  poppins_semibold uploadbtn" onClick={this.onAddBook}>Save & Continue</button>
+
+                                </div>
+                            </div>
+                            ):(
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
+                                <div className="text-right">
+                                    <button className="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-6  poppins_semibold uploadbtn" onClick={this.tab2Error}>Save & Continue</button>
+
+                                </div>
+                            </div>
+                            )}
 
 
                                 </>
@@ -1014,6 +1042,12 @@ class ManageBook extends Component {
 
 
                                     </div>
+                                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
+                                <div className="text-right">
+                                    <button className="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-6  poppins_semibold uploadbtn" onClick={this.onAddBook}>Save & Continue</button>
+
+                                </div>
+                            </div>
 
                                 </>
 
@@ -1030,12 +1064,12 @@ class ManageBook extends Component {
 
 
 
-                            <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
+                            {/* <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
                                 <div className="text-right">
                                     <button className="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-6  poppins_semibold uploadbtn" onClick={this.onAddBook}>Save & Continue</button>
 
                                 </div>
-                            </div>
+                            </div> */}
 
 
 
