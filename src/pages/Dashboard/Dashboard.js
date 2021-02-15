@@ -277,13 +277,13 @@ class Dashboard extends Component {
                                                 </div>
 
 
-                                                <div className="addnewbookcard  text-center mt-3">
+                                                {/* <div className="addnewbookcard  text-center mt-3">
                                                     <Link to="/addnewbook">
 
                                                         <img className="plusicon" src={plus}></img><br></br>
                                                     </Link>
                                                     <label className="poppins_regular addnewbookText">Add New Book</label>
-                                                </div>
+                                                </div> */}
 
 
 
@@ -350,6 +350,9 @@ class Dashboard extends Component {
 
                                                 </div>
 
+
+                                            </div>
+                                            <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                                                 <div className="recentBookCard   mt-3">
                                                     <div className="row pl-3 pr-3 ">
 
@@ -364,25 +367,58 @@ class Dashboard extends Component {
 
                                                         </div>
                                                     </div>
-
                                                     <div className="row pl-3 pr-3  mt-3">
 
-                                                        <div className="col-3  ">
+                                                        <div className="col-2  ">
 
                                                             <label className="poppins_semibold recentbookpublishTAbs">Book Title</label> <br></br>
                                                         </div>
-                                                        <div className="col-5   ">
+                                                        <div className="col-2   ">
 
                                                             <label className="poppins_semibold  recentbookpublishTAbs">Book Name</label> <br></br>
                                                         </div>
-                                                        <div className="col-4    ">
+                                                        <div className="col-3    ">
 
                                                             <label className="poppins_semibold  recentbookpublishTAbs">Author Names</label> <br></br>
+                                                        </div>
+                                                        <div className="col-2    ">
+
+                                                            <label className="poppins_semibold  recentbookpublishTAbs">Book Price</label> <br></br>
+                                                        </div>
+                                                        <div className="col-3    ">
+
+                                                            <label className="poppins_semibold  recentbookpublishTAbs">Book File</label> <br></br>
                                                         </div>
                                                     </div>
 
 
                                                     <div className="recentbookHr"></div>
+
+                                                    <div className="RecentBookCardInner">
+                                                        <div className="col-12">
+                                                            <div className="row  ">
+                                                                <div className="col-2 vertical_center ">
+                                                                    <img src={this.state.newBookList[0]?.Image} style={{ width: '45px' }}></img>
+
+                                                                </div>
+                                                                <div className="col-2 vertical_center">
+                                                                    <label className="poppins_bold recentBookName">{this.state.newBookList[0]?.Name}</label>
+                                                                </div>
+                                                                <div className="col-3 vertical_center">
+                                                                    <label className="poppins_medium recentBookName">{this.state.newBookList[0]?.Author_Name}</label>
+
+                                                                </div>
+                                                                <div className="col-2 vertical_center">
+                                                                    <label className="poppins_bold recentBookName">{this.state.newBookList[0]?.Name}</label>
+                                                                </div>
+                                                                <div className="col-2 vertical_center">
+                                                                    <label className="poppins_bold recentBookName">{this.state.newBookList[0]?.Name}</label>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
 
                                                     <div className="RecentBookCardInner">
                                                         <div className="col-12">
@@ -403,10 +439,10 @@ class Dashboard extends Component {
 
                                                         </div>
                                                     </div>
+
                                                 </div>
 
                                             </div>
-
 
                                         </div>
 
@@ -532,6 +568,73 @@ class Dashboard extends Component {
                                 </div>
                             </div>
 
+                            <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  p-0">
+                                <div className="recentBookCard   mt-3">
+                                    <div className="row pl-3 pr-3 ">
+
+                                        <div className="col-8 p-0 ">
+
+                                            <label className="ml-2 mb-0 recentBookpublishText poppins_medium">Recent Books Published</label> <br></br>
+                                        </div>
+                                        <div className="col-4 text-right p-0  ">
+
+
+                                            <label className=" mr-3 mb-0 recentBookpublishSeeText pointerr poppins_medium" onClick={() => this.viewMore()}>See All</label> <br></br>
+
+                                        </div>
+                                    </div>
+
+                                    <div className="row pl-3 pr-3  mt-3">
+
+                                        <div className="col-2  ">
+
+                                            <label className="poppins_semibold recentbookpublishTAbs">Book Title</label> <br></br>
+                                        </div>
+                                        <div className="col-2   ">
+
+                                            <label className="poppins_semibold  recentbookpublishTAbs">Book Name</label> <br></br>
+                                        </div>
+                                        <div className="col-2    ">
+
+                                            <label className="poppins_semibold  recentbookpublishTAbs">Author Names</label> <br></br>
+                                        </div>
+                                        <div className="col-2    ">
+
+                                            <label className="poppins_semibold  recentbookpublishTAbs">Book Price</label> <br></br>
+                                        </div>
+                                        <div className="col-2    ">
+
+                                            <label className="poppins_semibold  recentbookpublishTAbs">Book Tittle</label> <br></br>
+                                        </div>
+                                    </div>
+
+
+                                    <div className="recentbookHr"></div>
+
+                                    <div className="RecentBookCardInner">
+                                        <div className="col-12">
+                                            <div className="row  ">
+                                                <div className="col-3 vertical_center ">
+                                                    <img src={this.state.newBookList[0]?.Image} style={{ width: '45px' }}></img>
+
+                                                </div>
+                                                <div className="col-5 vertical_center">
+                                                    <label className="poppins_bold recentBookName">{this.state.newBookList[0]?.Name}</label>
+                                                </div>
+                                                <div className="col-4 vertical_center">
+                                                    <label className="poppins_medium recentBookName">{this.state.newBookList[0]?.Author_Name}</label>
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
 
 
 

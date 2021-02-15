@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import progressicon from '../../assets/images/progressIcon.png'
+import Checked from '../../assets/images/checked.png'
+
 import epubuploadicon from '../../assets/images/epubupload.svg'
 import { Dropdown, Modal, DropdownButton } from 'react-bootstrap';
 import crossbtn from '../../assets/images/CongratulationModal/crossBtn.svg';
@@ -39,6 +41,7 @@ class ManageBook extends Component {
             errors: {},
             serverError: {},
             isLoading: false,
+            isUploading:false,
             activeTab: 1,
             Url: "",
             Preview:"",
@@ -482,7 +485,7 @@ class ManageBook extends Component {
 
                                         <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 1 })} >
                                             <label className="poppins_medium ml-3 manageBookTopBarCard-Heading mt-2 mb-0">ebook Detail</label><br></br>
-                                            <label className="poppins_light ml-4 manageBookTopBarCard-Text mt-2 mb-0"><img className="ml-2 mr-2" src={progressicon}></img>{this.state.activeTab === 1? "In Progress...": "Completed"}</label>
+                                            <label className="poppins_light ml-4 manageBookTopBarCard-Text mt-2 mb-0"><img className="ml-2 mr-2" src={progressicon}/>{this.state.activeTab === 1? "In Progress...": "Completed"}</label>
 
                                         </div>
                                     </div>
@@ -780,8 +783,11 @@ class ManageBook extends Component {
                                                 <div className ="text-center">
 
                                                 <p className="error_allfield">Please Provide all required details</p>
+
                                                 </div>
                                                 )}
+                                                {this.state.isUploading && <div className="loader-small"></div>}
+
 
                                                 <div className="row">
 
@@ -801,6 +807,8 @@ class ManageBook extends Component {
                                                                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ml-4 ">
                                                                         <p className="manageBookTopBarCard-Heading poppins_medium   mt-2 mb-0">Choose File</p>
                                                                         <label className="poppins_light  manageBookTopBarCard-Text mt-2 mb-0">Complete EPUB file</label><br></br>
+                                                                        
+                                                                        {errors.Url && <div className="invaliderrorAddNewBookDescription">{errors.Url}</div>}
 
                                                                         <label className=" mt-2 mb-0"><img src={epubuploadicon}></img> <label className="poppins_light  manageBookTopBarCard-Text ml-2"> {this.state.Url === '' ? 'No File Uploaded' : this.state.Name+ '.epub'}  </label></label> <br></br>
                                                                         <button className="col-xl-5 poppins_semibold uploadbtn" onClick={(e) => this.upload.click()} > UPLOAD FILES<input id="myInput2" type="file" onChange={(event) => this.onFileChange(event,"Url")} name="Url" ref={(ref) => this.upload = ref} style={{ display: 'none' }} /></button>
@@ -828,7 +836,7 @@ class ManageBook extends Component {
                                                                     </div>
 
                                                                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ml-4 ">
-                                                                        <p className="manageBookTopBarCard-Heading poppins_medium   mt-2 mb-0">Choose File</p>
+                                                                        <p className="manageBookTopBarCard-Heading poppins_medium   mt-2 mb-0">Choose Preview File</p>
                                                                         <label className="poppins_light  manageBookTopBarCard-Text mt-2 mb-0">Preview EPUB file</label><br></br>
 
                                                                         <label className=" mt-2 mb-0"><img src={epubuploadicon}></img> <label className="poppins_light  manageBookTopBarCard-Text ml-2"> {this.state.Preview === '' ? 'No File Uploaded' : this.state.Name+ ".epub"}  </label></label> <br></br>
@@ -844,7 +852,7 @@ class ManageBook extends Component {
                                                             </div>
                                                         </div>
 
-                                                        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                                        {/* <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                                                             <div className="row">
                                                                 <div className="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-1 ">
                                                                 </div>
@@ -857,6 +865,7 @@ class ManageBook extends Component {
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                     */}
                                                     </div>
                                                     <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
                                                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
@@ -961,11 +970,11 @@ class ManageBook extends Component {
                                                             <div className=" col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                                                                 <div className="row">
                                                                     <div className=" col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6  mt-2 ">
-                                                                        <p className="manageBookTopBarCard-Text poppins_regular text-center  mb-3">60%</p>
+                                                                        <p className="manageBookTopBarCard-Text poppins_regular text-center  mb-3">70%</p>
 
                                                                     </div>
                                                                     <div className=" col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6  mt-2 ">
-                                                                        <p className="manageBookTopBarCard-Text poppins_regular text-center  mb-3">{'PKR' + this.state.Price * 0.6 + '.00'}</p>
+                                                                        <p className="manageBookTopBarCard-Text poppins_regular text-center  mb-3">{'PKR' + this.state.Price * 0.7 + '.00'}</p>
 
                                                                     </div>
 
@@ -1016,11 +1025,11 @@ class ManageBook extends Component {
                                                             <div className=" col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 vertical_center4">
                                                                 <div className="row">
                                                                     <div className=" col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6  mt-2 vertical_center4">
-                                                                        <p className="manageBookTopBarCard-Text poppins_regular text-center  mb-3">60%</p>
+                                                                        <p className="manageBookTopBarCard-Text poppins_regular text-center  mb-3">70%</p>
 
                                                                     </div>
                                                                     <div className=" col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6  mt-2 vertical_center4">
-                                                                        <p className="manageBookTopBarCard-Text poppins_regular text-center  mb-3">{'USD' + this.state.Price_USD * 0.6 + '.00'}</p>
+                                                                        <p className="manageBookTopBarCard-Text poppins_regular text-center  mb-3">{'USD' + this.state.Price_USD * 0.7 + '.00'}</p>
 
                                                                     </div>
 
