@@ -82,7 +82,7 @@ export const uploadEpub = restaurantData => dispatch => {
 
   export const getAllBooks = () => dispatch => {
     return axios
-        .get('/api/book')
+        .get('/api/all/book')
         .then((res) => {
             console.log(res)
 
