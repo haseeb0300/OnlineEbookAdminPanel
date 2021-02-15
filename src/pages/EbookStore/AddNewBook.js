@@ -229,7 +229,7 @@ class ManageBook extends Component {
         var addBookData = {
             "Name": this.state.Name,
             "Language": this.state.Language,
-            "Age_Group": this.state.Age_Group,
+            "Age_Group": "18",
             "Author_Image": this.state.Author_Image,
             "Author_Name": this.state.Author_Name,
             "Author_Description": this.state.Author_Description,
@@ -613,7 +613,7 @@ class ManageBook extends Component {
                                                         {errors.ISBN_Num && <div className="invaliderrorAddNewBook">{errors.ISBN_Num}</div>}
 
                                                     </div>
-                                                    <div className=" col-xl-2 col-lg-2 col-md-2 col-sm-4 col-4  vertical_center text-right">
+                                                    {/* <div className=" col-xl-2 col-lg-2 col-md-2 col-sm-4 col-4  vertical_center text-right">
                                                         <p className="manageBookTopBarCard-Heading poppins_medium   mb-0">Age Group</p>
                                                     </div>
                                                     <div className=" col-xl-3 col-lg-3 col-md-3 col-sm-8 col-8 vertical_center">
@@ -628,7 +628,7 @@ class ManageBook extends Component {
                                                         </select>
                                                         {errors.Age_Group && <div className="invaliderrorAddNewBook">{errors.Age_Group}</div>}
 
-                                                    </div>
+                                                    </div> */}
 
                                                 </div>
 
@@ -766,6 +766,11 @@ class ManageBook extends Component {
                                             <p className="manageBookTopBarCard-Heading poppins_medium   mt-2 mb-0">Ebook Files</p>
                                             <label className="poppins_light  manageBookTopBarCard-Text mt-2 mb-0">Please upload your book content</label>
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
+                                                <div className ="text-center">
+
+                                                <p className="error_allfield">Please fullfil all requirments</p>
+                                                </div>
+
                                                 <div className="row">
 
                                                     <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 P mt-3">
