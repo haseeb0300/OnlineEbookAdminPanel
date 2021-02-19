@@ -725,6 +725,8 @@ class ManageBook extends Component {
                                                     </div>
                                                     <div className="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-12 mt-4">
                                                         <div className="row">
+                                                        {this.state.isUploading && <div className="loader-small"></div>}
+
 
                                                             <div className=" col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 vertical_center ">
                                                                 <p className="manageBookTopBarCard-Heading poppins_medium   mb-0">Author Image</p>
@@ -786,7 +788,6 @@ class ManageBook extends Component {
 
                                                 </div>
                                                 )}
-                                                {this.state.isUploading && <div className="loader-small"></div>}
 
 
                                                 <div className="row">
