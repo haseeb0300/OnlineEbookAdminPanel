@@ -374,6 +374,7 @@ class ManageBook extends Component {
 
 
                         </select>
+                       
                         {/* tableSelect_Review
 tableSelect_Published
 tableSelect_Unpublished
@@ -686,6 +687,41 @@ tableSelect_Blocked */}
                                         </tbody>
 
                                     </table>
+
+                                </div>
+                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  ">
+                                    <div className="row">
+                                        <div className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3  ">
+                                        </div>
+                                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12  text-center">
+                                            <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  pb-3">
+
+                                                <div className="row">
+                                                    <div className="col-xl-3 col-lg-2 col-md-2 col-sm-2 col-2 ">
+
+
+                                                        <button className="navbtn">← Previous</button>
+                                                    </div>
+                                                    <div className="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-8  pb-3">
+
+                                                        <button className="roundbtn">1</button>
+                                                        <button className="roundbtn"> 2</button>
+                                                        <button className="roundbtn">3</button>
+                                                        <button className="roundbtn">4</button>
+                                                        <button className="roundbtn">5</button>
+                                                    </div>
+                                                    <div className="col-xl-3 col-lg-2 col-md-2 col-sm-2 col-2 ">
+
+                                                        <button className="navbtn">Next →</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
 
                                 </div>
 

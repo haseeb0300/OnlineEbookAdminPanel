@@ -1,0 +1,92 @@
+.AddTranslation{
+    .TranslationInput{
+       
+   
+        height: 46px;
+        border-radius: 5px;
+        border: none;
+        box-shadow: 0px 0px 4px 0px lightgrey;
+        font-size: 15px;
+        font-family: 'Poppins';
+        font-weight: 500;
+        color: #a5a5a2;
+    
+    }
+    .TranslationInput:hover{
+        border: 2px solid #517A95;
+    }
+    .TranslationInput:focus{
+        outline: none;
+    }
+    .SearchBtn{
+        background: #517A95;
+        color: white;
+        height: 46px;
+        width: 100%;
+        border: none;
+        font-size: 15px;
+        font-family: 'Poppins';
+        font-weight: 500;
+        border-radius: 5px;
+    
+    }
+    .SearchBtn:hover{
+        border: 2px solid #517A95;
+        background: white;
+        color: black;
+    }
+    .TranslationContainer{
+        background: white;
+        height: 400px;
+        margin-left: 40px !important;
+        margin-right: 36px !important;
+        margin-top: 26px;
+        padding-top: 15px;
+        overflow: auto;
+    }
+    .EditPencil{
+        font-size: 13px;
+    font-family: 'Montserrat';
+    font-weight: 500;
+    }
+    .EditPencil:hover{
+        cursor: pointer;
+        opacity: 0.8;
+    }
+    .SaveBtn{
+        border-radius: 5px;
+    background: #0E7542;
+    height: 42px;
+    width: 106px;
+    color: white;
+    font-family: 'Montserrat';
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    margin-left: 20px;
+    }
+    .SaveBtn:focus{
+        outline: none;
+        opacity: 0.7;
+    }
+    .TranslationHeading{
+        font-size: 15px;
+        font-family: 'Montserrat';
+        font-weight: 500;
+    }
+    .bg-div{
+        background: #F3f6f8;
+
+    }
+    .Inputt{
+        width: 100%;
+        height: 37px;
+        border: none;
+        padding-left: 20px;
+        /* padding-top: 10px; */
+        margin-top: 5px;
+        margin-bottom: 5px;
+        border-radius: 5px;
+    }
+    
+}

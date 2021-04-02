@@ -14,6 +14,8 @@ import SideBar from '../../components/SideBar';
  * Pagess
  */
 import ManageBook from '../EbookStore/ManageBook'
+import Categories from '../EbookStore/Categories'
+
 import AddNewBook from '../EbookStore/AddNewBook'
 import BankDetails from '../EbookStore/BankDetails'
 
@@ -28,6 +30,15 @@ import TermsAndCondition from '../TermsAndCondition/TermsAndCondition'
 import Profile from '../Profile/MyProfile'
 import Notification from '../Notifications/Notification'
 import Setting from '../Setting/Setting'
+import Author from '../Users/Author'
+import Reader from '../Users/Reader'
+import AddOffer from '../Offer/AddOffer'
+import AddLanguage from '../Translation/AddLanguage'
+import AddTranslation from '../Translation/AddTranslation'
+
+
+
+
 
 
 
@@ -63,6 +74,8 @@ const Main = ({
 
 
           <PrivateRoute   path="/managebook" component={ManageBook} /> 
+          <PrivateRoute   path="/categories" component={Categories} /> 
+
           <PrivateRoute   path="/addnewbook" component={AddNewBook} /> 
           <PrivateRoute   path="/sellinghistory" component={SellingHistory} /> 
 
@@ -75,9 +88,18 @@ const Main = ({
           <PrivateRoute   path="/profile" component={Profile} /> 
           <PrivateRoute   path="/notification" component={Notification} /> 
           <PrivateRoute   path="/setting" component={Setting} /> 
+          <PrivateRoute   path="/author" component={Author} /> 
+          <PrivateRoute   path="/reader" component={Reader} /> 
+          <PrivateRoute   path="/addoffer" component={AddOffer} /> 
+          <PrivateRoute   path="/addlanguage" component={AddLanguage} /> 
+          <PrivateRoute   path="/addtranslation" component={AddTranslation} /> 
 
 
- 
+
+
+          
+
+          
 
 
           

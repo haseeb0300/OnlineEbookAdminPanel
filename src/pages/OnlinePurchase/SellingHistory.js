@@ -6,11 +6,18 @@ import { connect } from 'react-redux';
 import searchicon from '../../assets/images/Managebooks/searchicon.svg'
 import Polygon from '../../assets/images/Managebooks/Polygon.svg'
 import tableBook from '../../assets/images/Managebooks/tableBook.svg'
-import visibility from '../../assets/images/Managebooks/visibility.svg'
+import plus from '../../assets/images/Managebooks/plus.png'
+import printIcon from '../../assets/images/Managebooks/print.png'
+
+import { Dropdown, Modal, Form, DropdownButton } from 'react-bootstrap';
+
 import moment from 'moment'
 import Moment from 'react-moment';
+import CloseIcon from '../../assets/images/purchasehistory/PrintModal/close.png'
+import PlaceHolder from '../../assets/images/purchasehistory/PlaceHolder.png'
 
-import { getAllOrder, sortOrderByBook, sortOrderByOrder, searchBook, getTotalEarning,getTotalPending } from '../../store/actions/orderAction';
+
+import { getAllOrder, sortOrderByBook, sortOrderByOrder, searchBook, getTotalEarning, getTotalPending } from '../../store/actions/orderAction';
 
 
 
@@ -33,12 +40,15 @@ class SellingHistory extends Component {
             sortByDate: false,
             sortByStatus: false,
             sortByReference: false,
-            sortByPrice:false,
-            search:'',
-            totalearning:'',
-            pendingTotal:'',
-            dayEarning:'',
-            dayPending:'',
+            sortByPrice: false,
+            search: '',
+            totalearning: '',
+            pendingTotal: '',
+            dayEarning: '',
+            dayPending: '',
+            PrintModal: false,
+            ReferenceModal: true,
+
 
         };
         this.handleChange = this.handleChange.bind(this);
@@ -109,7 +119,7 @@ class SellingHistory extends Component {
         this.props.sortOrderByBook(colName, sort).then((res) => {
             console.log(res.content)
             if (res.status == true) {
-            
+
                 if (colName == "Name") {
                     this.setState({
                         orderList: res.content,
@@ -173,71 +183,71 @@ class SellingHistory extends Component {
 
     }
 
-    onSelectChange = (e,type) => {
-        this.setState({ [e.target.name]: e.target.value },() => {
-        if(type == 'Earning'){
-            this.props.getTotalEarning(this.state.dayEarning).then((res) => {
-                console.log(res.content)
-                if (res.status) {
-                    this.setState({
-                        totalearning: res.content[0]?.book?.total_amount,
-                    })
-    
-                }
-                else {
-                    alert(res)
-                }
-            }).catch((err) => {
-                console.log(err)
-    
-            })
-        }else if (type == 'Pending'){
-            this.props.getTotalPending(this.state.dayPending).then((res) => {
-                console.log(res.content)
-                if (res.status) {
-                    this.setState({
-                        pendingTotal: res.content[0]?.book?.total_amount,
-                    })
-    
-                }
-                else {
-                    alert(res)
-                }
-            }).catch((err) => {
-                console.log(err)
-    
-            })
-        }
+    onSelectChange = (e, type) => {
+        this.setState({ [e.target.name]: e.target.value }, () => {
+            if (type == 'Earning') {
+                this.props.getTotalEarning(this.state.dayEarning).then((res) => {
+                    console.log(res.content)
+                    if (res.status) {
+                        this.setState({
+                            totalearning: res.content[0]?.book?.total_amount,
+                        })
 
-    })
+                    }
+                    else {
+                        alert(res)
+                    }
+                }).catch((err) => {
+                    console.log(err)
+
+                })
+            } else if (type == 'Pending') {
+                this.props.getTotalPending(this.state.dayPending).then((res) => {
+                    console.log(res.content)
+                    if (res.status) {
+                        this.setState({
+                            pendingTotal: res.content[0]?.book?.total_amount,
+                        })
+
+                    }
+                    else {
+                        alert(res)
+                    }
+                }).catch((err) => {
+                    console.log(err)
+
+                })
+            }
+
+        })
     }
 
 
     onChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value },()=>{
+        this.setState({ [e.target.name]: e.target.value }, () => {
             this.onClickSearch()
         })
-     }
+    }
 
-     onClickSearch = () => {
+    onClickSearch = () => {
         this.props.searchBook(this.state.search).then((res) => {
-           console.log(res.content)
-           if (res.status == true) {
-              this.setState({
-                orderList: res.content,
-              })
-             
-  
-           }
-           else {
-              alert(res)
-           }
+            console.log(res.content)
+            if (res.status == true) {
+                this.setState({
+                    orderList: res.content,
+                })
+
+
+            }
+            else {
+                alert(res)
+            }
         }).catch((err) => {
-           console.log(err)
-  
+            console.log(err)
+
         })
-  
-     }
+
+    }
 
     renderTableRows = () => {
         if (this.state.orderList?.length < 1) {
@@ -317,6 +327,163 @@ class SellingHistory extends Component {
         return (
             <div>
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <Modal
+
+
+                        dialogClassName="col-xl-12 "
+                        show={this.state.PrintModal}
+                        size="lg"
+                        aria-labelledby="contained-modal-title-vcenter"
+                        centered
+                    >
+
+
+                        <div className="  modal-body">
+                            <div className="container-fluid ModalContainer">
+                                <div className="col-12">
+                                    <div className="row">
+                                        <div className="col-10">
+                                            <p className="poppins_medium ModalHading">Print Sell Report</p>
+                                        </div>
+                                        <div className="col-2 text-right">
+                                            <img className="Hov" onClick={() => this.setState({ PrintModal: false })} src={CloseIcon} />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="col-12">
+                                    <div className="row">
+                                        <div className="col-6">
+                                            <p className="poppins_medium Modaltext">Start Date <img className="ml-3 mr-3" src={Polygon} /></p>
+                                        </div>
+                                        <div className="col-6 ">
+                                            <p className="poppins_medium Modaltext">End Date <img className="ml-3 mr-3" src={Polygon} /></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-12 text-right mt-5 pt-5">
+                                    <button className="PrintModalBtn">Print Report</button>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </Modal>
+                    <Modal
+
+
+                        dialogClassName="col-xl-12 "
+                        show={this.state.ReferenceModal}
+                        size="lg"
+                        aria-labelledby="contained-modal-title-vcenter"
+                        centered
+                    >
+
+
+                        <div className="  modal-body">
+                            <div className="container-fluid ModalContainer">
+                            <div className="col-12">
+                                    <div className="row">
+                                        <div className="col-10">
+                                            <p className="poppins_medium ModalHading">Reference ID</p>
+                                        </div>
+                                        <div className="col-2 text-right">
+                                            <img className="Hov" onClick={() => this.setState({ ReferenceModal: false })} src={CloseIcon} />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="col-12">
+                                    <div className="row">
+                                        <div className="col-8">
+   
+                                        <div className="col-12 mt-5">
+                                    <div className="row">
+                                        <div className="col-5 Vertical_center text-right">
+                                            <p className="poppins_medium Modaltext mb-0">Author Name</p>
+                                        </div>
+                                        <div className="col-7 ">
+                                            <input className="ModalInput col-12 "></input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-12 mt-3">
+                                    <div className="row">
+                                        <div className="col-5 Vertical_center text-right">
+                                            <p className="poppins_medium Modaltext mb-0">Book Name</p>
+                                        </div>
+                                        <div className="col-7 ">
+                                            <input className="ModalInput col-12 "></input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-12 mt-3">
+                                    <div className="row">
+                                        <div className="col-5 Vertical_center text-right">
+                                            <p className="poppins_medium Modaltext mb-0">Clearing Amount</p>
+                                        </div>
+                                        <div className="col-7 ">
+                                            <input className="ModalInput col-12 "></input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-12 mt-3">
+                                    <div className="row">
+                                        <div className="col-5 Vertical_center text-right">
+                                            <p className="poppins_medium Modaltext mb-0">Payment Status</p>
+                                        </div>
+                                        <div className="col-7 ">
+                                            <select className="ModalInput col-12 ">
+                                                <option>Pending</option>
+                                                <option>Failed</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="col-12 mt-3">
+                                    <div className="row">
+                                        <div className="col-5 Vertical_center text-right">
+                                            <p className="poppins_medium Modaltext mb-0">Reference Number</p>
+                                        </div>
+                                        <div className="col-7 ">
+                                            <input className="ModalInput col-12 "/>
+                                            
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                              
+                                        </div>
+                                        <div className="col-4  Vertical_center ">
+                                        <div className="col-12 mt-3">
+                                            <p className="poppins_medium Modaltext mb-0">Any Attachment </p>
+                                            <img className="mt-3 placeholderImg" src ={PlaceHolder}/>
+                                      
+                                </div>
+                                <div className="col-12 mt-3 text-center">
+                                    <button className="mdlBtn col-12 poppins_semibold">Save Changes</button>
+                                </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                             
+                          
+                            </div>
+
+                        </div>
+
+
+                    </Modal>
 
                     <div className="row">
                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 managebookContainer">
@@ -326,11 +493,11 @@ class SellingHistory extends Component {
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 p-0  mt-4">
 
                                 <div className="row">
-                                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6  ">
+                                    <div className="col-xl-4 col-lg-4 col-md-4  ">
                                         <div className="SellingHistoryTopBarCard">
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
 
-                                                <p className="EaringRs">{this.state.totalearning + '.00 RS'}</p>
+                                                <p className="EaringRs">27,000 Rs</p>
                                                 <p className="totalEaring">Total Earning</p>
                                             </div>
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
@@ -340,7 +507,7 @@ class SellingHistory extends Component {
                                                     </div>
 
                                                     <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-7 " >
-                                                        <select className="select_days" name="dayEarning" onChange={(e) => this.onSelectChange(e,'Earning')}>
+                                                        <select className="select_days" name="dayEarning" onChange={(e) => this.onSelectChange(e, 'Earning')}>
                                                             <option value='7'>7days</option>
                                                             <option value='14'>14days</option>
                                                             <option value='30'>30days</option>
@@ -353,12 +520,12 @@ class SellingHistory extends Component {
                                         </div>
 
                                     </div>
-                                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6   ">
+                                    <div className="col-xl-4 col-lg-4 col-md-4   ">
                                         <div className="SellingHistoryTopBarCard">
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
 
-                                                <p className="PendingRs">{this.state.pendingTotal + '.00 RS'}</p>
-                                                <p className="totalEaring">Pending Amounts</p>
+                                                <p className="PendingRs">10,000 Rs</p>
+                                                <p className="totalEaring">Cleared Bills</p>
                                             </div>
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                                                 <div className="row ">
@@ -367,7 +534,34 @@ class SellingHistory extends Component {
                                                     </div>
 
                                                     <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-7 ">
-                                                    <select className="select_days" name="dayPending" onChange={(e) => this.onSelectChange(e,'Pending')}>
+                                                        <select className="select_days" name="dayPending" onChange={(e) => this.onSelectChange(e, 'Pending')}>
+                                                            <option value='7'>7days</option>
+                                                            <option value='14'>14days</option>
+                                                            <option value='30'>30days</option>
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div className="col-xl-4 col-lg-4 col-md-4  ">
+                                        <div className="SellingHistoryTopBarCard">
+                                            <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+
+                                                <p className="PendingRs1">10,000 Rs</p>
+                                                <p className="totalEaring">Pending Balances </p>
+                                            </div>
+                                            <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                                <div className="row ">
+                                                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-5 ">
+                                                        <p className="viewtext">View all</p>
+                                                    </div>
+
+                                                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-7 ">
+                                                        <select className="select_days" name="dayPending" onChange={(e) => this.onSelectChange(e, 'Pending')}>
                                                             <option value='7'>7days</option>
                                                             <option value='14'>14days</option>
                                                             <option value='30'>30days</option>
@@ -405,11 +599,14 @@ class SellingHistory extends Component {
                                             </div>
                                             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12  ">
                                                 <div className="row">
-                                                    <div className="col-xl-5 col-lg-5 col-md-5 col-sm-4 col-4 "></div>
+                                                    <div className="col-xl-5 col-lg-5 col-md-5 col-sm-4 col-4 ">
+                                                        <label className="ml-3 mr-3 allbooktext">Print Now</label>
+                                                        <img className="ml-3 imgHover" onClick={() => this.setState({ PrintModal: true })} src={printIcon} />
+                                                    </div>
                                                     <div className="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-12 text-right ">
                                                         <img className="searchicon" src={searchicon}></img>
 
-                                                        <input className="search_input " placeholder="search here" name = "search" onChange={this.onChange}></input>
+                                                        <input className="search_input " placeholder="search here" name="search" onChange={this.onChange}></input>
                                                         <button className="allbook-search-btn">search</button>
 
                                                     </div>
@@ -431,37 +628,42 @@ class SellingHistory extends Component {
                                                         {this.state.sortByName ? (
                                                             <th scope="col table_header poppins_medium">Book Name  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Name', 'ASC')}></img> </th>
                                                         ) : (
-                                                                <th scope="col table_header poppins_medium">Book Name  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Name', 'DESC')}></img> </th>
-                                                            )}
+                                                            <th scope="col table_header poppins_medium">Book Name  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Name', 'DESC')}></img> </th>
+                                                        )}
                                                         {this.state.sortByDate ? (
                                                             <th scope="col table_header poppins_medium">Date & Time <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('createdAt', 'ASC')}></img>  </th>
                                                         ) : (
-                                                                <th scope="col table_header poppins_medium">Date & Time <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('createdAt', 'DESC')}></img>  </th>
-                                                            )}
+                                                            <th scope="col table_header poppins_medium">Date & Time <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('createdAt', 'DESC')}></img>  </th>
+                                                        )}
                                                         {this.state.sortByPrice ? (
                                                             <th scope="col table_header poppins_medium">Amount  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'ASC')}></img> </th>
                                                         ) : (
-                                                                <th scope="col table_header poppins_medium">Amount  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'DESC')}></img> </th>
+                                                            <th scope="col table_header poppins_medium">Amount  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'DESC')}></img> </th>
 
-                                                            )}
+                                                        )}
+                                                        {this.state.sortByPrice ? (
+                                                            <th scope="col table_header poppins_medium">Earning  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'ASC')}></img> </th>
+                                                        ) : (
+                                                            <th scope="col table_header poppins_medium">Earning  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'DESC')}></img> </th>
+
+                                                        )}
                                                         {this.state.sortByStatus ? (
                                                             <th scope="col table_header poppins_medium">Payment Status <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Payment_Status', 'ASC')}></img>  </th>
                                                         ) : (
-                                                                <th scope="col table_header poppins_medium">Payment Status <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Payment_Status', 'DESC')}></img>  </th>
-                                                            )}
+                                                            <th scope="col table_header poppins_medium">Payment Status <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Payment_Status', 'DESC')}></img>  </th>
+                                                        )}
                                                         {this.state.sortByStatus ? (
                                                             <th scope="col table_header poppins_medium">Reference No. <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Reference_No', 'ASC')}></img>  </th>
                                                         ) : (
-                                                                <th scope="col table_header poppins_medium">Reference No. <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Reference_No', 'DESC')}></img>  </th>
+                                                            <th scope="col table_header poppins_medium">Reference No. <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Reference_No', 'DESC')}></img>  </th>
 
-                                                            )}
+                                                        )}
 
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {/* <tr>
+                                                    <tr>
 
-                                                        <td>03241</td>
 
                                                         <td><img src={tableBook}></img></td>
 
@@ -469,13 +671,14 @@ class SellingHistory extends Component {
                                                         <td>29-12-2020, 16:34</td>
 
                                                         <td>170 RS.</td>
+                                                        <td>145 Rs.</td>
 
                                                         <td>
                                                             <div class="table-badge-review">
                                                                 <label className="badge-label">Pending</label>
                                                             </div>
                                                         </td>
-                                                        <td></td>
+                                                        <td><img className="imgHover" src={plus} /></td>
 
 
                                                     </tr>
@@ -483,13 +686,14 @@ class SellingHistory extends Component {
                                                     <tr>
 
 
-                                                        <td>03241</td>
 
                                                         <td><img src={tableBook}></img></td>
 
                                                         <td>Mashk-e-Sukhan</td>
                                                         <td>29-12-2020, 16:34</td>
                                                         <td>170 RS.</td>
+                                                        <td>145 Rs.</td>
+
 
                                                         <td>
                                                             <div class="table-badge-publish">
@@ -497,16 +701,14 @@ class SellingHistory extends Component {
                                                                     Cleared                                        </label>
                                                             </div>
                                                         </td>
-                                                        <td>
-                                                            251466196812
-                                                        </td>
+                                                        <td><img className="imgHover" src={plus} /></td>
+
 
 
 
                                                     </tr>
                                                     <tr>
-                                                      
-                                                        <td>03241</td>
+
 
                                                         <td><img src={tableBook}></img></td>
 
@@ -514,6 +716,8 @@ class SellingHistory extends Component {
                                                         <td>29-12-2020, 16:34</td>
 
                                                         <td>170 RS.</td>
+                                                        <td>145 Rs.</td>
+
                                                         <td>
                                                             <div class="table-badge-review">
                                                                 <label className="badge-label">
@@ -521,20 +725,21 @@ class SellingHistory extends Component {
 </label>
                                                             </div>
                                                         </td>
-                                                        <td></td>
+                                                        <td><img className="imgHover" src={plus} /></td>
 
 
 
                                                     </tr>
                                                     <tr>
-                                                       
-                                                        <td>03241</td>
+
 
                                                         <td><img src={tableBook}></img></td>
 
                                                         <td>Mashk-e-Sukhan</td>
                                                         <td>29-12-2020, 16:34</td>
                                                         <td>170 RS.</td>
+                                                        <td>145 Rs.</td>
+
                                                         <td>
                                                             <div class="table-badge-blocked">
                                                                 <label className="badge-label">
@@ -542,13 +747,13 @@ class SellingHistory extends Component {
 </label>
                                                             </div>
                                                         </td>
-                                                        <td></td>
+                                                        <td><img className="imgHover" src={plus} /></td>
 
 
-                                                    </tr> */}
+                                                    </tr>
 
 
-                                                    {this.state.orderList.length > 0 && this.renderTableRows()}
+                                                    {/* {this.state.orderList.length > 0 && this.renderTableRows()} */}
 
                                                 </tbody>
 
