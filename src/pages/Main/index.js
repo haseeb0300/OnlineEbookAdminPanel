@@ -35,6 +35,8 @@ import Reader from '../Users/Reader'
 import AddOffer from '../Offer/AddOffer'
 import AddLanguage from '../Translation/AddLanguage'
 import AddTranslation from '../Translation/AddTranslation'
+import PushNotification from '../Notifications/PushNotification'
+
 
 
 
@@ -93,7 +95,9 @@ const Main = ({
           <PrivateRoute   path="/addoffer" component={AddOffer} /> 
           <PrivateRoute   path="/addlanguage" component={AddLanguage} /> 
           <PrivateRoute   path="/addtranslation" component={AddTranslation} /> 
+          <PrivateRoute   path="/pushnotification" component={PushNotification} /> 
 
+          
 
 
 

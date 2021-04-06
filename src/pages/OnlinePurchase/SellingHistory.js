@@ -47,7 +47,7 @@ class SellingHistory extends Component {
             dayEarning: '',
             dayPending: '',
             PrintModal: false,
-            ReferenceModal: true,
+            ReferenceModal: false,
 
 
         };
@@ -488,7 +488,7 @@ class SellingHistory extends Component {
                     <div className="row">
                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 managebookContainer">
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 p-0">
-                                <p className="poppins_semibold managebookheading">Selling History</p>
+                                <p className="poppins_semibold managebookheading">Purchase History / Asif Farrukhi</p>
                             </div>
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 p-0  mt-4">
 
@@ -678,7 +678,7 @@ class SellingHistory extends Component {
                                                                 <label className="badge-label">Pending</label>
                                                             </div>
                                                         </td>
-                                                        <td><img className="imgHover" src={plus} /></td>
+                                                        <td><img className="imgHover"  src={plus}  onClick={() => this.setState({ ReferenceModal: true })} /></td>
 
 
                                                     </tr>
@@ -701,7 +701,7 @@ class SellingHistory extends Component {
                                                                     Cleared                                        </label>
                                                             </div>
                                                         </td>
-                                                        <td><img className="imgHover" src={plus} /></td>
+                                                        <td><img className="imgHover" src={plus}  onClick={() => this.setState({ ReferenceModal: true })} /></td>
 
 
 
@@ -725,7 +725,7 @@ class SellingHistory extends Component {
 </label>
                                                             </div>
                                                         </td>
-                                                        <td><img className="imgHover" src={plus} /></td>
+                                                        <td><img className="imgHover" src={plus}  onClick={() => this.setState({ ReferenceModal: true })} /></td>
 
 
 
@@ -747,7 +747,7 @@ class SellingHistory extends Component {
 </label>
                                                             </div>
                                                         </td>
-                                                        <td><img className="imgHover" src={plus} /></td>
+                                                        <td><img className="imgHover" src={plus}  onClick={() => this.setState({ ReferenceModal: true })} /></td>
 
 
                                                     </tr>

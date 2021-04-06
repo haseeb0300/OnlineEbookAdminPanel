@@ -167,9 +167,9 @@ class Nav extends Component {
              <p className="poppins_regular">Selling Management</p>
            </Link>
          </li>
-         <li className={location.pathname === '/l' ? 'active' : null}>
-          <Link to="/l" >
-            <i ><img src={location.pathname === '/l' ? AddNewBookActive : AddNewBook}></img> </i>
+         <li className={location.pathname === '/reports' ? 'active' : null}>
+          <Link to="/reports" >
+            <i ><img src={location.pathname === '/reports' ? AddNewBookActive : AddNewBook}></img> </i>
              <p className="poppins_regular">Reports</p>
            </Link>
          </li>
@@ -179,9 +179,9 @@ class Nav extends Component {
          <li className="heading">
           <span className="poppins_semibold" >Notifications</span>
          </li>
-         <li className={location.pathname === '/m' ? 'active' : null}>
-          <Link to="/m" >
-            <i ><img src={location.pathname === '/m' ? AddNewBookActive : AddNewBook}></img> </i>
+         <li className={location.pathname === '/pushnotification' ? 'active' : null}>
+          <Link to="/pushnotification" >
+            <i ><img src={location.pathname === '/pushnotification' ? AddNewBookActive : AddNewBook}></img> </i>
              <p className="poppins_regular">Push Notification</p>
            </Link>
          </li>
