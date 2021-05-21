@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import profile from '../../assets/images/Users/profile.png'
+import progressicon from '../../assets/images/progressIcon.png'
 import epubuploadicon from '../../assets/images/epubupload.svg'
 import { Dropdown, Modal, Form, DropdownButton } from 'react-bootstrap';
 import crossbtn from '../../assets/images/CongratulationModal/crossBtn.svg';
@@ -13,10 +13,9 @@ import searchicon from '../../assets/images/Managebooks/searchicon.svg'
 import Polygon from '../../assets/images/Managebooks/Polygon.svg'
 import tableBook from '../../assets/images/Managebooks/tableBook.svg'
 import visibility from '../../assets/images/Managebooks/visibility.svg'
-import { getAllBooks, sortAllBooks, searchBook, createBook } from '../../store/actions/bookAction';
+import { getAllBooks, sortAllBooks, searchBook,createBook } from '../../store/actions/bookAction';
 import moment from 'moment'
 import Moment from 'react-moment';
-import { Link, withRouter } from 'react-router-dom';
 
 
 
@@ -32,7 +31,7 @@ var cx = require('classnames');
 
 
 
-class Reader extends Component {
+class ManageBook extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -54,7 +53,7 @@ class Reader extends Component {
             bookList: {},
             newBoolList: [],
             search: '',
-            Active_Status: false,
+            Active_Status:false,
 
         };
         this.handleChange = this.handleChange.bind(this);
@@ -245,13 +244,15 @@ class Reader extends Component {
             return this.state.newBoolList.map((item, i) =>
 
                 <tr>
+                    {/* <td>
+        <div class="form-group">
+            <input type="checkbox" id="html1" />
+            <label for="html1"></label>
+        </div>
+    </td>
+    <td>03241</td> */}
 
-
-                    <td>
-                        <div className="Profile-Img-Container">
-
-                        </div>
-                    </td>
+                    <td><img src={item.Image} width="50px"></img></td>
 
                     <td>{item.Name}</td>
                     <td>{item.Author_Name}</td>
@@ -279,32 +280,22 @@ class Reader extends Component {
             return this.state.bookList.map((item, i) =>
 
                 <tr>
+                    {/* <td>
+                <div class="form-group">
+                    <input type="checkbox" id="html1" />
+                    <label for="html1"></label>
+                </div>
+            </td>
+            <td>03241</td> */}
+
+                    <td><img src={item.Image} width="50px"></img></td>
+
+                    <td>{item.Name}</td>
+                    <td>{item.Author_Name}</td>
+                   
 
 
-
-
-                    <td>Saad Iqbal</td>
-                    <td>saad@ahmedgraf.com</td>
-                    <td>Pakistan</td>
-                    <td>27-Aug-1995</td>
-
-                    <td>
-
-                        <select className="tableSelect_Review">
-                            <option>Active</option>
-                        </select>
-                    </td>
-
-
-
-                    <td>
-                        <img className="pointerr" src={visibility} onClick={() => this.onClickView(item)}></img>
-                    </td>
-                    <td>
-                        <Link to="/LibraryBooks" >
-                            <p className="gotolibrary">Go to library</p>
-                        </Link>
-                    </td>
+                   
                 </tr>
             )
         }
@@ -325,17 +316,16 @@ class Reader extends Component {
         return (
             <div>
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
                     <div className="row">
                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 managebookContainer">
-                            <p className="poppins_semibold Allbook-heading-main">Users (Readers)</p>
-
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 pt-3 AllbookContainer ">
                                 <div className="row">
                                     <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
 
 
-                                        <p className="Allbook-heading mb-0">All Users</p>
-                                        <p className="allbooktext mb-0">All readers on little book company</p>
+                                        <p className="Allbook-heading mb-0">BookShelf</p>
+                                        <p className="allbooktext mb-0">All your books that are Published and under review</p>
                                     </div>
                                     <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12  ">
                                         <div className="row">
@@ -358,41 +348,25 @@ class Reader extends Component {
                                     <table className="table table-hover thead-primary">
                                         <thead>
                                             <tr>
-
-
+                                           
+                                                <th scope="col table_header poppins_medium">Book Title   </th>
                                                 {this.state.sortByName ? (
-                                                    <th scope="col table_header poppins_medium"> Name  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Name', 'ASC')}></img> </th>
+                                                    <th scope="col table_header poppins_medium">Book Name  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Name', 'ASC')}></img> </th>
                                                 ) : (
-                                                    <th scope="col table_header poppins_medium"> Name  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Name', 'DESC')}></img> </th>
-                                                )}
+                                                        <th scope="col table_header poppins_medium">Book Name  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Name', 'DESC')}></img> </th>
+                                                    )}
                                                 {this.state.sortByAuthorName ? (
-                                                    <th scope="col table_header poppins_medium">Email <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'ASC')}></img> </th>
+                                                    <th scope="col table_header poppins_medium">Author Name <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'ASC')}></img> </th>
                                                 ) : (
-                                                    <th scope="col table_header poppins_medium">Email <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'DESC')}></img> </th>
-                                                )}
-                                                {this.state.sortByAuthorName ? (
-                                                    <th scope="col table_header poppins_medium">Country <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'ASC')}></img> </th>
-                                                ) : (
-                                                    <th scope="col table_header poppins_medium">Country <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'DESC')}></img> </th>
-                                                )}
-                                                {this.state.sortByAuthorName ? (
-                                                    <th scope="col table_header poppins_medium">Date of Birth <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'ASC')}></img> </th>
-                                                ) : (
-                                                    <th scope="col table_header poppins_medium">Date of Birth <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'DESC')}></img> </th>
-                                                )}
-
-
-                                                <th scope="col table_header poppins_medium"> Status   </th>
-                                                <th scope="col table_header poppins_medium">View  </th>
-                                                <th scope="col table_header poppins_medium">Actions  </th>
+                                                        <th scope="col table_header poppins_medium">Author Name <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'DESC')}></img> </th>
+                                                    )}
+                               
 
 
                                             </tr>
                                         </thead>
-
                                         <tbody>
-
-
+                              
                                             {this.state.bookList.length > 0 && this.renderTableRows()}
                                             {this.state.bookList?.length < 1 &&
                                                 <tr>
@@ -446,7 +420,6 @@ class Reader extends Component {
 
                                 </div>
 
-
                             </div>
 
 
@@ -483,7 +456,7 @@ class Reader extends Component {
 
 }
 
-Reader.propTypes = {
+ManageBook.propTypes = {
 
 };
 
@@ -501,4 +474,4 @@ const mapDispatchToProps = ({
     searchBook,
     createBook,
 })
-export default connect(mapStateToProps, mapDispatchToProps)(Reader);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageBook);

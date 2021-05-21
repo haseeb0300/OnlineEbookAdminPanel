@@ -36,6 +36,11 @@ import AddOffer from '../Offer/AddOffer'
 import AddLanguage from '../Translation/AddLanguage'
 import AddTranslation from '../Translation/AddTranslation'
 import PushNotification from '../Notifications/PushNotification'
+import Segment from '../Notifications/Segment'
+import AllowBook from '../EbookStore/AllowBook'
+import LibraryBooks from '../EbookStore/LibraryBooks'
+
+
 
 
 
@@ -96,10 +101,14 @@ const Main = ({
           <PrivateRoute   path="/addlanguage" component={AddLanguage} /> 
           <PrivateRoute   path="/addtranslation" component={AddTranslation} /> 
           <PrivateRoute   path="/pushnotification" component={PushNotification} /> 
+          <PrivateRoute   path="/segment" component={Segment} /> 
+          <PrivateRoute   path="/allowbook" component={AllowBook} /> 
+
+          <PrivateRoute   path="/LibraryBooks" component={LibraryBooks} /> 
 
           
 
-
+          
 
           
 

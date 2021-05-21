@@ -83,6 +83,12 @@ class Nav extends Component {
            </Link>
          </li>
 
+         <li className={location.pathname === '/allowbook' ? 'active' : null}>
+          <Link to="/allowbook" >
+            <i ><img src={location.pathname === '/allowbook' ? AddNewBookActive : AddNewBook}></img> </i>
+             <p className="poppins_regular">Allow Book</p>
+           </Link>
+         </li>
 
 
          <li className="heading">

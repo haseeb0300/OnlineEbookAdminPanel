@@ -42,3 +42,58 @@
     left: 13px;
     margin-top: 4px;
 }
+
+.SegementQuery{
+    color: #505766;
+    font-size: 10px;
+}
+.SegmentDropDown{
+    width: 167px;
+    font-family: 'Poppins';
+    font-weight: 900;
+    height: 29px;
+    padding-left: 15px;
+    border: 2px solid #E9EBF0;
+}
+.SegmentViewBTn{
+    height: 44px;
+    width: 136px;
+    background: white;
+    border-radius: 33px;
+    color: #517A95;
+    border: 2px solid #517A95;
+    font-size: 15px;
+    font-family: 'Poppins';
+    font-weight: 700;
+
+}
+.SegmentViewBTn:hover{
+    background: #517A95;
+    color: white;
+}
+.SegmentViewBTn:focus{
+    outline: none;
+}
+.SegmentMiddileDiv{
+    background: #DEE4E8;
+    padding: 20px 15px 20px 15px;
+
+}
+.SegmentRadioLabel{
+    color: #505766;
+    font-size: 10px;
+}
+
+.titleAllowBook{
+    font-size: 15px;
+    font-family: 'Poppins';
+    font-weight: 500;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.gotolibrary{
+    color: blue;
+    font-size: 12px;
+    font-family: 'Poppins';
+    font-weight: 400;
+}

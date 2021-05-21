@@ -406,69 +406,7 @@ class ManageBook extends Component {
 
                     </Modal>
 
-                    {/* <Formik
-                        initialValues={{
-
-
-                        }}
-                        validationSchema={SignInSchema}
-                        onSubmit={(values) => {
-                            console.log(values);
-                        }}
-
-                    >
-                        {({ values,
-                            touched,
-                            errors,
-
-                            handleChange,
-
-                            handleSubmit, }) => {
-                            return (
-                                <>
-                                    <Form>
-
-
-                                        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
-                                            <div className="row">
-                                                <div className=" col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3 vertical_center text-right">
-                                                    <label className="manageBookTopBarCard-Heading poppins_medium   mb-0">ISBN Number </label>
-                                                    <label className="manageBookTopBarCard-Text poppins_light   mb-0"> (Optional)</label><br></br>
-
-                                                </div>
-                                                <div className=" col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 vertical_center4">
-                                                    <input className="col-xl-12 managebookInput" name="ISBN_Num" onChange={handleChange}></input>
-                                                    {errors.ISBN_Num &&
-                                                        <div className="input-feedback">
-                                                            {errors.ISBN_Num}
-                                                        </div>}
-                                                </div>
-                                                <div className=" col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2  vertical_center text-right">
-                                                    <p className="manageBookTopBarCard-Heading poppins_medium   mb-0">Age Group</p>
-                                                    {errors.Age_Group &&
-                                                        <div className="input-feedback">
-                                                            {errors.Age_Group}
-                                                        </div>}
-                                                </div>
-
-                                                <div className=" col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3 vertical_center">
-                                                    <select className="col-xl-12 managebookInput" name="Age_Group" value={values.Age_Group} onChange={handleChange}>
-                                                        <option>Please Select</option>
-                                                        <option value='under 18'>under 18</option>
-                                                        <option value='18 - 40'>18 - 40</option>
-                                                        <option value='Over 40'>Over 40</option>
-                                                    </select>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                        <button type="submit" onClick={handleSubmit} className="btn btn-primary mr-2">Register</button>
-                                    </Form>
-                                </>
-                            )
-                        }}
-                    </Formik> */}
+         
 
                     <div className="row">
                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 managebookContainer">
