@@ -13,7 +13,7 @@ import searchicon from '../../assets/images/Managebooks/searchicon.svg'
 import Polygon from '../../assets/images/Managebooks/Polygon.svg'
 import tableBook from '../../assets/images/Managebooks/tableBook.svg'
 import visibility from '../../assets/images/Managebooks/visibility.svg'
-import { getAllBooks, sortAllBooks, searchBook,createBook } from '../../store/actions/bookAction';
+import { getAllBooks, sortAllBooks, searchBook,createBook,putBookInLibrary } from '../../store/actions/bookAction';
 import moment from 'moment'
 import Moment from 'react-moment';
 

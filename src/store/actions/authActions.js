@@ -152,3 +152,23 @@ export const logoutUser = () => dispatch=> {
         
       })
   }
+
+  export const getAllReader = () => dispatch => {
+    return axios
+      .get('/api/reader')
+      .then((res) => {
+        console.log(res)
+        return Promise.resolve(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+        if(err.response.data != null && err.response.data.validation){
+          console.log(err.response.data);
+          err= err.response.data 
+        }else{
+          err = {"msg":"Something went wrong"}
+        }
+        return Promise.reject(err)
+        
+      })
+  }

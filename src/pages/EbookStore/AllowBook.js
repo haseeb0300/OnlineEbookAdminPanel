@@ -13,7 +13,9 @@ import searchicon from '../../assets/images/Managebooks/searchicon.svg'
 import Polygon from '../../assets/images/Managebooks/Polygon.svg'
 import tableBook from '../../assets/images/Managebooks/tableBook.svg'
 import visibility from '../../assets/images/Managebooks/visibility.svg'
-import { getAllBooks, sortAllBooks, searchBook, createBook } from '../../store/actions/bookAction';
+import { getAllBooks, sortAllBooks, searchBook, createBook, putBookInLibrary } from '../../store/actions/bookAction';
+import { getAllReader } from '../../store/actions/authActions';
+
 import moment from 'moment'
 import Moment from 'react-moment';
 
@@ -35,7 +37,10 @@ class ManageBook extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            readerList: [],
+            bookList: [],
+            User_ID:'',
+            Book_ID:'',
 
         };
 
@@ -53,14 +58,67 @@ class ManageBook extends Component {
 
 
     componentDidMount() {
+        this.props.getAllReader().then((res) => {
+            console.log(res.content)
+            if (res.status == true) {
+                this.setState({
+                    readerList: res.content,
+                })
+
+            }
+            else {
+                alert(res)
+            }
+        }).catch((err) => {
+            console.log(err)
+
+        })
+
+        this.props.getAllBooks().then((res) => {
+            console.log(res.content)
+            if (res.status == true) {
+                this.setState({
+                    bookList: res.content,
+                })
+
+            }
+            else {
+                alert(res)
+            }
+        }).catch((err) => {
+            console.log(err)
+
+        })
 
 
     }
 
 
 
+    onChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value })
+        let error = {}
+        switch (e.target.name) {
+            case "book_title":
 
+                this.setState({ ...this.state.validation, [e.target.name]: " " })
+                break
+        }
+    }
 
+    onAllow = () => {
+        console.log('jk')
+        this.props.putBookInLibrary({
+            'user_id': this.state.User_ID,
+            'Book_ID': this.state.Book_ID
+        }).then((res) => {
+            console.log(res)
+        })
+            .catch((err) => {
+                console.log(err)
+
+            })
+    }
 
 
     render() {
@@ -137,27 +195,33 @@ class ManageBook extends Component {
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div className="bookDescriptionCard">
                                     <p className="titleAllowBook">Users</p>
-                                    <select className="col-md-6 managebookInput">
-                                        <option>Please Select Users</option>
-                                        <option value='English'>English</option>
-                                        <option value='Urdu'>Urdu</option>
+                                    <select className="col-md-6 managebookInput" name="User_ID" onChange={this.onChange} value={this.state.User_ID}>
+                                        <option value={-1} disable   >--Please Select--</option>
+
+                                        {this.state.readerList.map((item, index) =>
+                                            <option value={item.User_ID} >{item.Email}</option>
+
+                                        )}
 
 
                                     </select>
                                     <p className=" titleAllowBook">Books</p>
-                                    <select className="col-md-6 managebookInput">
-                                        <option>Please Select Books</option>
-                                        <option value='English'>English</option>
-                                        <option value='Urdu'>Urdu</option>
+                                    <select className="col-md-6 managebookInput" name="Book_ID" onChange={this.onChange} value={this.state.Book_ID}>
+                                        <option value={-1} disable   >--Please Select--</option>
+
+                                        {this.state.bookList.map((item, index) =>
+                                            <option value={item.Book_ID} >{item.Name}</option>
+
+                                        )}
 
 
                                     </select>
 
 
                                     <div className="text-right">
-                                    <button className="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-6  poppins_semibold uploadbtn" >Allow Book</button>
+                                        <button className="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-6  poppins_semibold uploadbtn" onClick={() => this.onAllow()}>Allow Book</button>
 
-                                </div>
+                                    </div>
                                 </div>
 
 
@@ -218,5 +282,7 @@ const mapDispatchToProps = ({
     sortAllBooks,
     searchBook,
     createBook,
+    getAllReader,
+    putBookInLibrary,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ManageBook);

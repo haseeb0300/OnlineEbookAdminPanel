@@ -14,6 +14,8 @@ import Polygon from '../../assets/images/Managebooks/Polygon.svg'
 import tableBook from '../../assets/images/Managebooks/tableBook.svg'
 import visibility from '../../assets/images/Managebooks/visibility.svg'
 import { getAllBooks, sortAllBooks, searchBook, createBook } from '../../store/actions/bookAction';
+import { getAllReader } from '../../store/actions/authActions';
+
 import moment from 'moment'
 import Moment from 'react-moment';
 import { Link, withRouter } from 'react-router-dom';
@@ -55,6 +57,7 @@ class Reader extends Component {
             newBoolList: [],
             search: '',
             Active_Status: false,
+            readerList:[],
 
         };
         this.handleChange = this.handleChange.bind(this);
@@ -126,6 +129,22 @@ class Reader extends Component {
             if (res.status == true) {
                 this.setState({
                     bookList: res.content,
+                })
+
+            }
+            else {
+                alert(res)
+            }
+        }).catch((err) => {
+            console.log(err)
+
+        })
+
+        this.props.getAllReader().then((res) => {
+            console.log(res.content)
+            if (res.status == true) {
+                this.setState({
+                    readerList: res.content,
                 })
 
             }
@@ -230,7 +249,7 @@ class Reader extends Component {
 
     renderTableRows = () => {
         var myData = [];
-        if (this.state.bookList && this.state.bookList.length < 1) {
+        if (this.state.readerList && this.state.readerList.length < 1) {
 
             return () =>
 
@@ -241,59 +260,17 @@ class Reader extends Component {
                 </tr>
 
         }
-        if (this.state.newBoolList?.length > 0) {
-            return this.state.newBoolList.map((item, i) =>
-
-                <tr>
-
-
-                    <td>
-                        <div className="Profile-Img-Container">
-
-                        </div>
-                    </td>
-
-                    <td>{item.Name}</td>
-                    <td>{item.Author_Name}</td>
-                    <td><Moment format="DD-MM-YY HH:MM">{item.createdAt}</Moment></td>
-                    <td>
-                        <div class={item.Status == 'Published' ? "table-badge-publish" : item.Status == 'On Review' ? "table-badge-review" : item.Status == "UnPublished" ? 'table-badge-unpublish' : "table-badge-blocked"}>
-                            <label className="badge-label">
-                                {item.Status}
-                            </label>
-                        </div>
-                    </td>
-
-                    <td>
-                        <label class="blackSwitch">
-                            <input type="checkbox" checked={item.Active_Status} />
-                            <span class="blackslider round"></span>
-                        </label>
-                    </td>
-                    <td>
-                        <img className="pointerr" src={visibility} onClick={() => this.onClickView(item)}></img>
-                    </td>
-                </tr>
-            )
-        } else {
-            return this.state.bookList.map((item, i) =>
+      
+            return this.state.readerList.map((item, i) =>
 
                 <tr>
 
 
 
 
-                    <td>Saad Iqbal</td>
-                    <td>saad@ahmedgraf.com</td>
-                    <td>Pakistan</td>
-                    <td>27-Aug-1995</td>
-
-                    <td>
-
-                        <select className="tableSelect_Review">
-                            <option>Active</option>
-                        </select>
-                    </td>
+                    <td>{item.Full_Name}</td>
+                    <td>{item.Email}</td>
+                  
 
 
 
@@ -307,7 +284,7 @@ class Reader extends Component {
                     </td>
                 </tr>
             )
-        }
+     
 
 
     }
@@ -370,19 +347,6 @@ class Reader extends Component {
                                                 ) : (
                                                     <th scope="col table_header poppins_medium">Email <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'DESC')}></img> </th>
                                                 )}
-                                                {this.state.sortByAuthorName ? (
-                                                    <th scope="col table_header poppins_medium">Country <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'ASC')}></img> </th>
-                                                ) : (
-                                                    <th scope="col table_header poppins_medium">Country <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'DESC')}></img> </th>
-                                                )}
-                                                {this.state.sortByAuthorName ? (
-                                                    <th scope="col table_header poppins_medium">Date of Birth <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'ASC')}></img> </th>
-                                                ) : (
-                                                    <th scope="col table_header poppins_medium">Date of Birth <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'DESC')}></img> </th>
-                                                )}
-
-
-                                                <th scope="col table_header poppins_medium"> Status   </th>
                                                 <th scope="col table_header poppins_medium">View  </th>
                                                 <th scope="col table_header poppins_medium">Actions  </th>
 
@@ -500,5 +464,6 @@ const mapDispatchToProps = ({
     sortAllBooks,
     searchBook,
     createBook,
+    getAllReader,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Reader);
