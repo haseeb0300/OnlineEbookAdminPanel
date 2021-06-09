@@ -241,6 +241,11 @@ class Reader extends Component {
 
     }
 
+    onLibrary = (User_ID) => {
+
+        this.props.history.push('/LibraryBooks',{'User_ID': User_ID});
+    }
+
     onClickBottomBar = (val) => {
         this.setState({
             activeTab: val
@@ -278,9 +283,9 @@ class Reader extends Component {
                         <img className="pointerr" src={visibility} onClick={() => this.onClickView(item)}></img>
                     </td>
                     <td>
-                        <Link to="/LibraryBooks" >
-                            <p className="gotolibrary">Go to library</p>
-                        </Link>
+                        {/* <Link to="/LibraryBooks" > */}
+                            <p className="gotolibrary" onClick={() => this.onLibrary(item.User_ID)}>Go to library</p>
+                        {/* </Link> */}
                     </td>
                 </tr>
             )
@@ -314,7 +319,7 @@ class Reader extends Component {
                                         <p className="Allbook-heading mb-0">All Users</p>
                                         <p className="allbooktext mb-0">All readers on little book company</p>
                                     </div>
-                                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12  ">
+                                    {/* <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12  ">
                                         <div className="row">
                                             <div className="col-xl-5 col-lg-5 col-md-5 col-sm-4 col-4 "></div>
                                             <div className="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12 p-0 pr-4 text-right">
@@ -326,7 +331,7 @@ class Reader extends Component {
                                             </div>
 
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
 

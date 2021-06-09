@@ -14,6 +14,8 @@ import Polygon from '../../assets/images/Managebooks/Polygon.svg'
 import tableBook from '../../assets/images/Managebooks/tableBook.svg'
 import visibility from '../../assets/images/Managebooks/visibility.svg'
 import { getAllBooks, sortAllBooks, searchBook,createBook } from '../../store/actions/bookAction';
+import { getAllPublisher } from '../../store/actions/authActions';
+
 import moment from 'moment'
 import Moment from 'react-moment';
 
@@ -54,6 +56,7 @@ class Author extends Component {
             newBoolList: [],
             search: '',
             Active_Status:false,
+            publisherList:[],
 
         };
         this.handleChange = this.handleChange.bind(this);
@@ -120,11 +123,11 @@ class Author extends Component {
     }
 
     componentDidMount() {
-        this.props.getAllBooks().then((res) => {
+        this.props.getAllPublisher().then((res) => {
             console.log(res.content)
             if (res.status == true) {
                 this.setState({
-                    bookList: res.content,
+                    publisherList: res.content,
                 })
 
             }
@@ -229,53 +232,7 @@ class Author extends Component {
 
     renderTableRows = () => {
         var myData = [];
-        if (this.state.bookList && this.state.bookList.length < 1) {
-
-            return () =>
-
-                <tr>
-                    <td class="text-center" colspan="7"> <b>  No Data To Display</b>
-
-                    </td>
-                </tr>
-
-        }
-        if (this.state.newBoolList?.length > 0) {
-            return this.state.newBoolList.map((item, i) =>
-
-                <tr>
-                  
-
-                    <td>
-                        <div className="Profile-Img-Container">
-
-                        </div>
-                    </td>
-
-                    <td>{item.Name}</td>
-                    <td>{item.Author_Name}</td>
-                    <td><Moment format="DD-MM-YY HH:MM">{item.createdAt}</Moment></td>
-                    <td>
-                        <div class={item.Status == 'Published' ? "table-badge-publish" : item.Status == 'On Review' ? "table-badge-review" : item.Status == "UnPublished" ? 'table-badge-unpublish' : "table-badge-blocked"}>
-                            <label className="badge-label">
-                                {item.Status}
-                            </label>
-                        </div>
-                    </td>
-
-                    <td>
-                        <label class="blackSwitch">
-                            <input type="checkbox" checked={item.Active_Status} />
-                            <span class="blackslider round"></span>
-                        </label>
-                    </td>
-                    <td>
-                        <img className="pointerr" src={visibility} onClick={() => this.onClickView(item)}></img>
-                    </td>
-                </tr>
-            )
-        } else {
-            return this.state.bookList.map((item, i) =>
+            return this.state.publisherList.map((item, i) =>
 
                 <tr>
                   
@@ -286,24 +243,11 @@ class Author extends Component {
                             </div>
                         </td>
 
-                    <td>Saad Iqbal</td>
-                    <td>saad@ahmedgraf.com</td>
-                    <td>+923313844515</td>
-                    <td>
-                        
-                   <select className="tableSelect_Review">
-                       <option>Active</option>
-                   </select>
-                    </td>
-
-
-                   
-                    <td>
-                        <img className="pointerr" src={visibility} onClick={() => this.onClickView(item)}></img>
-                    </td>
+                        <td>{item?.Full_Name}</td>
+                    <td>{item?.Email}</td>
                 </tr>
             )
-        }
+        
 
 
     }
@@ -367,14 +311,7 @@ class Author extends Component {
                                                 ) : (
                                                         <th scope="col table_header poppins_medium">Email <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'DESC')}></img> </th>
                                                     )}
-                                                      {this.state.sortByAuthorName ? (
-                                                    <th scope="col table_header poppins_medium">Phone No. <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'ASC')}></img> </th>
-                                                ) : (
-                                                        <th scope="col table_header poppins_medium">Phone No. <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'DESC')}></img> </th>
-                                                    )}
-                                          
-                                                <th scope="col table_header poppins_medium"> Status   </th>
-                                                <th scope="col table_header poppins_medium">View  </th>
+                                                   
 
 
                                             </tr>
@@ -489,5 +426,6 @@ const mapDispatchToProps = ({
     sortAllBooks,
     searchBook,
     createBook,
+    getAllPublisher,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Author);

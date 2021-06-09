@@ -13,7 +13,7 @@ import searchicon from '../../assets/images/Managebooks/searchicon.svg'
 import Polygon from '../../assets/images/Managebooks/Polygon.svg'
 import tableBook from '../../assets/images/Managebooks/tableBook.svg'
 import visibility from '../../assets/images/Managebooks/visibility.svg'
-import { getAllBooks, sortAllBooks, searchBook,createBook,putBookInLibrary } from '../../store/actions/bookAction';
+import { getAllBooks, sortAllBooks, searchBook,createBook,getReaderBook } from '../../store/actions/bookAction';
 import moment from 'moment'
 import Moment from 'react-moment';
 
@@ -50,10 +50,11 @@ class ManageBook extends Component {
             sortByName: false,
             sortByDate: false,
             sortByStatus: false,
-            bookList: {},
+            bookList: [],
             newBoolList: [],
             search: '',
             Active_Status:false,
+            User_ID: '',
 
         };
         this.handleChange = this.handleChange.bind(this);
@@ -66,12 +67,12 @@ class ManageBook extends Component {
     }
 
     componentWillMount() {
-        if (this.props != null && this.props.location.state != null && this.props.location.state.book) {
+        if (this.props != null && this.props.location.state != null && this.props.location.state.User_ID) {
 
 
             //console.log(this.props.location.state.book)
             this.setState({
-                newBoolList: this.props.location.state.book
+                User_ID: this.props.location.state.User_ID
 
             })
         }
@@ -120,11 +121,11 @@ class ManageBook extends Component {
     }
 
     componentDidMount() {
-        this.props.getAllBooks().then((res) => {
-            console.log(res.content)
+        this.props.getReaderBook(this?.props?.location?.state?.User_ID).then((res) => {
+            console.log(res.content[0]?.library_has_books)
             if (res.status == true) {
                 this.setState({
-                    bookList: res.content,
+                    bookList: res?.content[0]?.library_has_books,
                 })
 
             }
@@ -228,79 +229,14 @@ class ManageBook extends Component {
     }
 
     renderTableRows = () => {
-        var myData = [];
-        if (this.state.bookList && this.state.bookList.length < 1) {
-
-            return () =>
-
-                <tr>
-                    <td class="text-center" colspan="7"> <b>  No Data To Display</b>
-
-                    </td>
-                </tr>
-
-        }
-        if (this.state.newBoolList?.length > 0) {
-            return this.state.newBoolList.map((item, i) =>
-
-                <tr>
-                    {/* <td>
-        <div class="form-group">
-            <input type="checkbox" id="html1" />
-            <label for="html1"></label>
-        </div>
-    </td>
-    <td>03241</td> */}
-
-                    <td><img src={item.Image} width="50px"></img></td>
-
-                    <td>{item.Name}</td>
-                    <td>{item.Author_Name}</td>
-                    <td><Moment format="DD-MM-YY HH:MM">{item.createdAt}</Moment></td>
-                    <td>
-                        <div class={item.Status == 'Published' ? "table-badge-publish" : item.Status == 'On Review' ? "table-badge-review" : item.Status == "UnPublished" ? 'table-badge-unpublish' : "table-badge-blocked"}>
-                            <label className="badge-label">
-                                {item.Status}
-                            </label>
-                        </div>
-                    </td>
-
-                    <td>
-                        <label class="blackSwitch">
-                            <input type="checkbox" checked={item.Active_Status} />
-                            <span class="blackslider round"></span>
-                        </label>
-                    </td>
-                    <td>
-                        <img className="pointerr" src={visibility} onClick={() => this.onClickView(item)}></img>
-                    </td>
-                </tr>
-            )
-        } else {
             return this.state.bookList.map((item, i) =>
 
                 <tr>
-                    {/* <td>
-                <div class="form-group">
-                    <input type="checkbox" id="html1" />
-                    <label for="html1"></label>
-                </div>
-            </td>
-            <td>03241</td> */}
-
-                    <td><img src={item.Image} width="50px"></img></td>
-
-                    <td>{item.Name}</td>
-                    <td>{item.Author_Name}</td>
-                   
-
-
-                   
+                    <td><img src={item?.book?.Image} width="50px"></img></td>
+                    <td>{item?.book?.Name}</td>
+                    <td>{item?.book?.Author_Name}</td>
                 </tr>
             )
-        }
-
-
     }
 
     render() {
@@ -327,7 +263,7 @@ class ManageBook extends Component {
                                         <p className="Allbook-heading mb-0">BookShelf</p>
                                         <p className="allbooktext mb-0">All your books that are Published and under review</p>
                                     </div>
-                                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12  ">
+                                    {/* <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12  ">
                                         <div className="row">
                                             <div className="col-xl-5 col-lg-5 col-md-5 col-sm-4 col-4 "></div>
                                             <div className="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12 p-0 pr-4 text-right">
@@ -339,7 +275,7 @@ class ManageBook extends Component {
                                             </div>
 
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
 
@@ -367,8 +303,8 @@ class ManageBook extends Component {
                                         </thead>
                                         <tbody>
                               
-                                            {this.state.bookList.length > 0 && this.renderTableRows()}
-                                            {this.state.bookList?.length < 1 &&
+                                            {this?.state?.bookList?.length > 0 && this.renderTableRows()}
+                                            {this?.state?.bookList?.length < 1 &&
                                                 <tr>
                                                     <td class="text-center" colspan="7"> <b>  No Data To Display</b>
 
@@ -473,5 +409,6 @@ const mapDispatchToProps = ({
     sortAllBooks,
     searchBook,
     createBook,
+    getReaderBook,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ManageBook);

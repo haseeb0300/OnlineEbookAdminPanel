@@ -69,6 +69,19 @@ export const uploadEpub = restaurantData => dispatch => {
   
   };
 
+  export const getReaderBook = (user_id) => dispatch => {
+    return axios
+        .get('api/reader/book?user_id='+user_id)
+        .then((res) => {
+            console.log(res)
+            return Promise.resolve(res.data)
+        }).catch((err) => {
+            console.log(err)
+            return Promise.reject(err)
+        })
+  }
+
+
   export const getBookCategory = () => dispatch => {
     return axios
         .get('api/publicationcategory')
