@@ -20,11 +20,26 @@ import { Link, withRouter } from 'react-router-dom';
 import { getTotalEarning } from '../../store/actions/orderAction';
 import { getTotalOrdersAndBook, getTopSellingBooks, getLatestBook } from '../../store/actions/dashboardAction';
 
+import grosssale from '../../assets/images/Dashborad/cards/grosssale.png'
+import grosssale2 from '../../assets/images/Dashborad/cards/2.png'
+import link1 from '../../assets/images/Dashborad/links/socialmedia/1.png'
+import link2 from '../../assets/images/Dashborad/links/socialmedia/2.png'
+import link3 from '../../assets/images/Dashborad/links/socialmedia/3.png'
+import link4 from '../../assets/images/Dashborad/links/socialmedia/4.png'
+import link5 from '../../assets/images/Dashborad/links/socialmedia/5.png'
+
+import link6 from '../../assets/images/Dashborad/links/plateform/1.png'
+import link7 from '../../assets/images/Dashborad/links/plateform/2.png'
+import link8 from '../../assets/images/Dashborad/links/plateform/3.png'
+import link9 from '../../assets/images/Dashborad/links/plateform/4.png'
 
 
-
-
-
+import link10 from '../../assets/images/Dashborad/links/plateform/5.png'
+import link11 from '../../assets/images/Dashborad/links/plateform/6.png'
+import link12 from '../../assets/images/Dashborad/links/plateform/7.png'
+import link13 from '../../assets/images/Dashborad/links/plateform/8.png'
+import link14 from '../../assets/images/Dashborad/links/plateform/9.png'
+import link15 from '../../assets/images/Dashborad/links/plateform/10.png'
 import { PieChart } from 'react-minimal-pie-chart';
 
 import { Chart } from "react-google-charts";
@@ -165,7 +180,7 @@ class Dashboard extends Component {
                     <div className="row">
                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 AllbookContainer pt-3  pb-3">
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 p-0">
-                                <p className="poppins_semibold managebookheading">Welcome Author's Dashboard</p>
+                                <p className="poppins_semibold managebookheading">Dashboard</p>
                             </div>
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 p-0">
                                 <div className="row">
@@ -173,12 +188,15 @@ class Dashboard extends Component {
                                         <div className="row">
 
                                             <div className="w_20 mt-3 ">
-                                                <div className="earing_card">
-                                                    <img src={earingCardIcon}></img>
-                                                    <img className="costinner" src={cost}></img>
-                                                    <label className="ml-2 mb-0 earningText poppins_semibold">Earning</label> <br></br>
-                                                    <div className="text-right mt-2">
-                                                        <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalearning + '.00 RS'}</label>
+                                                <div className="col-12 p-0">
+
+                                                    <div className="grosssale_card">
+                                                        <img src={earingCardIcon}></img>
+                                                        <img className="costinner" src={grosssale}></img>
+                                                        <label className="ml-2 mb-0 earningText poppins_semibold">Gross Sale</label> <br></br>
+                                                        <div className="text-right mt-2">
+                                                            <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalearning + '.00 RS'}</label>
+                                                        </div>
                                                     </div>
 
 
@@ -186,56 +204,64 @@ class Dashboard extends Component {
 
                                             </div>
                                             <div className="w_20  mt-3 ">
-                                                <div className="totalSold_card">
-                                                    <img src={earingCardIcon}></img>
-                                                    <img className="costinner" src={buy}></img>
-                                                    <label className="ml-2 mb-0 earningText poppins_semibold">Total Book Sold</label> <br></br>
-                                                    <div className="text-right mt-2">
-                                                        <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalorders}</label>
+                                                <div className="col-12 p-0">
+
+                                                    <div className="totalSold_card">
+                                                        <img src={earingCardIcon}></img>
+                                                        <img className="costinner" src={grosssale2}></img>
+                                                        <label className="ml-2 mb-0 earningText poppins_semibold">Total Book Sold</label> <br></br>
+                                                        <div className="text-right mt-2">
+                                                            <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalorders}</label>
+                                                        </div>
+
                                                     </div>
-
-
                                                 </div>
 
                                             </div>
                                             <div className="w_20  mt-3 ">
-                                                <div className="totalBook_card ">
-                                                    <img src={earingCardIcon}></img>
-                                                    <img className="costinner" src={openbook}></img>
-                                                    <label className="ml-2 mb-0 earningText poppins_semibold">Total Books</label> <br></br>
-                                                    <div className="text-right mt-2">
-                                                        <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalBooks}</label>
+                                                <div className="col-12 p-0">
+
+                                                    <div className="netprofit_card ">
+                                                        <img src={earingCardIcon}></img>
+                                                        <img className="costinner" src={openbook}></img>
+                                                        <label className="ml-2 mb-0 earningText poppins_semibold">Net Profit</label> <br></br>
+                                                        <div className="text-right mt-2">
+                                                            <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalBooks}</label>
+                                                        </div>
+                                                        {/* <img className="editicon" src={editbook}></img> */}
                                                     </div>
-                                                    <img className="editicon" src={editbook}></img>
+                                                </div>
+                                            </div>
+                                            <div className="w_20  mt-3 ">
+                                                <div className="col-12 p-0">
+
+                                                    <div className="totalSold_card">
+                                                        <img src={earingCardIcon}></img>
+                                                        <img className="costinner" src={buy}></img>
+                                                        <label className="ml-2 mb-0 earningText poppins_semibold">Total Registered Authors</label> <br></br>
+                                                        <div className="text-right mt-2">
+                                                            <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalorders}</label>
+                                                        </div>
+                                                        <img className="editicon" src={editbook}></img>
 
 
+                                                    </div>
                                                 </div>
 
                                             </div>
                                             <div className="w_20  mt-3 ">
-                                                <div className="totalSold_card">
-                                                    <img src={earingCardIcon}></img>
-                                                    <img className="costinner" src={buy}></img>
-                                                    <label className="ml-2 mb-0 earningText poppins_semibold">Total Book Sold</label> <br></br>
-                                                    <div className="text-right mt-2">
-                                                        <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalorders}</label>
+                                                <div className="col-12 p-0">
+
+                                                    <div className="totalBook_card ">
+                                                        <img src={earingCardIcon}></img>
+                                                        <img className="costinner" src={openbook}></img>
+                                                        <label className="ml-2 mb-0 earningText poppins_semibold">Total Books</label> <br></br>
+                                                        <div className="text-right mt-2">
+                                                            <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalBooks}</label>
+                                                        </div>
+                                                        <img className="editicon" src={editbook}></img>
+
                                                     </div>
-
-
-                                                </div>
-
-                                            </div>
-                                            <div className="w_20  mt-3 ">
-                                                <div className="totalBook_card ">
-                                                    <img src={earingCardIcon}></img>
-                                                    <img className="costinner" src={openbook}></img>
-                                                    <label className="ml-2 mb-0 earningText poppins_semibold">Total Books</label> <br></br>
-                                                    <div className="text-right mt-2">
-                                                        <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalBooks}</label>
-                                                    </div>
-                                                    <img className="editicon" src={editbook}></img>
-
-
                                                 </div>
 
                                             </div>
@@ -515,7 +541,7 @@ class Dashboard extends Component {
                                                                 <label className="mb-0 notificationNAmeText">Muhammad Saad Iqbal</label> <br></br>
                                                                 <label className="mb-0 notificationRatedText">Rated the Book</label> <br></br>
                                                                 <label className="mb-0 poppins_light"> <img src={star}></img> 4.2
-</label>
+                                                                </label>
 
                                                             </div>
                                                             <div className="col-2 vertical_center ">
@@ -570,67 +596,71 @@ class Dashboard extends Component {
 
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  p-0">
                                 <div className="recentBookCard   mt-3">
-                                    <div className="row pl-3 pr-3 ">
+                                    <div className="col-12">
+                                        <div className="row">
+                                            <div className="w_16 vertical_center  text-center">
+                                                <p className="poppins_bold quickLinkText m-0">Quick Links</p>
 
-                                        <div className="col-8 p-0 ">
+                                            </div>
+                                            <div className="w_16 vertical_center  text-center">
+                                                <p className="poppins_medium LinkText m-0">Social Media </p>
+                                                <div className="mt-3">
+                                                <img className="linkicon" src={link1}/>
+                                                <img className="linkicon" src={link2}/>
+                                                <img className="linkicon" src={link3}/>
+                                                <img className="linkicon" src={link4}/>
+                                                <img className="linkicon" src={link5}/>
 
-                                            <label className="ml-2 mb-0 recentBookpublishText poppins_medium">Recent Books Published</label> <br></br>
-                                        </div>
-                                        <div className="col-4 text-right p-0  ">
-
-
-                                            <label className=" mr-3 mb-0 recentBookpublishSeeText pointerr poppins_medium" onClick={() => this.viewMore()}>See All</label> <br></br>
-
-                                        </div>
-                                    </div>
-
-                                    <div className="row pl-3 pr-3  mt-3">
-
-                                        <div className="col-2  ">
-
-                                            <label className="poppins_semibold recentbookpublishTAbs">Book Title</label> <br></br>
-                                        </div>
-                                        <div className="col-2   ">
-
-                                            <label className="poppins_semibold  recentbookpublishTAbs">Book Name</label> <br></br>
-                                        </div>
-                                        <div className="col-2    ">
-
-                                            <label className="poppins_semibold  recentbookpublishTAbs">Author Names</label> <br></br>
-                                        </div>
-                                        <div className="col-2    ">
-
-                                            <label className="poppins_semibold  recentbookpublishTAbs">Book Price</label> <br></br>
-                                        </div>
-                                        <div className="col-2    ">
-
-                                            <label className="poppins_semibold  recentbookpublishTAbs">Book Tittle</label> <br></br>
-                                        </div>
-                                    </div>
-
-
-                                    <div className="recentbookHr"></div>
-
-                                    <div className="RecentBookCardInner">
-                                        <div className="col-12">
-                                            <div className="row  ">
-                                                <div className="col-3 vertical_center ">
-                                                    <img src={this.state.newBookList[0]?.Image} style={{ width: '45px' }}></img>
 
                                                 </div>
-                                                <div className="col-5 vertical_center">
-                                                    <label className="poppins_bold recentBookName">{this.state.newBookList[0]?.Name}</label>
+
+                                            </div>
+                                            <div className="w_16 vertical_center  text-center">
+                                                <p className="poppins_medium LinkText m-0">Platforms  </p>
+                                                <div className="mt-3">
+                                                <img className="linkicon" src={link6}/>
+                                                <img className="linkicon" src={link7}/>
+                                                <img className="linkicon" src={link8}/>
+                                                <img className="linkicon" src={link9}/>
+
+
                                                 </div>
-                                                <div className="col-4 vertical_center">
-                                                    <label className="poppins_medium recentBookName">{this.state.newBookList[0]?.Author_Name}</label>
+
+                                            </div>
+                                          
+                                            <div className="w_16 vertical_center  text-center">
+                                            <p className="poppins_medium LinkText m-0">Repositories  </p>
+                                                <div className="mt-3">
+                                                <img className="linkicon" src={link10}/>
+                                                <img className="linkicon" src={link11}/>
+                                                <img className="linkicon" src={link12}/>
+
+
+                                                </div>
+
+                                            </div>
+                                            <div className="w_16 vertical_center  text-center">
+                                            <p className="poppins_medium LinkText m-0">Chenal's   </p>
+                                                <div className="mt-3">
+                                                <img className="linkicon" src={link13}/>
+                                                <img className="linkicon" src={link14}/>
+
 
                                                 </div>
                                             </div>
 
+                                            <div className="w_16 vertical_center  text-center">
+                                            <p className="poppins_medium LinkText m-0">Meetings  </p>
+                                                <div className="mt-3">
+                                                <img className="linkicon" src={link15}/>
+                                         
+
+
+                                                </div>
+                                            </div>
 
                                         </div>
                                     </div>
-
 
                                 </div>
 

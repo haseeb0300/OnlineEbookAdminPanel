@@ -10,6 +10,18 @@ width: 100%;
 border-radius: 8px;
 
 }
+.grosssale_card{
+    height: 102px;
+    background: #1E555C;
+    color: white;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 100%;
+    border-radius: 8px;
+    
+    }
 .w_20{
     width: 20%;
     padding-left: 5px;
@@ -26,18 +38,19 @@ svg {
 
 .costinner{
     position: absolute;
-    left: 38px;
+    left: 23px;
     top: 22px;
+    height: 14px;
 }
 .earningText{
-    font-size: 12px;
+    font-size: 10px;
 }
 .earningAmount{
     font-size: 27px;
 }
 .totalSold_card{
     height: 102px;
-    background: #707070;
+    background: #517A95;
     color: white;
     padding-top: 15px;
     padding-bottom: 15px;
@@ -49,7 +62,7 @@ svg {
     }
     .totalBook_card{
         height: 102px;
-        background: #517A95;
+        background: #0D1B2A;
         color: white;
         padding-top: 15px;
         padding-bottom: 15px;
@@ -59,6 +72,18 @@ svg {
         border-radius: 8px;
         
         }
+        .netprofit_card{
+            height: 102px;
+            background: #778DA9;
+            color: white;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            padding-left: 15px;
+            padding-right: 15px;
+            width: 100%;
+            border-radius: 8px;
+            
+            }
  .editicon{
      position: absolute;
      bottom: 11px;
@@ -274,4 +299,29 @@ svg {
 .notiprofileimg{
     height: 46px;
     width: 46px;
+}
+
+.quickLinkText{
+    font-size: 20px;
+    color: #0D1B2A;
+    opacity: 0.7;
+}
+.LinkText{
+    font-size: 15px;
+    color: #0D1B2A;
+    opacity: 0.7;
+}
+.linkicon{
+    height: 16px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.linkicon:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}
+.w_16 {
+    width: 15.66%;
+    padding-left: 5px;
+    padding-right: 5px;
 }

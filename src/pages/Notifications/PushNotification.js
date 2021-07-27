@@ -89,66 +89,24 @@ class PushNotification extends Component {
                     <p className="poppins_semibold managebookheading">All Notifications</p>
                 </div>
                 <div className="col-12 Notification-Container">
-                    <div className="row">
-                        <div className="col-3">
-                            <p className="poppins_semibold NotificationBoldText mb-0">COVID-19! STAY SAFE, STAY HOME
-</p>
+                   <div className="col-12">
+                       <p className="poppins_bold QieryHeading">QUERY</p>
+                   </div>
+                   <div className="col-12 mt-3">
+                       <div className="row">
+                           <div >
+                               <select className="QuerySelect">
+                                   <option>All Male Users</option>
+                               </select>
 
-                        </div>
-                        <div className="col-3">
-                            <p className="poppins_regular NotificationBoldText mb-0">Here is an article on how you can continue your studies with while staying at home. Give it a read.</p>
-                            <p className="poppins_regular NotificationBoldText mt-5 mb-0"> <label className="poppins_semibold">Launches</label>: Web/App Link</p>
-                            <p className="poppins_regular NotificationLinkText mb-0">https://www.littlebookcompany.net/</p>
-                        </div>
-                        <div className="col-3">
-                            <button className="Segemntbtn">SEGMENT</button>
-                            <p className="NotificationBoldText poppins_medium mt-3">All male users who are verified</p>
-
-                        </div>
-                        <div className="col-3">
-                            <p className="NotificationBoldText poppins_bold LSpace mb-0">MAR 05, 2020</p>
-                            <p className="NotificationBoldText poppins_bold LSpace">05:30PM</p>
-                            <p className="NotificationBoldText poppins_bold LSpace mt-4">Status</p>
-                            <p className="NotificationLightText poppins_bold LSpace  ml-4"><div className="roundRed"></div>processing</p>
-                            <p className="NotificationLightText poppins_medium LSpace mt-4 mb-0 ">Targeted :<label className="poppins_bold ml-1"> 350</label></p>
-                            <p className="NotificationLightText poppins_medium LSpace  mb-0 ">Delivered :<label className="poppins_bold ml-1"> 157</label></p>
-
-
-                        </div>
-                    </div>
-
+                           </div>
+                           <div className="vertical_center">
+                               <p className="poppins_regular mb-0 ml-3 mr-3">Who</p>
+                           </div>
+                           </div>
+                   </div>
                 </div>
-                <div className="col-12 mt-3 Notification-Container">
-                    <div className="row">
-                        <div className="col-3">
-                            <p className="poppins_semibold NotificationBoldText mb-0">COVID-19! STAY SAFE, STAY HOME
-</p>
-
-                        </div>
-                        <div className="col-3">
-                            <p className="poppins_regular NotificationBoldText mb-0">Here is an article on how you can continue your studies with while staying at home. Give it a read.</p>
-                            <p className="poppins_regular NotificationBoldText mt-5 mb-0"> <label className="poppins_semibold">Launches</label>: Web/App Link</p>
-                            <p className="poppins_regular NotificationLinkText mb-0">https://www.littlebookcompany.net/</p>
-                        </div>
-                        <div className="col-3">
-                            <button className="Segemntbtn">SEGMENT</button>
-                            <p className="NotificationBoldText poppins_medium mt-3">All male users who are verified</p>
-
-                        </div>
-                        <div className="col-3">
-                            <p className="NotificationBoldText poppins_bold LSpace mb-0">MAR 05, 2020</p>
-                            <p className="NotificationBoldText poppins_bold LSpace">05:30PM</p>
-                            <p className="NotificationBoldText poppins_bold LSpace mt-4">Status</p>
-                            <p className="NotificationLightText poppins_bold LSpace  ml-4"><div className="roundRed"></div>processing</p>
-                            <p className="NotificationLightText poppins_medium LSpace mt-4 mb-0 ">Targeted :<label className="poppins_bold ml-1"> 350</label></p>
-                            <p className="NotificationLightText poppins_medium LSpace  mb-0 ">Delivered :<label className="poppins_bold ml-1"> 157</label></p>
-
-
-                        </div>
-                    </div>
-
-                </div>
-            
+               
             </div>
         )
     }

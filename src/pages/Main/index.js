@@ -29,6 +29,8 @@ import SendQueries from '../SendQuery/SendQueries'
 import TermsAndCondition from '../TermsAndCondition/TermsAndCondition'
 import Profile from '../Profile/MyProfile'
 import Notification from '../Notifications/Notification'
+import AllSegments from '../Notifications/AllSegments'
+
 import Setting from '../Setting/Setting'
 import Author from '../Users/Author'
 import Reader from '../Users/Reader'
@@ -105,6 +107,7 @@ const Main = ({
           <PrivateRoute   path="/allowbook" component={AllowBook} /> 
 
           <PrivateRoute   path="/LibraryBooks" component={LibraryBooks} /> 
+          <PrivateRoute   path="/allsegments" component={AllSegments} /> 
 
           
 
