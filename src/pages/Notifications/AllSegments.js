@@ -83,7 +83,7 @@ class AllSegments extends Component {
         }
 
         return (
-            <div className=" col-12">
+            <div className="">
 
                 <div className="col-12 managebookContainer">
                     <p className="poppins_semibold managebookheading">All Notifications</p>
