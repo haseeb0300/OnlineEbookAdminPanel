@@ -109,7 +109,7 @@ class Nav extends Component {
          </li>
 
 
-         <li className="heading">
+         {/* <li className="heading">
           <span className="poppins_semibold" >eCommerce</span>
          </li>
          <li className={location.pathname === '/d' ? 'active' : null}>
@@ -155,7 +155,7 @@ class Nav extends Component {
              <p className="poppins_regular">Add Translations</p>
            </Link>
          </li>
-        
+         */}
 
          <li className="heading">
           <span className="poppins_semibold" >Online Purchases</span>
@@ -167,12 +167,13 @@ class Nav extends Component {
            </Link>
          </li>
       
-         <li className={location.pathname === '/k' ? 'active' : null}>
+         {/* <li className={location.pathname === '/k' ? 'active' : null}>
           <Link to="/k" >
             <i ><img src={location.pathname === '/k' ? AddNewBookActive : AddNewBook}></img> </i>
              <p className="poppins_regular">Selling Management</p>
            </Link>
-         </li>
+         </li> */}
+
          <li className={location.pathname === '/reports' ? 'active' : null}>
           <Link to="/reports" >
             <i ><img src={location.pathname === '/reports' ? AddNewBookActive : AddNewBook}></img> </i>
@@ -202,16 +203,16 @@ class Nav extends Component {
              <p className="poppins_regular">Feedback</p>
            </Link>
          </li>
-         <li className={location.pathname === '/o' ? 'active' : null}>
+         {/* <li className={location.pathname === '/o' ? 'active' : null}>
           <Link to="/o" >
             <i ><img src={location.pathname === '/o' ? AddNewBookActive : AddNewBook}></img> </i>
              <p className="poppins_regular">Our Details</p>
            </Link>
-         </li>      
+         </li>       */}
 
 
 
-         <li className="heading">
+         {/* <li className="heading">
           <span className="poppins_semibold" >Contract</span>
          </li>
          <li className={location.pathname === '/p' ? 'active' : null}>
@@ -220,9 +221,9 @@ class Nav extends Component {
              <p className="poppins_regular">Terms & Contitions</p>
            </Link>
          </li>
-        
+         */}
 
-         <li className="heading">
+         {/* <li className="heading">
           <span className="poppins_semibold" >Roles Manage</span>
          </li>
          <li className={location.pathname === '/q' ? 'active' : null}>
@@ -250,7 +251,7 @@ class Nav extends Component {
              <p className="poppins_regular">Manage Themes</p>
            </Link>
          </li>
-        
+         */}
 
 
 
