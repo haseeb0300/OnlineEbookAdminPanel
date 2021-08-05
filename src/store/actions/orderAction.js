@@ -115,6 +115,21 @@ export const createPaymentOfOrder = (bookData) => dispatch => {
   
   }
 
+  export const getTotalPublisherEarning = (day,user) => dispatch => {
+    return axios
+        .get('/api/all/earning?Day='+day+'&User_ID='+user)
+        .then((res) => {
+            console.log(res)
+  
+            return Promise.resolve(res.data)
+        }).catch((err) => {
+            console.log(err)
+            return Promise.reject(err)
+        })
+  
+  
+  }
+
   export const getTotalEarning = (day) => dispatch => {
     return axios
         .get('/api/all/earning?Day='+day)

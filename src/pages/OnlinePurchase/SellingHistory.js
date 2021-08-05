@@ -17,7 +17,7 @@ import CloseIcon from '../../assets/images/purchasehistory/PrintModal/close.png'
 import PlaceHolder from '../../assets/images/purchasehistory/PlaceHolder.png'
 
 
-import { getAllOrder, sortOrderByBook, sortOrderByOrder, searchBook, getTotalEarning, getTotalPending, createPaymentOfOrder } from '../../store/actions/orderAction';
+import { getAllOrder, sortOrderByBook, sortOrderByOrder, searchBook, getTotalEarning, getTotalPending, createPaymentOfOrder,getTotalPublisherEarning } from '../../store/actions/orderAction';
 
 
 
@@ -86,11 +86,11 @@ class SellingHistory extends Component {
     
             })
     
-            this.props.getTotalEarning(7).then((res) => {
+            this.props.getTotalPublisherEarning(300,this?.props?.location?.state?.user?.User_ID).then((res) => {
                 console.log(res.content)
                 if (res.status) {
                     this.setState({
-                        totalearning: res.content[0]?.book?.total_amount,
+                        totalearning: res.content[0]?.order_book?.total_amount,
                     })
     
                 }
@@ -619,7 +619,7 @@ class SellingHistory extends Component {
                                         <div className="SellingHistoryTopBarCard">
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
 
-                                                <p className="EaringRs">27,000 Rs</p>
+                                                <p className="EaringRs">{this.state.totalearning * 0.3 + ' RS'}</p>
                                                 <p className="totalEaring">Total Earning</p>
                                             </div>
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
@@ -646,7 +646,7 @@ class SellingHistory extends Component {
                                         <div className="SellingHistoryTopBarCard">
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
 
-                                                <p className="PendingRs">10,000 Rs</p>
+                                                <p className="PendingRs">0 Rs</p>
                                                 <p className="totalEaring">Cleared Bills</p>
                                             </div>
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
@@ -673,7 +673,7 @@ class SellingHistory extends Component {
                                         <div className="SellingHistoryTopBarCard">
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
 
-                                                <p className="PendingRs1">10,000 Rs</p>
+                                                <p className="PendingRs1">0 Rs</p>
                                                 <p className="totalEaring">Pending Balances </p>
                                             </div>
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
@@ -836,6 +836,7 @@ const mapDispatchToProps = ({
     sortOrderByOrder,
     searchBook,
     getTotalEarning,
+    getTotalPublisherEarning,
     getTotalPending,
     createPaymentOfOrder,
 })
