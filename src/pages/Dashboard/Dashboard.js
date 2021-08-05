@@ -27,6 +27,7 @@ import link2 from '../../assets/images/Dashborad/links/socialmedia/2.png'
 import link3 from '../../assets/images/Dashborad/links/socialmedia/3.png'
 import link4 from '../../assets/images/Dashborad/links/socialmedia/4.png'
 import link5 from '../../assets/images/Dashborad/links/socialmedia/5.png'
+import NoFile from '../../assets/images/NoFile.png'
 
 import link6 from '../../assets/images/Dashborad/links/plateform/1.png'
 import link7 from '../../assets/images/Dashborad/links/plateform/2.png'
@@ -562,7 +563,12 @@ class Dashboard extends Component {
                                                 </div>
                                             </div>
                                             <div className="col-12 p-0 mt-3">
-                                                <div className="notificationInnerCard mt-3 ">
+                                            <div className="text-center">
+                                            <img className="NoFileImg" src ={NoFile}/>
+                                            <p className="NoNotyText">No Notification Yet</p>
+
+                                            </div>
+                                                {/* <div className="notificationInnerCard mt-3 ">
                                                     <div className="col-12 ">
                                                         <div className="row ">
                                                             <div className="col-2 vertical_center">
@@ -586,30 +592,7 @@ class Dashboard extends Component {
 
                                                 </div>
 
-                                                <div className="notificationInnerCard mt-3 ">
-                                                    <div className="col-12 ">
-                                                        <div className="row ">
-                                                            <div className="col-2 vertical_center">
-                                                                <img className="notiprofileimg" src={profile}></img>
-                                                            </div>
-                                                            <div className="col-8 pl-4 vertical_center">
-                                                                <label className="mb-0 notificationNAmeText">Muhammad Saad Iqbal</label> <br></br>
-                                                                <label className="mb-0 notificationRatedText">Rated the Book</label> <br></br>
-                                                                <label className="mb-0 poppins_light"> <img src={star}></img> 4.2</label>
-
-                                                            </div>
-                                                            <div className="col-2 vertical_center ">
-                                                                <img className="pointerr" src={deleteImg}></img>
-
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-
-
+                                                */}
 
                                             </div>
 
