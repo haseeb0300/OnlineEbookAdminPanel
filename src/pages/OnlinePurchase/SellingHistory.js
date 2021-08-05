@@ -17,7 +17,7 @@ import CloseIcon from '../../assets/images/purchasehistory/PrintModal/close.png'
 import PlaceHolder from '../../assets/images/purchasehistory/PlaceHolder.png'
 
 
-import { getAllOrder, sortOrderByBook, sortOrderByOrder, searchBook, getTotalEarning, getTotalPending } from '../../store/actions/orderAction';
+import { getAllOrder, sortOrderByBook, sortOrderByOrder, searchBook, getTotalEarning, getTotalPending, createPaymentOfOrder } from '../../store/actions/orderAction';
 
 
 
@@ -48,6 +48,11 @@ class SellingHistory extends Component {
             dayPending: '',
             PrintModal: false,
             ReferenceModal: false,
+            author:{},
+            Reference_No:"",
+            Status:"",
+            Amount:"",
+            index:{},
 
 
         };
@@ -61,57 +66,175 @@ class SellingHistory extends Component {
     }
 
 
+    componentWillMount() {
+        if (this?.props?.location?.state?.user) {
+            console.log("User :",this?.props?.location?.state?.user)
+
+            this.props.getAllOrder(this?.props?.location?.state?.user?.User_ID).then((res) => {
+                console.log("OrderList :", res.content)
+                if (res.status) {
+                    this.setState({
+                        orderList: res.content,
+                    })
+    
+                }
+                else {
+                    alert(res)
+                }
+            }).catch((err) => {
+                console.log(err)
+    
+            })
+    
+            this.props.getTotalEarning(7).then((res) => {
+                console.log(res.content)
+                if (res.status) {
+                    this.setState({
+                        totalearning: res.content[0]?.book?.total_amount,
+                    })
+    
+                }
+                else {
+                    alert(res)
+                }
+            }).catch((err) => {
+                console.log(err)
+    
+            })
+    
+            this.props.getTotalPending(7).then((res) => {
+                console.log(res.content)
+                if (res.status) {
+                    this.setState({
+                        pendingTotal: res.content[0]?.book?.total_amount,
+                    })
+    
+                }
+                else {
+                    alert(res)
+                }
+            }).catch((err) => {
+                console.log(err)
+    
+            })
+
+            this.setState({
+                author: this.props.location.state.user
+
+            })
+        }
+
+    }
 
 
-    componentDidMount() {
-        this.props.getAllOrder().then((res) => {
-            console.log(res.content)
+    // componentDidMount() {
+    //     this.props.getAllOrder().then((res) => {
+    //         console.log(res.content)
+    //         if (res.status) {
+    //             this.setState({
+    //                 orderList: res.content,
+    //             })
+
+    //         }
+    //         else {
+    //             alert(res)
+    //         }
+    //     }).catch((err) => {
+    //         console.log(err)
+
+    //     })
+
+    //     this.props.getTotalEarning(7).then((res) => {
+    //         console.log(res.content)
+    //         if (res.status) {
+    //             this.setState({
+    //                 totalearning: res.content[0]?.book?.total_amount,
+    //             })
+
+    //         }
+    //         else {
+    //             alert(res)
+    //         }
+    //     }).catch((err) => {
+    //         console.log(err)
+
+    //     })
+
+    //     this.props.getTotalPending(7).then((res) => {
+    //         console.log(res.content)
+    //         if (res.status) {
+    //             this.setState({
+    //                 pendingTotal: res.content[0]?.book?.total_amount,
+    //             })
+
+    //         }
+    //         else {
+    //             alert(res)
+    //         }
+    //     }).catch((err) => {
+    //         console.log(err)
+
+    //     })
+
+    // }
+
+    onPayment = (item) => {
+        var addBookData = {
+            "Order_ID": item?.Order_ID,
+            "Book_ID": item?.Book_ID,
+            "Status": this.state.Status,
+            "Reference_No": this.state.Reference_No,
+            "Amount": this.state.Amount,
+        }
+        // this.setState({ isLoading: true })
+        // var msg = "Succsessfully Add item";
+        // if (this.state.item_id != null) {
+        //   msg = "Succsessfully Update item";
+        // }
+        this.props.createPaymentOfOrder(addBookData).then((res) => {
+            console.log(res)
             if (res.status) {
-                this.setState({
-                    orderList: res.content,
+                console.log(res)
+                // this.setState({
+                //     Book_ID: res.content[0] && res.content[0].Book && res.content[0].Book.Book_ID,
+                //     activeTab: this.state.activeTab + 1,
+                // })
+                 //this.props.history.push('/trackmyrecord');
+                 this.props.getAllOrder(this.state.author?.User_ID).then((res) => {
+                    if (res.status) {
+                        this.setState({
+                            orderList: res.content,
+                            ReferenceModal: false
+                        })
+        
+                    }
+                    else {
+                        alert(res)
+                    }
+                    
+                }).catch((err) => {
+                    console.log(err)
+                    
                 })
-
-            }
-            else {
-                alert(res)
             }
         }).catch((err) => {
-            console.log(err)
-
+            var validationError = {}
+            var serverError = []
+            console.log(err.hasOwnProperty('validation'))
+            if (err.hasOwnProperty('validation')) {
+                err.validation.map(obj => {
+                    if (obj.hasOwnProperty('param')) {
+                        validationError[obj["param"]] = obj["msg"]
+                    } else {
+                        serverError = [...serverError, obj]
+                    }
+                });
+                this.setState({ errors: validationError });
+                this.setState({ serverError: serverError });
+            } else {
+                this.setState({ serverError: [{ "msg": "server not responding" }] })
+            }
         })
-
-        this.props.getTotalEarning(7).then((res) => {
-            console.log(res.content)
-            if (res.status) {
-                this.setState({
-                    totalearning: res.content[0]?.book?.total_amount,
-                })
-
-            }
-            else {
-                alert(res)
-            }
-        }).catch((err) => {
-            console.log(err)
-
-        })
-
-        this.props.getTotalPending(7).then((res) => {
-            console.log(res.content)
-            if (res.status) {
-                this.setState({
-                    pendingTotal: res.content[0]?.book?.total_amount,
-                })
-
-            }
-            else {
-                alert(res)
-            }
-        }).catch((err) => {
-            console.log(err)
-
-        })
-
     }
 
     onPressSortByBook = (colName, sort) => {
@@ -222,6 +345,9 @@ class SellingHistory extends Component {
         })
     }
 
+    onChangeText = (e) => {
+        this.setState({ [e.target.name]: e.target.value })
+    }
 
     onChange = (e) => {
         this.setState({ [e.target.name]: e.target.value }, () => {
@@ -261,32 +387,26 @@ class SellingHistory extends Component {
 
         return this.state.orderList.map((item, i) =>
 
-            <tr>
+        <tr>
 
 
+        <td><img className="sellingHistoryImg" src={item?.book?.Image}></img></td>
 
-                {/* <td>{item.Book_ID}</td> */}
+        <td>{item?.book?.Name}</td>
+        <td><Moment format="DD-MM-YY HH:MM">{item?.book?.createdAt}</Moment></td>
 
-                <td><img src={item.book?.Image} width="50px"></img></td>
+        <td>{item?.order_book?.Payment_Method === 'PayPal'? item?.book?.Price_USD * 150 + ' Rs.': item?.book?.Price + ' Rs.'}</td>
+        <td>{item?.order_book?.Payment_Method === 'PayPal'? (item?.book?.Price_USD * 150) * 0.7 + ' Rs.': item?.book?.Price * 0.7 + ' Rs.'}</td>
 
-                <td>{item.book?.Name}</td>
-                <td><Moment format="DD-MM-YY HH:MM">{item.created_at}</Moment></td>
-                <td>{item.book?.Price}</td>
-
-                <td>
-                    <div class={item.Payment_Status == 'Cleared' ? "table-badge-publish" : item.Payment_Status == 'Pending' ? "table-badge-review" : "table-badge-blocked"}>
-                        <label className="badge-label" checked>
-                            {item.Payment_Status}                                        </label>
-                    </div>
-                </td>
-                <td>
-                    {item.Reference_No}
-                </td>
+        <td>
+            <div class={item?.Status === 'Cleared'? "tableSelect_Published" :"table-badge-review"}>
+                <label className="badge-label">{!item?.Status?'Pending': item?.Status}</label>
+            </div>
+        </td>
+        <td><img className="imgHover"  src={plus}  onClick={() => this.setState({ index: item, ReferenceModal: true },() => console.log(this.state.index))} /></td>
 
 
-
-
-            </tr>
+    </tr>
         )
     }
 
@@ -387,7 +507,7 @@ class SellingHistory extends Component {
                             <div className="col-12">
                                     <div className="row">
                                         <div className="col-10">
-                                            <p className="poppins_medium ModalHading">Reference ID</p>
+                                            <p className="poppins_medium ModalHading">Reference ID:  {this.state.index?.ID}</p>
                                         </div>
                                         <div className="col-2 text-right">
                                             <img className="Hov" onClick={() => this.setState({ ReferenceModal: false })} src={CloseIcon} />
@@ -405,17 +525,17 @@ class SellingHistory extends Component {
                                             <p className="poppins_medium Modaltext mb-0">Author Name</p>
                                         </div>
                                         <div className="col-7 ">
-                                            <input className="ModalInput col-12 "></input>
+                                            <input className="ModalInput col-12 " value={this.state.index?.book?.Author_Name} disabled={true}></input>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="col-12 mt-3">
                                     <div className="row">
                                         <div className="col-5 Vertical_center text-right">
-                                            <p className="poppins_medium Modaltext mb-0">Book Name</p>
+                                            <p className="poppins_medium Modaltext mb-0" >Book Name</p>
                                         </div>
                                         <div className="col-7 ">
-                                            <input className="ModalInput col-12 "></input>
+                                            <input className="ModalInput col-12 " value={this.state.index?.book?.Name} disabled={true}></input>
                                         </div>
                                     </div>
                                 </div>
@@ -425,7 +545,7 @@ class SellingHistory extends Component {
                                             <p className="poppins_medium Modaltext mb-0">Clearing Amount</p>
                                         </div>
                                         <div className="col-7 ">
-                                            <input className="ModalInput col-12 "></input>
+                                            <input className="ModalInput col-12 " name="Amount" onChange={this.onChangeText} value={this.state.Amount}></input>
                                         </div>
                                     </div>
                                 </div>
@@ -435,9 +555,11 @@ class SellingHistory extends Component {
                                             <p className="poppins_medium Modaltext mb-0">Payment Status</p>
                                         </div>
                                         <div className="col-7 ">
-                                            <select className="ModalInput col-12 ">
-                                                <option>Pending</option>
-                                                <option>Failed</option>
+                                            <select className="ModalInput col-12 " name="Status" onChange={this.onChangeText} value={this.state.Status}>
+                                            <option >Select ...</option>
+                                                <option value="Cleared" >Cleared</option>
+                                                <option value="Pending">Pending</option>
+                                                <option value="Failed">Failed</option>
 
                                             </select>
                                         </div>
@@ -450,7 +572,7 @@ class SellingHistory extends Component {
                                             <p className="poppins_medium Modaltext mb-0">Reference Number</p>
                                         </div>
                                         <div className="col-7 ">
-                                            <input className="ModalInput col-12 "/>
+                                            <input className="ModalInput col-12 " name="Reference_No" onChange={this.onChangeText} value={this.state.Reference_No}/>
                                             
 
                                         </div>
@@ -466,7 +588,7 @@ class SellingHistory extends Component {
                                       
                                 </div>
                                 <div className="col-12 mt-3 text-center">
-                                    <button className="mdlBtn col-12 poppins_semibold">Save Changes</button>
+                                    <button className="mdlBtn col-12 poppins_semibold" onClick={() => this.onPayment(this.state.index)}>Save Changes</button>
                                 </div>
 
                                         </div>
@@ -488,7 +610,7 @@ class SellingHistory extends Component {
                     <div className="row">
                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 managebookContainer">
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 p-0">
-                                <p className="poppins_semibold managebookheading">Purchase History / Asif Farrukhi</p>
+                                <p className="poppins_semibold managebookheading">Purchase History /  {this.state.author?.Full_Name}</p>
                             </div>
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 p-0  mt-4">
 
@@ -662,98 +784,11 @@ class SellingHistory extends Component {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
+                                                    
 
+                                                    
 
-                                                        <td><img src={tableBook}></img></td>
-
-                                                        <td>Mashk-e-Sukhan</td>
-                                                        <td>29-12-2020, 16:34</td>
-
-                                                        <td>170 RS.</td>
-                                                        <td>145 Rs.</td>
-
-                                                        <td>
-                                                            <div class="table-badge-review">
-                                                                <label className="badge-label">Pending</label>
-                                                            </div>
-                                                        </td>
-                                                        <td><img className="imgHover"  src={plus}  onClick={() => this.setState({ ReferenceModal: true })} /></td>
-
-
-                                                    </tr>
-
-                                                    <tr>
-
-
-
-                                                        <td><img src={tableBook}></img></td>
-
-                                                        <td>Mashk-e-Sukhan</td>
-                                                        <td>29-12-2020, 16:34</td>
-                                                        <td>170 RS.</td>
-                                                        <td>145 Rs.</td>
-
-
-                                                        <td>
-                                                            <div class="table-badge-publish">
-                                                                <label className="badge-label" checked>
-                                                                    Cleared                                        </label>
-                                                            </div>
-                                                        </td>
-                                                        <td><img className="imgHover" src={plus}  onClick={() => this.setState({ ReferenceModal: true })} /></td>
-
-
-
-
-                                                    </tr>
-                                                    <tr>
-
-
-                                                        <td><img src={tableBook}></img></td>
-
-                                                        <td>Mashk-e-Sukhan</td>
-                                                        <td>29-12-2020, 16:34</td>
-
-                                                        <td>170 RS.</td>
-                                                        <td>145 Rs.</td>
-
-                                                        <td>
-                                                            <div class="table-badge-review">
-                                                                <label className="badge-label">
-                                                                    Pending
-</label>
-                                                            </div>
-                                                        </td>
-                                                        <td><img className="imgHover" src={plus}  onClick={() => this.setState({ ReferenceModal: true })} /></td>
-
-
-
-                                                    </tr>
-                                                    <tr>
-
-
-                                                        <td><img src={tableBook}></img></td>
-
-                                                        <td>Mashk-e-Sukhan</td>
-                                                        <td>29-12-2020, 16:34</td>
-                                                        <td>170 RS.</td>
-                                                        <td>145 Rs.</td>
-
-                                                        <td>
-                                                            <div class="table-badge-blocked">
-                                                                <label className="badge-label">
-                                                                    Failed
-</label>
-                                                            </div>
-                                                        </td>
-                                                        <td><img className="imgHover" src={plus}  onClick={() => this.setState({ ReferenceModal: true })} /></td>
-
-
-                                                    </tr>
-
-
-                                                    {/* {this.state.orderList.length > 0 && this.renderTableRows()} */}
+                                                    {this.state.orderList.length > 0 && this.renderTableRows()}
 
                                                 </tbody>
 
@@ -802,5 +837,6 @@ const mapDispatchToProps = ({
     searchBook,
     getTotalEarning,
     getTotalPending,
+    createPaymentOfOrder,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(SellingHistory);

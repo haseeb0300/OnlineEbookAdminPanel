@@ -118,13 +118,13 @@ class Author extends Component {
 
     }
 
-    onClickView = (book) => {
-        this.props.history.push('/addnewbook', { book: book })
+    onClickView = (user) => {
+        this.props.history.push('/sellinghistory', { user: user })
     }
 
     componentDidMount() {
         this.props.getAllPublisher().then((res) => {
-            console.log(res.content)
+            console.log("Pubisher :", res.content)
             if (res.status == true) {
                 this.setState({
                     publisherList: res.content,
@@ -237,14 +237,17 @@ class Author extends Component {
                 <tr>
                   
 
-                    <td>
-                    <div className="Profile-Img-Container">
+                   {/* <td>
+                     <div className="Profile-Img-Container">
                             <img className="h-w-100" src={profile}/>
-                            </div>
-                        </td>
+                            </div> 
+                        </td>*/}
 
                         <td>{item?.Full_Name}</td>
                     <td>{item?.Email}</td>
+                    <td>
+                        <img className="pointerr" src={visibility} onClick={() => this.onClickView(item)}></img>
+                    </td>
                 </tr>
             )
         
@@ -299,7 +302,7 @@ class Author extends Component {
                                     <thead>
                                             <tr>
                    
-                                                <th scope="col table_header poppins_medium">   </th>
+                                                {/* <th scope="col table_header poppins_medium">   </th> */}
 
                                                 {this.state.sortByName ? (
                                                     <th scope="col table_header poppins_medium"> Name  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Name', 'ASC')}></img> </th>
@@ -312,6 +315,8 @@ class Author extends Component {
                                                         <th scope="col table_header poppins_medium">Email <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'DESC')}></img> </th>
                                                     )}
                                                    
+                                                   <th scope="col table_header poppins_medium">View  </th>
+
 
 
                                             </tr>
@@ -320,8 +325,8 @@ class Author extends Component {
                                         <tbody>
                                            
 
-                                            {this.state.bookList.length > 0 && this.renderTableRows()}
-                                            {this.state.bookList?.length < 1 &&
+                                            {this.state.publisherList.length > 0 && this.renderTableRows()}
+                                            {this.state.publisherList?.length < 1 &&
                                                 <tr>
                                                     <td class="text-center" colspan="7"> <b>  No Data To Display</b>
 

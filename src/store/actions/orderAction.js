@@ -1,9 +1,33 @@
 import axios from 'axios';
 
 
-  export const getAllOrder = () => dispatch => {
+export const createPaymentOfOrder = (bookData) => dispatch => {
     return axios
-        .get('/api/publisher/order')
+      .put('api/order/payment', bookData)
+      .then(res => {
+        return Promise.resolve(res.data)
+      })
+      .catch(err => {
+  
+        if (err.response.data != null && err.response.data.validation) {
+          console.log(err.response.data);
+          err = err.response.data
+        } else {
+          err = { "msg": "Something went wrong" }
+        }
+        dispatch({
+         
+          payload: err
+        })
+        return Promise.reject(err)
+      });
+  
+  
+  }
+
+  export const getAllOrder = (user_id) => dispatch => {
+    return axios
+        .get('/api/all/order?Publisher_ID='+user_id)
         .then((res) => {
             console.log(res)
   
@@ -63,7 +87,7 @@ import axios from 'axios';
 
   export const getTotalEarning = (day) => dispatch => {
     return axios
-        .get('/api/publisher/earning?Day='+day)
+        .get('/api/all/earning?Day='+day)
         .then((res) => {
             console.log(res)
   

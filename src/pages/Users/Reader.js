@@ -124,6 +124,7 @@ class Reader extends Component {
     }
 
     componentDidMount() {
+        this.setState({isLoading:true})
         this.props.getAllBooks().then((res) => {
             console.log(res.content)
             if (res.status == true) {
@@ -145,6 +146,7 @@ class Reader extends Component {
             if (res.status == true) {
                 this.setState({
                     readerList: res.content,
+                    isLoading:false
                 })
 
             }

@@ -120,11 +120,13 @@ class ManageBook extends Component {
     }
 
     componentDidMount() {
+        this.setState({isLoading:true})
         this.props.getAllBooks().then((res) => {
             console.log(res.content)
             if (res.status == true) {
                 this.setState({
                     bookList: res.content,
+                    isLoading:false
                 })
 
             }

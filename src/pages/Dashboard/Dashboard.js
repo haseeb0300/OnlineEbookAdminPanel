@@ -18,7 +18,7 @@ import deleteImg from '../../assets/images/Dashborad/delete.svg'
 import star from '../../assets/images/Dashborad/star.svg'
 import { Link, withRouter } from 'react-router-dom';
 import { getTotalEarning } from '../../store/actions/orderAction';
-import { getTotalOrdersAndBook, getTopSellingBooks, getLatestBook } from '../../store/actions/dashboardAction';
+import { getTotalOrdersAndBook, getTopSellingBooks, getLatestBook,getTotalBook,getTotalPublisher } from '../../store/actions/dashboardAction';
 
 import grosssale from '../../assets/images/Dashborad/cards/grosssale.png'
 import grosssale2 from '../../assets/images/Dashborad/cards/2.png'
@@ -71,6 +71,7 @@ class Dashboard extends Component {
             totalearning: "",
             totalBooks: "",
             totalorders: "",
+            totalPublisher: "",
             bookList: [],
             newBookList: [],
 
@@ -87,11 +88,11 @@ class Dashboard extends Component {
 
     componentDidMount() {
 
-        this.props.getTotalEarning(30).then((res) => {
+        this.props.getTotalEarning(200).then((res) => {
             console.log(res.content)
             if (res.status) {
                 this.setState({
-                    totalearning: res.content[0]?.book?.total_amount,
+                    totalearning: res.content[0]?.order_book?.total_amount,
                 })
 
             }
@@ -120,8 +121,40 @@ class Dashboard extends Component {
 
         })
 
-        this.props.getTopSellingBooks().then((res) => {
+        this.props.getTotalBook().then((res) => {
             console.log(res.content)
+            if (res.status) {
+                this.setState({
+                    totalBooks: res.content[0]?.total_book,
+                })
+
+            }
+            else {
+                alert(res)
+            }
+        }).catch((err) => {
+            console.log(err)
+
+        })
+
+        this.props.getTotalPublisher().then((res) => {
+            console.log(res.content)
+            if (res.status) {
+                this.setState({
+                    totalPublisher: res.content[0]?.total_publisher,
+                })
+
+            }
+            else {
+                alert(res)
+            }
+        }).catch((err) => {
+            console.log(err)
+
+        })
+
+        this.props.getTopSellingBooks().then((res) => {
+            console.log("bookList ",res.content)
             if (res.status) {
                 this.setState({
                     bookList: res.content,
@@ -138,7 +171,7 @@ class Dashboard extends Component {
         })
 
         this.props.getLatestBook().then((res) => {
-            console.log(res.content)
+            console.log("newBookList", res.content)
             if (res.status) {
                 this.setState({
                     newBookList: res.content,
@@ -226,7 +259,7 @@ class Dashboard extends Component {
                                                         <img className="costinner" src={openbook}></img>
                                                         <label className="ml-2 mb-0 earningText poppins_semibold">Net Profit</label> <br></br>
                                                         <div className="text-right mt-2">
-                                                            <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalBooks}</label>
+                                                            <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalearning * 0.3 + ' RS'}</label>
                                                         </div>
                                                         {/* <img className="editicon" src={editbook}></img> */}
                                                     </div>
@@ -240,7 +273,7 @@ class Dashboard extends Component {
                                                         <img className="costinner" src={buy}></img>
                                                         <label className="ml-2 mb-0 earningText poppins_semibold">Total Registered Authors</label> <br></br>
                                                         <div className="text-right mt-2">
-                                                            <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalorders}</label>
+                                                            <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalPublisher}</label>
                                                         </div>
                                                         <img className="editicon" src={editbook}></img>
 
@@ -411,10 +444,7 @@ class Dashboard extends Component {
 
                                                             <label className="poppins_semibold  recentbookpublishTAbs">Book Price</label> <br></br>
                                                         </div>
-                                                        <div className="col-3    ">
-
-                                                            <label className="poppins_semibold  recentbookpublishTAbs">Book File</label> <br></br>
-                                                        </div>
+                                                       
                                                     </div>
 
 
@@ -435,11 +465,9 @@ class Dashboard extends Component {
 
                                                                 </div>
                                                                 <div className="col-2 vertical_center">
-                                                                    <label className="poppins_bold recentBookName">{this.state.newBookList[0]?.Name}</label>
+                                                                    <label className="poppins_bold recentBookName">{this.state.newBookList[0]?.Price}</label>
                                                                 </div>
-                                                                <div className="col-2 vertical_center">
-                                                                    <label className="poppins_bold recentBookName">{this.state.newBookList[0]?.Name}</label>
-                                                                </div>
+                                                                
                                                             </div>
 
 
@@ -449,16 +477,19 @@ class Dashboard extends Component {
                                                     <div className="RecentBookCardInner">
                                                         <div className="col-12">
                                                             <div className="row  ">
-                                                                <div className="col-3 vertical_center ">
-                                                                    <img src={this.state.newBookList[0]?.Image} style={{ width: '45px' }}></img>
+                                                                <div className="col-2 vertical_center ">
+                                                                    <img src={this.state.newBookList[1]?.Image} style={{ width: '45px' }}></img>
 
                                                                 </div>
-                                                                <div className="col-5 vertical_center">
-                                                                    <label className="poppins_bold recentBookName">{this.state.newBookList[0]?.Name}</label>
+                                                                <div className="col-2 vertical_center">
+                                                                    <label className="poppins_bold recentBookName">{this.state.newBookList[1]?.Name}</label>
                                                                 </div>
-                                                                <div className="col-4 vertical_center">
-                                                                    <label className="poppins_medium recentBookName">{this.state.newBookList[0]?.Author_Name}</label>
+                                                                <div className="col-3 vertical_center">
+                                                                    <label className="poppins_medium recentBookName">{this.state.newBookList[1]?.Author_Name}</label>
 
+                                                                </div>
+                                                                <div className="col-2 vertical_center">
+                                                                    <label className="poppins_bold recentBookName">{this.state.newBookList[0]?.Price}</label>
                                                                 </div>
                                                             </div>
 
@@ -704,8 +735,11 @@ const mapDispatchToProps = ({
     getConversionBooks,
     getTotalEarning,
     getTotalOrdersAndBook,
+    getTotalBook,
+    getTotalPublisher,
     getTopSellingBooks,
     getLatestBook,
 
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+
