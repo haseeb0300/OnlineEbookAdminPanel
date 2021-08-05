@@ -160,9 +160,9 @@ class Nav extends Component {
          <li className="heading">
           <span className="poppins_semibold" >Online Purchases</span>
          </li>
-         <li className={location.pathname === '/sellinghistory' ? 'active' : null}>
-          <Link to="/sellinghistory" >
-            <i ><img src={location.pathname === '/sellinghistory' ? AddNewBookActive : AddNewBook}></img> </i>
+         <li className={location.pathname === '/sellinghistoryall' ? 'active' : null}>
+          <Link to="/sellinghistoryall" >
+            <i ><img src={location.pathname === '/sellinghistoryall' ? AddNewBookActive : AddNewBook}></img> </i>
              <p className="poppins_regular">Purchase History</p>
            </Link>
          </li>

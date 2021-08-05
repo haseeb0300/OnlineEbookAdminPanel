@@ -20,6 +20,8 @@ import AddNewBook from '../EbookStore/AddNewBook'
 import BankDetails from '../EbookStore/BankDetails'
 
 import SellingHistory from '../OnlinePurchase/SellingHistory'
+import SellingHistoryAll from '../OnlinePurchase/SellingHistoryAll'
+
 import Reports from '../OnlinePurchase/Reports'
 
 import TrackMyRecord from '../EbookConversion/TrackMyRecord'
@@ -47,6 +49,7 @@ import LibraryBooks from '../EbookStore/LibraryBooks'
 
 
 
+import GeneratedReport from '../OnlinePurchase/GeneratedReport'
 
 
 
@@ -87,6 +90,8 @@ const Main = ({
 
           <PrivateRoute   path="/addnewbook" component={AddNewBook} /> 
           <PrivateRoute   path="/sellinghistory" component={SellingHistory} /> 
+          <PrivateRoute   path="/sellinghistoryall" component={SellingHistoryAll} /> 
+          <PrivateRoute   path="/generatedreport" component={GeneratedReport} /> 
 
           <PrivateRoute   path="/bankdetails" component={BankDetails} /> 
           <PrivateRoute   path="/trackmyrecord" component={TrackMyRecord} /> 

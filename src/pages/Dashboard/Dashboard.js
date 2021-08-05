@@ -88,8 +88,8 @@ class Dashboard extends Component {
 
     componentDidMount() {
 
-        this.props.getTotalEarning(200).then((res) => {
-            console.log(res.content)
+        this.props.getTotalEarning(300).then((res) => {
+            console.log("totalearning : ", res.content)
             if (res.status) {
                 this.setState({
                     totalearning: res.content[0]?.order_book?.total_amount,

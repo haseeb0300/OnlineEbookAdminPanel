@@ -5,10 +5,11 @@ import { connect } from 'react-redux';
 import { uploadEpub } from '../../store/actions/bookAction';
 import Polygon from '../../assets/images/Managebooks/Polygon.svg'
 
+import { generateReport } from '../../store/actions/orderAction';
+
+import { getAllPublisher } from '../../store/actions/authActions';
 
 
-
-var cx = require('classnames');
 
 
 
@@ -29,6 +30,11 @@ class Reports extends Component {
             book_url: "",
             epub: "",
             original_book_name: "",
+            startDate: "",
+            endDate: "",
+            reportType:"",
+            publisherList:[],
+            User_ID:"",
 
         };
 
@@ -42,13 +48,46 @@ class Reports extends Component {
 
 
     componentDidMount() {
+        this.props.getAllPublisher().then((res) => {
+            console.log("Pubisher :", res.content)
+            if (res.status == true) {
+                this.setState({
+                    publisherList: res.content,
+                })
 
+            }
+            else {
+                alert(res)
+            }
+        }).catch((err) => {
+            console.log(err)
+
+        })
 
     }
 
+    onGenerateReport = () => {
+        const data = {
+            "startDate": this.state.startDate,
+            "endDate": this.state.endDate,
+            "User_ID": this.state.User_ID,
+        }
+        this.props.generateReport(data).then((res) => {
+            console.log(res.content)
+            
+            this.props.history.push("/generatedreport",{content: res.content, data: data})
+            
+        }).catch((err) => {
+            console.log(err)
 
+        })
+        
+    }
 
-
+    onChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value })
+      
+    }
 
 
     render() {
@@ -78,22 +117,42 @@ class Reports extends Component {
                                             <tr>
 
 
-                                                <th scope="col table_header poppins_medium">Report Type <img className="dropicon" src={Polygon}></img>  </th>
-                                                <th scope="col table_header poppins_medium">Start Date  <img className="dropicon" src={Polygon}></img> </th>
-                                                <th scope="col table_header poppins_medium">End Date  <img className="dropicon" src={Polygon}></img> </th>
+                                                <th scope="col table_header poppins_medium">Select Author/Publisher <img className="dropicon" src={Polygon} />  </th>
+                                                <th scope="col table_header poppins_medium">Start Date  <img className="dropicon" src={Polygon} /> </th>
+                                                <th scope="col table_header poppins_medium">End Date  <img className="dropicon" src={Polygon} /> </th>
 
-                                              
-                                                <th scope="col table_header generateReportth poppins_medium"><button className="generateReportBtn">Generate Report</button> </th>
+
+                                                <th scope="col table_header generateReportth poppins_medium"><button className="generateReportBtn" onClick={this.onGenerateReport}>Generate Report</button> </th>
 
                                             </tr>
                                         </thead>
-                                     
-                                        
+                                        <tbody>
+                                            <tr>
+
+                                                <td>
+                                                <select className="managebookInput" name="User_ID" onChange={this.onChange} value={this.state.User_ID}>
+                                                     <option value={-1} disable selected={!this.state.User_ID}  >--Please Select--</option>
+
+                                                    {this.state.publisherList.map((item, index) =>
+                                                        <option value={item.User_ID} selected={item.User_ID && this.state.User_ID == item.User_ID}>{item.Full_Name}</option>
+
+                                                    )} 
+                                                                                                </select>
+                             
+                                                    </td>
+                                                <td><input type="date" name="startDate" onChange={this.onChange}/> </td>
+                                                <td><input type="date" name="endDate" onChange={this.onChange}/> </td>
+                                             
+
+                                            </tr>
+                                        </tbody>
+
+
                                     </table>
 
                                 </div>
 
-                               
+
 
                             </div>
 
@@ -130,6 +189,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = ({
     uploadEpub,
-
+    generateReport,
+    getAllPublisher
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Reports);

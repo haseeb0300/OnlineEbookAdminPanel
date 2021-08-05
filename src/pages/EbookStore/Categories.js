@@ -9,7 +9,7 @@ import searchicon from '../../assets/images/Managebooks/searchicon.svg'
 import Polygon from '../../assets/images/Managebooks/Polygon.svg'
 import closeImg from '../../assets/images/Managebooks/Modal/close.png'
 import visibility from '../../assets/images/Managebooks/visibility.svg'
-import { getAllBooks, sortAllBooks, searchBook, createBook } from '../../store/actions/bookAction';
+import { getAllBooks, sortAllBooks, searchBook, createBook, getBookCategory,getBookParentCategory, createCategory } from '../../store/actions/bookAction';
 import moment from 'moment'
 import Moment from 'react-moment';
 import plus from '../../assets/images/Managebooks/plus.png'
@@ -52,6 +52,11 @@ class Categories extends Component {
             search: '',
             Active_Status: false,
             CategoryModal: false,
+            CtaegoryList: [],
+            ParentCtaegoryList:[],
+            Category_ID: '',
+            P_Category_ID: '',
+            Category_Name:'',
 
 
         };
@@ -114,11 +119,42 @@ class Categories extends Component {
 
     }
 
+// filterList = () => {
+
+//     var newArray = this.state.CtaegoryList.filter(function (el) {
+//         return el.price <= 1000 &&
+//                el.sqft >= 500 &&
+//                el.num_of_beds >=2 &&
+//                el.num_of_baths >= 2.5;
+//       });
+// }
+
     onClickView = (book) => {
         this.props.history.push('/addnewbook', { book: book })
     }
 
     componentDidMount() {
+        this.props.getBookParentCategory().then((res) => {
+            console.log(res)
+            this.setState({
+                ParentCtaegoryList: res.content,
+            })
+
+        }).catch((err) => {
+            console.log(err)
+
+        })
+        this.props.getBookCategory().then((res) => {
+            console.log(res)
+            this.setState({
+                CtaegoryList: res.content,
+            })
+
+        }).catch((err) => {
+            console.log(err)
+
+        })
+
         this.props.getAllBooks().then((res) => {
             console.log(res.content)
             if (res.status == true) {
@@ -196,7 +232,7 @@ class Categories extends Component {
     onChange = (e) => {
 
         this.setState({ [e.target.name]: e.target.value }, () => {
-            this.onClickSearch()
+            //this.onClickSearch()
         })
     }
 
@@ -228,7 +264,7 @@ class Categories extends Component {
 
     renderTableRows = () => {
         var myData = [];
-        if (this.state.bookList && this.state.bookList.length < 1) {
+        if (this.state.CtaegoryList && this.state.CtaegoryList.length < 1) {
 
             return () =>
 
@@ -239,8 +275,8 @@ class Categories extends Component {
                 </tr>
 
         }
-        if (this.state.newBoolList?.length > 0) {
-            return this.state.newBoolList.map((item, i) =>
+        if (this.state.CtaegoryList?.length > 0) {
+            return this.state.CtaegoryList.map((item, i) =>
 
                 <tr>
                     {/* <td>
@@ -251,10 +287,10 @@ class Categories extends Component {
     </td>
     <td>03241</td> */}
 
-                    <td><img src={item.Image} width="50px"></img></td>
+                    <td>{i+1}</td>
 
-                    <td>{item.Name}</td>
-                    <td>{item.Author_Name}</td>
+                    <td>{item.Category_Name}</td>
+                    {/* <td>{item.Author_Name}</td>
                     <td><Moment format="DD-MM-YY HH:MM">{item.createdAt}</Moment></td>
                     <td>
                         <div class={item.Status == 'Published' ? "table-badge-publish" : item.Status == 'On Review' ? "table-badge-review" : item.Status == "UnPublished" ? 'table-badge-unpublish' : "table-badge-blocked"}>
@@ -272,7 +308,7 @@ class Categories extends Component {
                     </td>
                     <td>
                         <img className="pointerr" src={visibility} onClick={() => this.onClickView(item)}></img>
-                    </td>
+                    </td> */}
                 </tr>
             )
         } else {
@@ -367,6 +403,51 @@ class Categories extends Component {
 
     }
 
+    onCreateCategory = () => {
+        this.setState({ errors: {}, serverError: {}, isLoading: true })
+        var categoryData = {
+            "Category_ID": this.state.CtaegoryList.length + 1,
+            "Category_Name": this.state.Category_Name,
+
+        }
+        this.props.createCategory(categoryData).then((res) => {
+            //console.log(res)
+
+            if (res.status) {
+                this.props.getBookCategory().then((res) => {
+                    console.log(res)
+                    this.setState({
+                        CtaegoryList: res.content,
+                        CategoryModal: false,
+                        isLoading: false,
+                    })
+        
+                }).catch((err) => {
+                    console.log(err)
+        
+                })
+            }
+
+        }).catch((err) => {
+            var validationError = {}
+            var serverError = []
+            this.setState({ isLoading: false, })
+            if (err.hasOwnProperty('validation')) {
+                err.validation.map(obj => {
+                    if (obj.hasOwnProperty('param')) {
+                        validationError[obj["param"]] = obj["msg"]
+                    } else {
+                        serverError = [...serverError, obj]
+                    }
+                });
+                this.setState({ errors: validationError });
+                this.setState({ serverError: serverError });
+            } else {
+                this.setState({ serverError: [{ "msg": "server not responding" }] })
+            }
+        })
+    }
+
     render() {
 
         const { isLoading } = this.state;
@@ -398,7 +479,7 @@ class Categories extends Component {
                                         <p className="poppins_medium ModalHading">Manage Category</p>
                                     </div>
                                     <div className="col-2 text-right">
-                                        <img className="Hov" onClick={() => this.setState({ CategoryModal: false })}  src={closeImg} />
+                                        <img className="Hov" onClick={() => this.setState({ CategoryModal: false })} src={closeImg} />
                                     </div>
                                 </div>
                             </div>
@@ -409,7 +490,7 @@ class Categories extends Component {
                                         <p className="poppins_medium Modaltext mb-0">Category  ID</p>
                                     </div>
                                     <div className="col-9 ">
-                                        <input className="ModalInput col-4 "></input>
+                                        <input className="ModalInput col-4 " disabled={true} value={this.state.CtaegoryList.length+1}></input>
                                     </div>
                                 </div>
                             </div>
@@ -417,10 +498,10 @@ class Categories extends Component {
                             <div className="col-12 mt-4">
                                 <div className="row">
                                     <div className="col-3 Vertical_center text-right">
-                                        <p className="poppins_medium Modaltext mb-0">Category  Name</p>
+                                        <p className="poppins_medium Modaltext mb-0">Category Name</p>
                                     </div>
                                     <div className="col-9 ">
-                                        <input className="ModalInput col-7 "></input> <br></br>
+                                        <input className="ModalInput col-7 " name="Category_Name" onChange={this.onChange} value={this.state.Category_Name}></input> <br></br>
 
 
                                     </div>
@@ -441,7 +522,7 @@ class Categories extends Component {
                                 </div>
                             </div>
                             <div className="col-12 mt-4">
-                                <div className="row">
+                                {/* <div className="row">
                                     <div className="col-3 Vertical_center text-right">
                                         <p className="poppins_medium Modaltext mb-0">Sub Category</p>
                                     </div>
@@ -450,11 +531,11 @@ class Categories extends Component {
 
 
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
 
                             <div className="col-12 mt-5">
-                                <div className="row">
+                                {/* <div className="row">
                                     <div className="col-3 Vertical_center text-right">
                                         <p className="poppins_medium Modaltext mb-0">Status</p>
                                     </div>
@@ -465,15 +546,15 @@ class Categories extends Component {
                                         </label>
 
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="col-12 text-center mt-5">
                                 <p className="poppins_medium DeleteText">Delete this Category</p>
 
                             </div>
-                       <div className="col-12 text-center">
-                           <button className="mdlBtn col-5 poppins_semibold">Save Changes</button>
-                       </div>
+                            <div className="col-12 text-center">
+                                <button className="mdlBtn col-5 poppins_semibold" onClick={this.onCreateCategory}>Save Changes</button>
+                            </div>
                         </div>
 
                     </div>
@@ -489,10 +570,23 @@ class Categories extends Component {
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 pt-4 pl-4 pr-4 AllbookContainer ">
                                 <div className="row">
                                     <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
+                                        <div className="row">
 
+                                            <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12  ">
+                                                <p className="Allbook-heading mb-0">All Categories</p>
+                                                <p className="allbooktext mb-0">All your categories.</p>
+                                            </div>
+                                            <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12  ">
+                                                <select className="managebookInput" name="P_Category_ID" onChange={this.onChange} value={this.state.P_Category_ID}>
+                                                     <option value={-1} disable selected={!this.state.P_Category_ID}  >--Please Select--</option>
 
-                                        <p className="Allbook-heading mb-0">All Categories</p>
-                                        <p className="allbooktext mb-0">All your categories.</p>
+                                                    {this.state.ParentCtaegoryList.map((item, index) =>
+                                                        <option value={item.Category_ID} selected={item.Category_ID && this.state.P_Category_ID == item.P_Category_ID}>{item.Category_Name}</option>
+
+                                                    )} 
+                                                                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12  ">
                                         <div className="row">
@@ -531,20 +625,20 @@ class Categories extends Component {
                                                 ) : (
                                                     <th scope="col table_header poppins_medium">Category Name  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Name', 'DESC')}></img> </th>
                                                 )}
-                                                {this.state.sortByAuthorName ? (
+                                                {/* {this.state.sortByAuthorName ? (
                                                     <th scope="col table_header poppins_medium">Sub category <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'ASC')}></img> </th>
                                                 ) : (
                                                     <th scope="col table_header poppins_medium">Sub category <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'DESC')}></img> </th>
                                                 )}
 
                                                 <th scope="col table_header poppins_medium"> Status   </th>
-                                                <th scope="col table_header poppins_medium">View  </th>
+                                                <th scope="col table_header poppins_medium">View  </th> */}
 
 
                                             </tr>
                                         </thead>
                                         <tbody>
-                                         
+
 
                                             {this.state.bookList.length > 0 && this.renderTableRows()}
                                             {this.state.bookList?.length < 1 &&
@@ -562,7 +656,7 @@ class Categories extends Component {
 
                                     </table>
 
-                                    
+
 
                                 </div>
                                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  ">
@@ -655,5 +749,8 @@ const mapDispatchToProps = ({
     sortAllBooks,
     searchBook,
     createBook,
+    getBookCategory,
+    getBookParentCategory,
+    createCategory,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Categories);

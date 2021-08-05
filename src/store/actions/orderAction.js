@@ -1,6 +1,21 @@
 import axios from 'axios';
 
 
+export const generateReport = (data) => dispatch => {
+  return axios
+      .get('/api/generatereportadmin?startDate='+data.startDate+'&endDate='+data.endDate+'&User_ID='+data.User_ID)
+      .then((res) => {
+          console.log(res)
+
+          return Promise.resolve(res.data)
+      }).catch((err) => {
+          console.log(err)
+          return Promise.reject(err)
+      })
+
+
+}
+
 export const createPaymentOfOrder = (bookData) => dispatch => {
     return axios
       .put('api/order/payment', bookData)
@@ -21,6 +36,21 @@ export const createPaymentOfOrder = (bookData) => dispatch => {
         })
         return Promise.reject(err)
       });
+  
+  
+  }
+
+  export const getAllOrders = (user_id) => dispatch => {
+    return axios
+        .get('/api/all/order?Publisher_ID=')
+        .then((res) => {
+            console.log(res)
+  
+            return Promise.resolve(res.data)
+        }).catch((err) => {
+            console.log(err)
+            return Promise.reject(err)
+        })
   
   
   }

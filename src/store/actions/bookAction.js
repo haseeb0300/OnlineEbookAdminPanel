@@ -1,6 +1,27 @@
 import axios from 'axios';
 import { GET_ERRORS} from '../actions/types'
 
+export const createCategory = accountData => dispatch => {
+  return axios
+    .post('api/category', accountData)
+    .then(res => {
+      return Promise.resolve(res.data)
+    })
+    .catch(err => {
+
+      if (err.response.data != null && err.response.data.validation) {
+        console.log(err.response.data);
+        err = err.response.data
+      } else {
+        err = { "msg": "Something went wrong" }
+      }
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      })
+      return Promise.reject(err)
+    });
+};
 
 export const putBookInLibrary = accountData => dispatch => {
   return axios
@@ -94,6 +115,17 @@ export const uploadEpub = restaurantData => dispatch => {
         })
   }
 
+  export const getBookParentCategory = () => dispatch => {
+    return axios
+        .get('api/parentcategory')
+        .then((res) => {
+            console.log(res)
+            return Promise.resolve(res.data)
+        }).catch((err) => {
+            console.log(err)
+            return Promise.reject(err)
+        })
+  }
   export const createBook = bookData => dispatch => {
     return axios
       .post('api/admin/book', bookData)
