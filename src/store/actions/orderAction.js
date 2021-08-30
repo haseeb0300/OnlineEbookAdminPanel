@@ -42,7 +42,7 @@ export const createPaymentOfOrder = (bookData) => dispatch => {
 
   export const getAllOrders = (user_id) => dispatch => {
     return axios
-        .get('/api/all/order?Publisher_ID=')
+        .get('/api/all/orders')
         .then((res) => {
             console.log(res)
   

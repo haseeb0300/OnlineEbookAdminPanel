@@ -262,7 +262,7 @@ export const sortAllBooks = (Name,Sort) => dispatch => {
 }
 export const searchBook = (Name) => dispatch => {
   return axios
-      .get('/api/publisher/search/book?Name='+Name)
+      .get('/api/admin/search/book?Name='+Name)
       .then((res) => {
           console.log(res)
 
