@@ -6,6 +6,8 @@ import backgoround_img_shadow from '../../assets/images/Login/loginbackground.sv
 import logo from '../../assets/images/Logo.png'
 import { Link, withRouter } from 'react-router-dom';
 import { loginUser } from '../../store/actions/authActions';
+import FadeLoader from "react-spinners/FadeLoader";
+import { css } from "@emotion/react";
 
 
 
@@ -13,6 +15,11 @@ import { loginUser } from '../../store/actions/authActions';
 import { connect } from 'react-redux';
 
 import Noty from 'noty';
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
 class Login extends Component {
     constructor(props) {
         super(props);
@@ -25,7 +32,8 @@ class Login extends Component {
             profile: {},
             errors: {},
             serverError: {},
-            isSigningIn: false
+            isSigningIn: false,
+            isLoading: false
         };
 
     }
@@ -47,10 +55,10 @@ class Login extends Component {
             email: this.state.email,
             password: this.state.password
         };
-        this.setState({ isSigningIn: true })
+        this.setState({ isSigningIn: true, isLoading:true })
 
         this.props.loginUser(userData).then(res => {
-            this.setState({ isSigningIn: false })
+            this.setState({ isSigningIn: false,isLoading:false })
 
             if (res.status) {
                 this.props.history.push('/');
@@ -60,7 +68,7 @@ class Login extends Component {
             }
 
         }).catch(err => {
-            this.setState({ isSigningIn: false })
+            this.setState({ isSigningIn: false, isLoading:false })
             var validationError = {}
             var serverError = []
             console.log(err.hasOwnProperty('validation'))
@@ -128,7 +136,10 @@ class Login extends Component {
                                     {errors.password && <div className="invaliderrorLogin">{errors.password}</div>}
 
                                 </div>
+                                {this.state.isLoading && <FadeLoader color={"#38A3A5"} loading={true} css={override} size={150}></FadeLoader>}
+
                                 <div className="col-md-9  col-12 p-0 mt-4 text-right ">
+
                                     <button className="login_btn poppins_bold" onClick={this.onLogin}>Login</button>
 
 

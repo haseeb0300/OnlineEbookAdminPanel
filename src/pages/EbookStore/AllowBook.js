@@ -19,7 +19,14 @@ import { getAllReader } from '../../store/actions/authActions';
 import moment from 'moment'
 import Moment from 'react-moment';
 
+import FadeLoader from "react-spinners/FadeLoader";
+import { css } from "@emotion/react";
 
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
 
 
 
@@ -41,6 +48,7 @@ class ManageBook extends Component {
             bookList: [],
             User_ID:'',
             Book_ID:'',
+            isLoading:false,
 
         };
 
@@ -108,13 +116,16 @@ class ManageBook extends Component {
 
     onAllow = () => {
         console.log('jk')
+        this.setState({isLoading:true})
         this.props.putBookInLibrary({
             'user_id': this.state.User_ID,
             'Book_ID': this.state.Book_ID
         }).then((res) => {
             console.log(res)
+            this.setState({isLoading:false})
         })
             .catch((err) => {
+                this.setState({isLoading:false})
                 console.log(err)
 
             })
@@ -125,11 +136,11 @@ class ManageBook extends Component {
 
         const { isLoading } = this.state;
 
-        if (isLoading) {
-            return (
-                <div className="loader-large"></div>
-            )
-        }
+        // if (isLoading) {
+        //     return (
+        //         <div className="loader-large"></div>
+        //     )
+        // }
 
         return (
             <div>
@@ -217,6 +228,7 @@ class ManageBook extends Component {
 
                                     </select>
 
+                                    {this.state.isLoading && <FadeLoader color={"#38A3A5"} loading={true} css={override} size={150}></FadeLoader>}
 
                                     <div className="text-right">
                                         <button className="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-6  poppins_semibold uploadbtn" onClick={() => this.onAllow()}>Allow Book</button>
