@@ -57,6 +57,8 @@ class Author extends Component {
             search: '',
             Active_Status:false,
             publisherList:[],
+            currentPage: 1,
+            todosPerPage: 15,
 
         };
         this.handleChange = this.handleChange.bind(this);
@@ -230,9 +232,21 @@ class Author extends Component {
         })
     }
 
-    renderTableRows = () => {
+    handleClick = (type) => {
+        if (type === 'next') {
+            this.setState({
+                currentPage: this.state.currentPage + 1
+            });
+        } else if (type === 'previous') {
+            this.setState({
+                currentPage: this.state.currentPage - 1
+            });
+        }
+
+    }
+    renderTableRows = (list) => {
         var myData = [];
-            return this.state.publisherList.map((item, i) =>
+            return list.map((item, i) =>
 
                 <tr>
                   
@@ -257,12 +271,20 @@ class Author extends Component {
 
     render() {
 
-        const { isLoading } = this.state;
+        const { isLoading, publisherList, currentPage, todosPerPage } = this.state;
 
         if (isLoading) {
             return (
                 <div className="loader-large"></div>
             )
+        }
+        const indexOfLastTodo = currentPage * todosPerPage;
+        const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+        const currentTodos = publisherList.slice(indexOfFirstTodo, indexOfLastTodo);
+
+        const pageNumbers = [];
+        for (let i = 1; i <= Math.ceil(publisherList.length / todosPerPage); i++) {
+            pageNumbers.push(i);
         }
 
         return (
@@ -325,7 +347,7 @@ class Author extends Component {
                                         <tbody>
                                            
 
-                                            {this.state.publisherList.length > 0 && this.renderTableRows()}
+                                            {this.state.publisherList.length > 0 && this.renderTableRows(currentTodos)}
                                             {this.state.publisherList?.length < 1 &&
                                                 <tr>
                                                     <td class="text-center" colspan="7"> <b>  No Data To Display</b>
@@ -344,28 +366,32 @@ class Author extends Component {
                                 </div>
                                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  ">
                                     <div className="row">
-                                        <div className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3  ">
-                                        </div>
-                                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12  text-center">
+
+                                        <div className=" col-12  text-center">
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  pb-3">
 
                                                 <div className="row">
                                                     <div className="col-xl-3 col-lg-2 col-md-2 col-sm-2 col-2 ">
 
 
-                                                        <button className="navbtn">← Previous</button>
+                                                        <button className="navbtn" onClick={(e) => this.handleClick('previous')} disabled={currentPage === 1 ? true : false}>← Previous</button>
                                                     </div>
                                                     <div className="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-8  pb-3">
 
-                                                        <button className="roundbtn">1</button>
+                                                        {/* <button className="roundbtn">1</button>
                                                         <button className="roundbtn"> 2</button>
                                                         <button className="roundbtn">3</button>
                                                         <button className="roundbtn">4</button>
-                                                        <button className="roundbtn">5</button>
+                                                        <button className="roundbtn">5</button> */}
+                                                        {/* <p className="allbooktext mb-0">{this.state.currentPage + '/' + pageNumbers.length}</p> */}
+                                                        <label className="poppins_bold">{this.state.currentPage}</label>
+                                                        <label className="poppins_regular ml-3 mr-3">out of</label>
+                                                        <label className="poppins_bold">{pageNumbers.length}</label>
+
                                                     </div>
                                                     <div className="col-xl-3 col-lg-2 col-md-2 col-sm-2 col-2 ">
 
-                                                        <button className="navbtn">Next →</button>
+                                                        <button className="navbtn" onClick={(e) => this.handleClick('next')} disabled={this.state.currentPage === pageNumbers.length ? true : false}>Next →</button>
                                                     </div>
 
                                                 </div>

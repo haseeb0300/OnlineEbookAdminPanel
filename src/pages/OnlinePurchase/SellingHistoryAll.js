@@ -53,6 +53,9 @@ class SellingHistoryAll extends Component {
             Status:"",
             Amount:"",
             index:{},
+            currentPage: 1,
+            todosPerPage: 15,
+
 
 
         };
@@ -357,9 +360,21 @@ class SellingHistoryAll extends Component {
         })
 
     }
+    handleClick = (type) => {
+        if (type === 'next') {
+            this.setState({
+                currentPage: this.state.currentPage + 1
+            });
+        } else if (type === 'previous') {
+            this.setState({
+                currentPage: this.state.currentPage - 1
+            });
+        }
 
-    renderTableRows = () => {
-        if (this.state.orderList?.length < 1) {
+    }
+
+    renderTableRows = (list) => {
+        if (list?.length < 1) {
 
             return <tr>
                 <td class="text-center" ><b className="table-text"> No Result</b>
@@ -368,7 +383,7 @@ class SellingHistoryAll extends Component {
             </tr>
         }
 
-        return this.state.orderList.map((item, i) =>
+        return list.map((item, i) =>
 
         <tr>
 
@@ -419,12 +434,20 @@ class SellingHistoryAll extends Component {
     }
     render() {
 
-        const { isLoading } = this.state;
+        const { isLoading, orderList, currentPage, todosPerPage } = this.state;
 
         if (isLoading) {
             return (
                 <div className="loader-large"></div>
             )
+        }
+        const indexOfLastTodo = currentPage * todosPerPage;
+        const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+        const currentTodos = orderList.slice(indexOfFirstTodo, indexOfLastTodo);
+
+        const pageNumbers = [];
+        for (let i = 1; i <= Math.ceil(orderList.length / todosPerPage); i++) {
+            pageNumbers.push(i);
         }
 
         return (
@@ -771,13 +794,53 @@ class SellingHistoryAll extends Component {
 
                                                     
 
-                                                    {this.state.orderList.length > 0 && this.renderTableRows()}
+                                                    {this.state.orderList.length > 0 && this.renderTableRows(currentTodos)}
 
                                                 </tbody>
 
                                             </table>
 
+
                                         </div>
+                                        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  ">
+                                    <div className="row">
+
+                                        <div className=" col-12  text-center">
+                                            <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  pb-3">
+
+                                                <div className="row">
+                                                    <div className="col-xl-3 col-lg-2 col-md-2 col-sm-2 col-2 ">
+
+
+                                                        <button className="navbtn" onClick={(e) => this.handleClick('previous')} disabled={currentPage === 1 ? true : false}>← Previous</button>
+                                                    </div>
+                                                    <div className="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-8  pb-3">
+
+                                                        {/* <button className="roundbtn">1</button>
+                                                        <button className="roundbtn"> 2</button>
+                                                        <button className="roundbtn">3</button>
+                                                        <button className="roundbtn">4</button>
+                                                        <button className="roundbtn">5</button> */}
+                                                        {/* <p className="allbooktext mb-0">{this.state.currentPage + '/' + pageNumbers.length}</p> */}
+                                                        <label className="poppins_bold">{this.state.currentPage}</label>
+                                                        <label className="poppins_regular ml-3 mr-3">out of</label>
+                                                        <label className="poppins_bold">{pageNumbers.length}</label>
+
+                                                    </div>
+                                                    <div className="col-xl-3 col-lg-2 col-md-2 col-sm-2 col-2 ">
+
+                                                        <button className="navbtn" onClick={(e) => this.handleClick('next')} disabled={this.state.currentPage === pageNumbers.length ? true : false}>Next →</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
 
                                     </div>
 
