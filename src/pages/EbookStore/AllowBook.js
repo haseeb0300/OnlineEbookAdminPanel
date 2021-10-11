@@ -122,7 +122,8 @@ class ManageBook extends Component {
             'Book_ID': this.state.Book_ID
         }).then((res) => {
             console.log(res)
-            this.setState({isLoading:false})
+            this.setState({isLoading:false, User_ID:'',
+            Book_ID:'',})
         })
             .catch((err) => {
                 this.setState({isLoading:false})

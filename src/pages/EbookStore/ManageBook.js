@@ -54,6 +54,10 @@ class ManageBook extends Component {
             newBoolList: [],
             search: '',
             Active_Status:false,
+            page:1,
+            totalBooks:0,
+            totalPages:0,
+           
 
         };
         this.handleChange = this.handleChange.bind(this);
@@ -76,6 +80,53 @@ class ManageBook extends Component {
             })
         }
 
+    }
+
+    nextPage = () => {
+        this.setState({
+            page: this.state.page + 1
+        },() => {
+            this.props.getAllBooks(this.state.page).then((res) => {
+                console.log(res.content)
+                if (res.status == true) {
+                    this.setState({
+                        bookList: res.content?.rows,
+                        isLoading:false
+                    })
+    
+                }
+                else {
+                    alert(res)
+                }
+            }).catch((err) => {
+                console.log(err)
+    
+            })
+        })
+    }
+
+    previousPage = () => {
+        this.setState({
+            page: this.state.page - 1
+        }
+        ,() => {
+            this.props.getAllBooks(this.state.page).then((res) => {
+                console.log(res.content)
+                if (res.status == true) {
+                    this.setState({
+                        bookList: res.content?.rows,
+                        isLoading:false
+                    })
+    
+                }
+                else {
+                    alert(res)
+                }
+            }).catch((err) => {
+                console.log(err)
+    
+            })
+        })
     }
 
     onFileChange(event) {
@@ -121,11 +172,13 @@ class ManageBook extends Component {
 
     componentDidMount() {
         this.setState({isLoading:true})
-        this.props.getAllBooks().then((res) => {
+        this.props.getAllBooks(this.state.page).then((res) => {
             console.log(res.content)
             if (res.status == true) {
                 this.setState({
-                    bookList: res.content,
+                    totalPages:(Math.ceil(res.content?.count / 15)),
+                    totalBooks:res.content?.count,
+                    bookList: res.content?.rows,
                     isLoading:false
                 })
 
@@ -545,135 +598,6 @@ tableSelect_Blocked */}
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {/* <tr> 
-                                            <td>
-                                                <div class="form-group">
-                                                    <input type="checkbox" id="html1" />
-                                                    <label for="html1"></label>
-                                                </div>
-                                            </td>
-                                            <td>03241</td>
-
-                                            <td><img src={tableBook}></img></td>
-
-                                            <td>Mashk-e-Sukhan</td>
-                                            <td>Saiyid Ali Naqvi</td>
-                                            <td>29-12-2020, 16:34</td>
-                                            <td>
-                                                <div class="table-badge-review">
-                                                    <label className="badge-label">
-                                                        On Review
-                                        </label>
-                                                </div>
-                                            </td>
-
-                                            <td>
-                                                <label class="blackSwitch">
-                                                    <input type="checkbox" />
-                                                    <span class="blackslider round"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <img src={visibility}></img>
-                                            </td>
-                                            </tr>
-
-                                            <tr> 
-                                            <td>
-                                                <div class="form-group">
-                                                    <input type="checkbox" id="html1" />
-                                                    <label for="html1"></label>
-                                                </div>
-                                            </td>
-                                            <td>03241</td>
-
-                                            <td><img src={tableBook}></img></td>
-
-                                            <td>Mashk-e-Sukhan</td>
-                                            <td>Saiyid Ali Naqvi</td>
-                                            <td>29-12-2020, 16:34</td>
-                                            <td>
-                                                <div class="table-badge-publish">
-                                                    <label className="badge-label" checked>
-                                                    Published                                        </label>
-                                                </div>
-                                            </td>
-
-                                            <td>
-                                                <label class="blackSwitch">
-                                                    <input type="checkbox" />
-                                                    <span class="blackslider round"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <img src={visibility}></img>
-                                            </td>
-                                            </tr>
-                                            <tr> 
-                                            <td>
-                                                <div class="form-group">
-                                                    <input type="checkbox" id="html1" />
-                                                    <label for="html1"></label>
-                                                </div>
-                                            </td>
-                                            <td>03241</td>
-
-                                            <td><img src={tableBook}></img></td>
-
-                                            <td>Mashk-e-Sukhan</td>
-                                            <td>Saiyid Ali Naqvi</td>
-                                            <td>29-12-2020, 16:34</td>
-                                            <td>
-                                                <div class="table-badge-unpublish">
-                                                    <label className="badge-label">
-                                                    UnPublish
-                                        </label>
-                                                </div>
-                                            </td>
-
-                                            <td>
-                                                <label class="blackSwitch">
-                                                    <input type="checkbox" />
-                                                    <span class="blackslider round"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <img src={visibility}></img>
-                                            </td>
-                                            </tr>
-                                            <tr> 
-                                            <td>
-                                                <div class="form-group">
-                                                    <input type="checkbox" id="html1" />
-                                                    <label for="html1"></label>
-                                                </div>
-                                            </td>
-                                            <td>03241</td>
-
-                                            <td><img src={tableBook}></img></td>
-
-                                            <td>Mashk-e-Sukhan</td>
-                                            <td>Saiyid Ali Naqvi</td>
-                                            <td>29-12-2020, 16:34</td>
-                                            <td>
-                                                <div class="table-badge-blocked">
-                                                    <label className="badge-label">
-                                                    Blocked
-                                        </label>
-                                                </div>
-                                            </td>
-
-                                            <td>
-                                                <label class="blackSwitch">
-                                                    <input type="checkbox" />
-                                                    <span class="blackslider round"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <img src={visibility}></img>
-                                            </td>
-                                            </tr> */}
-
                                             {this.state.bookList.length > 0 && this.renderTableRows()}
                                             {this.state.bookList?.length < 1 &&
                                                 <tr>
@@ -702,19 +626,19 @@ tableSelect_Blocked */}
                                                     <div className="col-xl-3 col-lg-2 col-md-2 col-sm-2 col-2 ">
 
 
-                                                        <button className="navbtn">← Previous</button>
+                                                        <button className="navbtn" disabled={this.state.page === 1 ? true : false} onClick={() => this.previousPage()}>← Previous</button>
                                                     </div>
-                                                    <div className="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-8  pb-3">
+                                                    {/* <div className="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-8  pb-3">
 
                                                         <button className="roundbtn">1</button>
                                                         <button className="roundbtn"> 2</button>
                                                         <button className="roundbtn">3</button>
                                                         <button className="roundbtn">4</button>
                                                         <button className="roundbtn">5</button>
-                                                    </div>
+                                                    </div> */}
                                                     <div className="col-xl-3 col-lg-2 col-md-2 col-sm-2 col-2 ">
 
-                                                        <button className="navbtn">Next →</button>
+                                                        <button className="navbtn" disabled={this.state.page === this.state.totalPages ? true : false} onClick={() => this.nextPage()}>Next →</button>
                                                     </div>
 
                                                 </div>

@@ -148,9 +148,9 @@ export const uploadEpub = restaurantData => dispatch => {
       });
   };
 
-  export const getAllBooks = () => dispatch => {
+  export const getAllBooks = (page) => dispatch => {
     return axios
-        .get('/api/all/book')
+        .get('/api/all/book?page='+page)
         .then((res) => {
             console.log(res)
 
