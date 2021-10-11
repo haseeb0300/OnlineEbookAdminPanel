@@ -66,7 +66,12 @@ class Header extends Component {
               </Link>
               <Link to="/profile">
 
-              <img className="header-img" src={name}></img>
+              {/* <img className="header-img" src={name}></img> */}
+              <div className="headerName">
+                <p className="poppins_bold mb-0">SI</p>
+              </div>
+
+
               </Link>
 
          
