@@ -698,35 +698,32 @@ class Categories extends Component {
                                 </div>
                                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  ">
                                     <div className="row">
-                                        <div className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3  ">
-                                        </div>
-                                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12  text-center">
+
+                                        <div className=" col-12  text-center">
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  pb-3">
 
                                                 <div className="row">
                                                     <div className="col-xl-3 col-lg-2 col-md-2 col-sm-2 col-2 ">
 
 
-                                                        <button className="navbtn" onClick={(e) => this.handleClick('previous')} disabled = {currentPage === 1 ? true : false}>← Previous</button>
+                                                        <button className="navbtn" onClick={(e) => this.handleClick('previous')} disabled={currentPage === 1 ? true : false}>← Previous</button>
                                                     </div>
                                                     <div className="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-8  pb-3">
-                                                        {/* {pageNumbers.map((todo, index) => {
-                                                            return (
-                                                                //  <button className="roundbtn" onClick={(e) => this.handleClick(index+1)}>{index+1}</button>
-                                                                <p className="allbooktext mb-0">{this.state.currentPage + '/' + pageNumbers.length}</p>
-                                                            )
-                                                        })} */}
-                                                        <p className="allbooktext mb-0">{this.state.currentPage + '/' + pageNumbers.length}</p>
 
                                                         {/* <button className="roundbtn">1</button>
                                                         <button className="roundbtn"> 2</button>
                                                         <button className="roundbtn">3</button>
                                                         <button className="roundbtn">4</button>
                                                         <button className="roundbtn">5</button> */}
+                                                        {/* <p className="allbooktext mb-0">{this.state.currentPage + '/' + pageNumbers.length}</p> */}
+                                                        <label className="poppins_bold">{this.state.currentPage}</label>
+                                                        <label className="poppins_regular ml-3 mr-3">out of</label>
+                                                        <label className="poppins_bold">{pageNumbers.length}</label>
+
                                                     </div>
                                                     <div className="col-xl-3 col-lg-2 col-md-2 col-sm-2 col-2 ">
 
-                                                        <button className="navbtn" onClick={(e) => this.handleClick('next')} disabled={this.state.currentPage === pageNumbers.length? true:false}>Next →</button>
+                                                        <button className="navbtn" onClick={(e) => this.handleClick('next')} disabled={this.state.currentPage === pageNumbers.length ? true : false}>Next →</button>
                                                     </div>
 
                                                 </div>
@@ -737,6 +734,7 @@ class Categories extends Component {
 
                                     </div>
 
+                               
                                 </div>
 
 

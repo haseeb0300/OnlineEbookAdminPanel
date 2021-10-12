@@ -36,6 +36,8 @@
 }
 .search_input{
     border-top: none;
+    width: 100%;
+
     border-right: none;
     border-left: none;
     border-bottom: 1px solid #707070;
@@ -64,6 +66,9 @@
     font-family: 'Montserrat';
     font-size: 14px;
     border: none;
+    position: absolute;
+    right: 16px;
+    margin-top: -6px;
 }
 .allbook-search-btn:focus{
   outline: none;
