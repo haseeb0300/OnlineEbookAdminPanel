@@ -58,6 +58,7 @@ class Reader extends Component {
             search: '',
             Active_Status: false,
             readerList: [],
+            readerListFiltered: [],
             currentPage: 1,
             todosPerPage: 15,
 
@@ -162,9 +163,29 @@ class Reader extends Component {
 
     }
 
+    onSearch =async (searchStr) =>{
+        
+        if(!searchStr){
+            this.setState({readerListFiltered:[]})
+return
+        }
+        let { readerList} =this.state
+        console.log(readerList)
+        let fiteredList = readerList.filter((item)=>{
+            if( item.Full_Name.toLowerCase().includes(searchStr.toLowerCase()) || item.Email.toLowerCase().includes(searchStr.toLowerCase()))
+            return true 
+            return false
+        })
+        this.setState({
+            currentPage:  1
+        });
+        console.log(fiteredList)
+        this.setState({ readerListFiltered: fiteredList})
+    }
 
     onPressSortByName = (colName, sort) => {
 
+        return
         this.props.sortAllBooks(colName, sort).then((res) => {
             console.log(res.content)
             if (res.status == true) {
@@ -221,7 +242,7 @@ class Reader extends Component {
     onChange = (e) => {
 
         this.setState({ [e.target.name]: e.target.value }, () => {
-            this.onClickSearch()
+            this.onSearch(e.target.value)
         })
     }
 
@@ -232,8 +253,6 @@ class Reader extends Component {
                 this.setState({
                     bookList: res.content,
                 })
-
-
             }
             else {
                 alert(res)
@@ -309,21 +328,54 @@ class Reader extends Component {
 
     }
 
+     onSort = (name,order )=>{
+         console.log("ORDER : " + order)
+          
+        this.setState({ ["SORT"+ name]:   order} )
+        let { readerList,readerListFiltered } = this.state
+        let readerListSorted = readerList.sort(this.sortArrByOrder (name,order))
+        let readerListFilteredSorted = readerListFiltered.sort(this.sortArrByOrder (name,order))
+        this.setState({readerList : readerListSorted ,readerListFiltered : readerListFilteredSorted   })
+         
+     }
+
+      sortArrByOrder = (prop ,order)=> {    
+          if(order ==="ASC")
+        return function(a, b) {    
+            if (a[prop] > b[prop]) {    
+                return 1;    
+            } else if (a[prop] < b[prop]) {    
+                return -1;    
+            }    
+            return 0;    
+        }    
+
+        return function(a, b) {    
+            if (a[prop]  < b[prop]) {    
+                return 1;    
+            } else if (a[prop]  > b[prop]) {    
+                return -1;    
+            }    
+            return 0;    
+        }    
+    }  
+
     render() {
 
-        const { isLoading, readerList, currentPage, todosPerPage } = this.state;
+        const { isLoading, readerList,readerListFiltered ,currentPage, todosPerPage } = this.state;
 
         if (isLoading) {
             return (
                 <div className="loader-large"></div>
             )
         }
+        let printList = this.state.search  ? readerListFiltered:readerList
         const indexOfLastTodo = currentPage * todosPerPage;
         const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
-        const currentTodos = readerList.slice(indexOfFirstTodo, indexOfLastTodo);
+        const currentTodos =  printList.slice(indexOfFirstTodo, indexOfLastTodo);
 
         const pageNumbers = [];
-        for (let i = 1; i <= Math.ceil(readerList.length / todosPerPage); i++) {
+        for (let i = 1; i <= Math.ceil(printList.length / todosPerPage); i++) {
             pageNumbers.push(i);
         }
 
@@ -342,19 +394,19 @@ class Reader extends Component {
                                         <p className="Allbook-heading mb-0">All Users</p>
                                         <p className="allbooktext mb-0">All readers on little book company</p>
                                     </div>
-                                    {/* <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12  ">
+                                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12  ">
                                         <div className="row">
                                             <div className="col-xl-5 col-lg-5 col-md-5 col-sm-4 col-4 "></div>
                                             <div className="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12 p-0 pr-4 text-right">
                                                 <img className="searchicon" src={searchicon}></img>
 
                                                 <input className="search_input " placeholder="search here" name="search" onChange={this.onChange}></input>
-                                                <button className="allbook-search-btn">search</button>
+                                                <button className="allbook-search-btn" onClick={ ()=>this.onSearch(this.state.search)}>search</button>
 
                                             </div>
 
                                         </div>
-                                    </div> */}
+                                    </div>
                                 </div>
                             </div>
 
@@ -365,15 +417,15 @@ class Reader extends Component {
                                             <tr>
 
 
-                                                {this.state.sortByName ? (
-                                                    <th scope="col table_header poppins_medium"> Name  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Name', 'ASC')}></img> </th>
+                                                {this.state["SORT"+"Full_Name"] ==="DESC" ?  
+                                                    <th onClick={(e) => this.onSort('Full_Name', 'ASC' )} scope="col table_header poppins_medium"> Name  <img className="dropicon" src={Polygon} ></img> </th>
+                                                  : 
+                                                    <th  onClick={(e) => this.onSort('Full_Name', 'DESC' )} scope="col table_header poppins_medium"> Name  <img className="dropicon" src={visibility}  ></img> </th>
+                                                 }
+                                                {this.state["SORT"+"Email"] ==="DESC" ?  (
+                                                    <th scope="col table_header poppins_medium">Email <img className="dropicon" src={Polygon} onClick={() => this.onSort('Email', 'ASC')}></img> </th>
                                                 ) : (
-                                                    <th scope="col table_header poppins_medium"> Name  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Name', 'DESC')}></img> </th>
-                                                )}
-                                                {this.state.sortByAuthorName ? (
-                                                    <th scope="col table_header poppins_medium">Email <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'ASC')}></img> </th>
-                                                ) : (
-                                                    <th scope="col table_header poppins_medium">Email <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'DESC')}></img> </th>
+                                                    <th scope="col table_header poppins_medium">Email <img className="dropicon" src={visibility} onClick={() => this.onSort('Email', 'DESC')}></img> </th>
                                                 )}
                                                 <th scope="col table_header poppins_medium">View  </th>
                                                 <th scope="col table_header poppins_medium">Actions  </th>
@@ -444,21 +496,6 @@ class Reader extends Component {
 
 
                             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                         </div>
