@@ -312,10 +312,10 @@ return
 
 
 
-
+{/* 
                 <td>
                     <img className="pointerr" src={visibility} onClick={() => this.onClickView(item)}></img>
-                </td>
+                </td> */}
                 <td>
                     {/* <Link to="/LibraryBooks" > */}
                     <p className="gotolibrary" onClick={() => this.onLibrary(item.User_ID)}>Go to library</p>
@@ -418,16 +418,15 @@ return
 
 
                                                 {this.state["SORT"+"Full_Name"] ==="DESC" ?  
-                                                    <th onClick={(e) => this.onSort('Full_Name', 'ASC' )} scope="col table_header poppins_medium"> Name  <img className="dropicon" src={Polygon} ></img> </th>
+                                                    <th onClick={(e) => this.onSort('Full_Name', 'ASC' )} scope="col table_header poppins_medium"> Name  <i class="fa fa-caret-up" aria-hidden="true"></i> </th>
                                                   : 
-                                                    <th  onClick={(e) => this.onSort('Full_Name', 'DESC' )} scope="col table_header poppins_medium"> Name  <img className="dropicon" src={visibility}  ></img> </th>
+                                                    <th  onClick={(e) => this.onSort('Full_Name', 'DESC' )} scope="col table_header poppins_medium"> Name <i class="fa fa-caret-down" aria-hidden="true"></i> </th>
                                                  }
                                                 {this.state["SORT"+"Email"] ==="DESC" ?  (
-                                                    <th scope="col table_header poppins_medium">Email <img className="dropicon" src={Polygon} onClick={() => this.onSort('Email', 'ASC')}></img> </th>
+                                                    <th scope="col table_header poppins_medium" onClick={() => this.onSort('Email', 'ASC')}>Email<i class="fa fa-caret-up" aria-hidden="true"></i></th>
                                                 ) : (
-                                                    <th scope="col table_header poppins_medium">Email <img className="dropicon" src={visibility} onClick={() => this.onSort('Email', 'DESC')}></img> </th>
+                                                    <th scope="col table_header poppins_medium" onClick={() => this.onSort('Email', 'DESC')}>Email <i class="fa fa-caret-down" aria-hidden="true"></i> </th>
                                                 )}
-                                                <th scope="col table_header poppins_medium">View  </th>
                                                 <th scope="col table_header poppins_medium">Actions  </th>
 
 

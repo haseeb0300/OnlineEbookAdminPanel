@@ -752,38 +752,64 @@ class SellingHistoryAll extends Component {
 
                                                         {/* <th scope="col table_header poppins_medium">Book ID <img className="dropicon" src={Polygon}></img> </th> */}
 
-                                                        <th scope="col table_header poppins_medium">Book Title <img className="dropicon" src={Polygon}></img>  </th>
+                                                        <th scope="col table_header poppins_medium">Book Title 
+                                                        {/* <img className="dropicon" src={Polygon}></img>  */}
+                                                         </th>
                                                         {this.state.sortByName ? (
-                                                            <th scope="col table_header poppins_medium">Book Name  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Name', 'ASC')}></img> </th>
+                                                            <th scope="col table_header poppins_medium">Book Name  
+                                                            {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Name', 'ASC')}></img>  */}
+                                                            </th>
                                                         ) : (
-                                                            <th scope="col table_header poppins_medium">Book Name  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Name', 'DESC')}></img> </th>
+                                                            <th scope="col table_header poppins_medium">Book Name 
+                                                             {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Name', 'DESC')}></img> */}
+                                                              </th>
                                                         )}
                                                         {this.state.sortByDate ? (
-                                                            <th scope="col table_header poppins_medium">Date & Time <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('createdAt', 'ASC')}></img>  </th>
+                                                            <th scope="col table_header poppins_medium">Date & Time 
+                                                            {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('createdAt', 'ASC')}></img>   */}
+                                                            </th>
                                                         ) : (
-                                                            <th scope="col table_header poppins_medium">Date & Time <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('createdAt', 'DESC')}></img>  </th>
+                                                            <th scope="col table_header poppins_medium">Date & Time
+                                                             {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('createdAt', 'DESC')}></img>  */}
+                                                              </th>
                                                         )}
                                                         {this.state.sortByPrice ? (
-                                                            <th scope="col table_header poppins_medium">Amount  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'ASC')}></img> </th>
+                                                            <th scope="col table_header poppins_medium">Amount  
+                                                            {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'ASC')}></img>  */}
+                                                            </th>
                                                         ) : (
-                                                            <th scope="col table_header poppins_medium">Amount  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'DESC')}></img> </th>
+                                                            <th scope="col table_header poppins_medium">Amount 
+                                                             {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'DESC')}></img> */}
+                                                              </th>
 
                                                         )}
                                                         {this.state.sortByPrice ? (
-                                                            <th scope="col table_header poppins_medium">Earning  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'ASC')}></img> </th>
+                                                            <th scope="col table_header poppins_medium">Earning 
+                                                             {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'ASC')}></img> */}
+                                                              </th>
                                                         ) : (
-                                                            <th scope="col table_header poppins_medium">Earning  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'DESC')}></img> </th>
+                                                            <th scope="col table_header poppins_medium">Earning 
+                                                             {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'DESC')}></img>  */}
+                                                             </th>
 
                                                         )}
                                                         {this.state.sortByStatus ? (
-                                                            <th scope="col table_header poppins_medium">Payment Status <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Payment_Status', 'ASC')}></img>  </th>
+                                                            <th scope="col table_header poppins_medium">Payment Status 
+                                                            {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Payment_Status', 'ASC')}></img>  */}
+                                                             </th>
                                                         ) : (
-                                                            <th scope="col table_header poppins_medium">Payment Status <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Payment_Status', 'DESC')}></img>  </th>
+                                                            <th scope="col table_header poppins_medium">Payment Status 
+                                                            {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Payment_Status', 'DESC')}></img>  */}
+                                                             </th>
                                                         )}
                                                         {this.state.sortByStatus ? (
-                                                            <th scope="col table_header poppins_medium">Reference No. <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Reference_No', 'ASC')}></img>  </th>
+                                                            <th scope="col table_header poppins_medium">Reference No. 
+                                                            {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Reference_No', 'ASC')}></img>  */}
+                                                             </th>
                                                         ) : (
-                                                            <th scope="col table_header poppins_medium">Reference No. <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Reference_No', 'DESC')}></img>  </th>
+                                                            <th scope="col table_header poppins_medium">Reference No. 
+                                                            {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Reference_No', 'DESC')}></img>   */}
+                                                            </th>
 
                                                         )}
 
