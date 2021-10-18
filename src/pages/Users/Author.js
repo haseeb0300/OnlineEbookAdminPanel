@@ -57,6 +57,8 @@ class Author extends Component {
             search: '',
             Active_Status:false,
             publisherList:[],
+            readerList: [],
+            publisherListFiltered: [],
             currentPage: 1,
             todosPerPage: 15,
 
@@ -142,8 +144,95 @@ class Author extends Component {
         })
 
     }
+    onSearch =async (searchStr) =>{
+        
+        if(!searchStr){
+            this.setState({publisherListFiltered:[]})
+return
+        }
+        let { publisherList} =this.state
+        console.log(publisherList)
+        let fiteredList = publisherList.filter((item)=>{
+            if( item.Full_Name.toLowerCase().includes(searchStr.toLowerCase()) || item.Email.toLowerCase().includes(searchStr.toLowerCase()))
+            return true 
+            return false
+        })
+        this.setState({
+            currentPage:  1
+        });
+        console.log(fiteredList)
+        this.setState({ publisherListFiltered: fiteredList})
+    }
 
+    onPressSortByName = (colName, sort) => {
 
+        return
+        this.props.sortAllBooks(colName, sort).then((res) => {
+            console.log(res.content)
+            if (res.status == true) {
+                if (colName == "Author_Name") {
+                    this.setState({
+                        bookList: res.content,
+                        sortByAuthorName: !this.state.sortByAuthorName
+                    })
+                } else if (colName == "createdAt") {
+                    this.setState({
+                        bookList: res.content,
+                        sortByDate: !this.state.sortByDate
+                    })
+                } else if (colName == "Name") {
+                    this.setState({
+                        bookList: res.content,
+                        sortByName: !this.state.sortByName
+                    })
+                } else if (colName == "Status") {
+                    this.setState({
+                        bookList: res.content,
+                        sortByStatus: !this.state.sortByStatus
+                    })
+                }
+
+            }
+            else {
+                alert(res)
+            }
+        }).catch((err) => {
+            console.log(err)
+
+        })
+
+    }
+    onSort = (name,order )=>{
+        console.log("ORDER : " + order)
+         
+       this.setState({ ["SORT"+ name]:   order} )
+       let { publisherList,publisherListFiltered } = this.state
+       let publisherListSorted = publisherList.sort(this.sortArrByOrder (name,order))
+       let publisherListFilteredSorted = publisherListFiltered.sort(this.sortArrByOrder (name,order))
+       this.setState({publisherList : publisherListSorted ,publisherListFiltered : publisherListFilteredSorted   })
+        
+    }
+
+     sortArrByOrder = (prop ,order)=> {    
+         if(order ==="ASC")
+       return function(a, b) {    
+           if (a[prop] > b[prop]) {    
+               return 1;    
+           } else if (a[prop] < b[prop]) {    
+               return -1;    
+           }    
+           return 0;    
+       }    
+
+       return function(a, b) {    
+           if (a[prop]  < b[prop]) {    
+               return 1;    
+           } else if (a[prop]  > b[prop]) {    
+               return -1;    
+           }    
+           return 0;    
+       }    
+   }  
     onPressSortByName = (colName, sort) => {
 
         this.props.sortAllBooks(colName, sort).then((res) => {
@@ -202,7 +291,8 @@ class Author extends Component {
     onChange = (e) => {
 
         this.setState({ [e.target.name]: e.target.value }, () => {
-            this.onClickSearch()
+            this.onSearch(e.target.value)
+
         })
     }
 
@@ -271,19 +361,23 @@ class Author extends Component {
 
     render() {
 
-        const { isLoading, publisherList, currentPage, todosPerPage } = this.state;
+        const { isLoading, publisherList, publisherListFiltered, currentPage, todosPerPage } = this.state;
 
         if (isLoading) {
             return (
                 <div className="loader-large"></div>
             )
         }
+        let printList = this.state.search  ? publisherListFiltered:publisherList
+
+        // let printList = this.state.search  ? readerListFiltered:readerList
         const indexOfLastTodo = currentPage * todosPerPage;
         const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
-        const currentTodos = publisherList.slice(indexOfFirstTodo, indexOfLastTodo);
+        const currentTodos =  printList.slice(indexOfFirstTodo, indexOfLastTodo);
+
 
         const pageNumbers = [];
-        for (let i = 1; i <= Math.ceil(publisherList.length / todosPerPage); i++) {
+        for (let i = 1; i <= Math.ceil(printList.length / todosPerPage); i++) {
             pageNumbers.push(i);
         }
 
@@ -308,9 +402,9 @@ class Author extends Component {
                                             <div className="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12 p-0 pr-4 text-right">
                                                 <img className="searchicon" src={searchicon}></img>
 
+                  
                                                 <input className="search_input " placeholder="search here" name="search" onChange={this.onChange}></input>
-                                                <button className="allbook-search-btn">search</button>
-
+                                                <button className="allbook-search-btn" onClick={ ()=>this.onSearch(this.state.search)}>search</button>
                                             </div>
 
                                         </div>
@@ -324,18 +418,23 @@ class Author extends Component {
                                     <thead>
                                             <tr>
                    
+                                            {this.state["SORT"+"Full_Name"] ==="DESC" ?  
+                                                    <th onClick={(e) => this.onSort('Full_Name', 'ASC' )} scope="col table_header poppins_medium"> Name  <i class="fa fa-caret-up" aria-hidden="true"></i> </th>
+                                                  : 
+                                                    <th  onClick={(e) => this.onSort('Full_Name', 'DESC' )} scope="col table_header poppins_medium"> Name  <i class="fa fa-caret-down" aria-hidden="true"></i> </th>
+                                                 }
                                                 {/* <th scope="col table_header poppins_medium">   </th> */}
 
-                                                {this.state.sortByName ? (
+                                                {/* {this.state.sortByName ? (
                                                     <th scope="col table_header poppins_medium"> Name  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Name', 'ASC')}></img> </th>
                                                 ) : (
                                                         <th scope="col table_header poppins_medium"> Name  <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Name', 'DESC')}></img> </th>
-                                                    )}
-                                                {this.state.sortByAuthorName ? (
-                                                    <th scope="col table_header poppins_medium">Email <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'ASC')}></img> </th>
+                                                    )} */}
+                                                       {this.state["SORT"+"Email"] ==="DESC" ?  (
+                                                    <th scope="col table_header poppins_medium">Email <span className="dropicon" onClick={() => this.onSort('Email', 'ASC')}><i class="fa fa-caret-up" aria-hidden="true"></i></span> </th>
                                                 ) : (
-                                                        <th scope="col table_header poppins_medium">Email <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByName('Author_Name', 'DESC')}></img> </th>
-                                                    )}
+                                                    <th scope="col table_header poppins_medium">Email <span className="dropicon" onClick={() => this.onSort('Email', 'DESC')}><i class="fa fa-caret-down" aria-hidden="true"></i></span> </th>
+                                                )}
                                                    
                                                    <th scope="col table_header poppins_medium">View  </th>
 

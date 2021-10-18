@@ -627,16 +627,16 @@ class Categories extends Component {
                                     </div>
                                     <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12  ">
                                         <div className="row">
-                                            <div className="col-xl-5 col-lg-5 col-md-5 col-sm-4 col-4 mt-1 ">
+                                            <div className="col-12 text-right mt-1 ">
                                                 <img className="ml-3 mr-1 imgHover " onClick={() => this.setState({ CategoryModal: true })} src={plus} /> <label className="poppins_regular AddModalText" onClick={() => this.setState({ CategoryModal: true })}>Add Category</label>
                                             </div>
-                                            <div className="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12 p-0 pr-4 text-right">
+                                            {/* <div className="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12 p-0 pr-4 text-right">
                                                 <img className="searchicon" src={searchicon}></img>
 
                                                 <input className="search_input " placeholder="search here" name="search" onChange={this.onChange}></input>
                                                 <button className="allbook-search-btn">search</button>
 
-                                            </div>
+                                            </div> */}
 
                                         </div>
                                     </div>
