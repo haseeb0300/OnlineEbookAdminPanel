@@ -50,14 +50,15 @@ class ManageBook extends Component {
             sortByName: false,
             sortByDate: false,
             sortByStatus: false,
-            bookList: {},
+            bookList: [],
             newBoolList: [],
             search: '',
             Active_Status:false,
             page:1,
             totalBooks:0,
             totalPages:0,
-           
+            currentPage: 1,
+            todosPerPage: 15,
 
         };
         this.handleChange = this.handleChange.bind(this);
@@ -90,7 +91,7 @@ class ManageBook extends Component {
                 console.log(res.content)
                 if (res.status == true) {
                     this.setState({
-                        bookList: res.content?.rows,
+                        bookList: res.content,
                         isLoading:false
                     })
     
@@ -114,7 +115,7 @@ class ManageBook extends Component {
                 console.log(res.content)
                 if (res.status == true) {
                     this.setState({
-                        bookList: res.content?.rows,
+                        bookList: res.content,
                         isLoading:false
                     })
     
@@ -176,9 +177,9 @@ class ManageBook extends Component {
             console.log(res.content)
             if (res.status == true) {
                 this.setState({
-                    totalPages:(Math.ceil(res.content?.count / 15)),
-                    totalBooks:res.content?.count,
-                    bookList: res.content?.rows,
+                    // totalPages:(Math.ceil(res.content?.count / 15)),
+                    // totalBooks:res.content?.count,
+                    bookList: res.content,
                     isLoading:false
                 })
 
@@ -281,10 +282,21 @@ class ManageBook extends Component {
             activeTab: val
         })
     }
+ handleClick = (type) => {
+        if (type === 'next') {
+            this.setState({
+                currentPage: this.state.currentPage + 1
+            });
+        } else if (type === 'previous') {
+            this.setState({
+                currentPage: this.state.currentPage - 1
+            });
+        }
 
-    renderTableRows = () => {
+    }
+    renderTableRows = (lists) => {
         var myData = [];
-        if (this.state.bookList && this.state.bookList.length < 1) {
+        if (lists && lists.length < 1) {
 
             return () =>
 
@@ -295,44 +307,8 @@ class ManageBook extends Component {
                 </tr>
 
         }
-        if (this.state.newBoolList?.length > 0) {
-            return this.state.newBoolList.map((item, i) =>
-
-                <tr>
-                    {/* <td>
-        <div class="form-group">
-            <input type="checkbox" id="html1" />
-            <label for="html1"></label>
-        </div>
-    </td>
-    <td>03241</td> */}
-
-                    <td><img src={item.Image} width="50px"></img></td>
-
-                    <td>{item.Name}</td>
-                    <td>{item.Author_Name}</td>
-                    <td><Moment format="DD-MM-YY HH:MM">{item.createdAt}</Moment></td>
-                    <td>
-                        <div class={item.Status == 'Published' ? "table-badge-publish" : item.Status == 'On Review' ? "table-badge-review" : item.Status == "UnPublished" ? 'table-badge-unpublish' : "table-badge-blocked"}>
-                            <label className="badge-label">
-                                {item.Status}
-                            </label>
-                        </div>
-                    </td>
-
-                    <td>
-                        <label class="blackSwitch">
-                            <input type="checkbox" checked={item.Active_Status} />
-                            <span class="blackslider round"></span>
-                        </label>
-                    </td>
-                    <td>
-                        <img className="pointerr" src={visibility} onClick={() => this.onClickView(item)}></img>
-                    </td>
-                </tr>
-            )
-        } else {
-            return this.state.bookList.map((item, i) =>
+        
+            return lists.map((item, i) =>
 
                 <tr>
                     {/* <td>
@@ -383,14 +359,14 @@ class ManageBook extends Component {
                             this.props.createBook(addBookData).then((res) => {
                                 console.log(res)
                                 if (res.status) {
-                                    this.setState(({ bookList }) => ({
-                                        bookList: [
-                                            ...bookList.slice(0, index),
+                                    this.setState(({ list }) => ({
+                                        list: [
+                                            ...list.slice(0, index),
                                             {
-                                                ...bookList[index],
+                                                ...list[index],
                                                 Status: status,
                                             },
-                                            ...bookList.slice(index + 1)
+                                            ...list.slice(index + 1)
                                         ]
                                     }));
                                 }
@@ -463,16 +439,16 @@ tableSelect_Blocked */}
                         this.props.createBook(addBookData).then((res) => {
                             console.log(res)
                             if (res.status) {
-                                this.setState(({ bookList }) => ({
+                                this.setState(({ list }) => ({
 
                             
-                                    bookList: [
-                                        ...bookList.slice(0, i),
+                                    list: [
+                                        ...list.slice(0, i),
                                         {
-                                            ...bookList[i],
+                                            ...list[i],
                                             Active_Status: !item.Active_Status,
                                         },
-                                        ...bookList.slice(i + 1)
+                                        ...list.slice(i + 1)
                                     ]
                                 }));
                             }
@@ -511,21 +487,28 @@ tableSelect_Blocked */}
                     </td>
                 </tr>
             )
-        }
+        
 
 
     }
 
     render() {
 
-        const { isLoading } = this.state;
+        const { isLoading, bookList, currentPage, todosPerPage } = this.state;
 
         if (isLoading) {
             return (
                 <div className="loader-large"></div>
             )
         }
+        const indexOfLastTodo = currentPage * todosPerPage;
+        const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+        const currentTodos = this.state.bookList.slice(indexOfFirstTodo, indexOfLastTodo);
 
+        const pageNumbers = [];
+        for (let i = 1; i <= Math.ceil(bookList.length / todosPerPage); i++) {
+            pageNumbers.push(i);
+        }
         return (
             <div>
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -598,7 +581,7 @@ tableSelect_Blocked */}
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {this.state.bookList.length > 0 && this.renderTableRows()}
+                                            {this.state.bookList.length > 0 && this.renderTableRows(currentTodos)}
                                             {this.state.bookList?.length < 1 &&
                                                 <tr>
                                                     <td class="text-center" colspan="7"> <b>  No Data To Display</b>
@@ -617,28 +600,32 @@ tableSelect_Blocked */}
                                 </div>
                                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  ">
                                     <div className="row">
-                                        <div className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3  ">
-                                        </div>
-                                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12  text-center">
+
+                                        <div className=" col-12  text-center">
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  pb-3">
 
                                                 <div className="row">
                                                     <div className="col-xl-3 col-lg-2 col-md-2 col-sm-2 col-2 ">
 
 
-                                                        <button className="navbtn" disabled={this.state.page === 1 ? true : false} onClick={() => this.previousPage()}>← Previous</button>
+                                                        <button className="navbtn" onClick={(e) => this.handleClick('previous')} disabled={currentPage === 1 ? true : false}>← Previous</button>
                                                     </div>
-                                                    {/* <div className="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-8  pb-3">
+                                                    <div className="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-8  pb-3">
 
-                                                        <button className="roundbtn">1</button>
+                                                        {/* <button className="roundbtn">1</button>
                                                         <button className="roundbtn"> 2</button>
                                                         <button className="roundbtn">3</button>
                                                         <button className="roundbtn">4</button>
-                                                        <button className="roundbtn">5</button>
-                                                    </div> */}
+                                                        <button className="roundbtn">5</button> */}
+                                                        {/* <p className="allbooktext mb-0">{this.state.currentPage + '/' + pageNumbers.length}</p> */}
+                                                        <label className="poppins_bold">{this.state.currentPage}</label>
+                                                        <label className="poppins_regular ml-3 mr-3">out of</label>
+                                                        <label className="poppins_bold">{pageNumbers.length}</label>
+
+                                                    </div>
                                                     <div className="col-xl-3 col-lg-2 col-md-2 col-sm-2 col-2 ">
 
-                                                        <button className="navbtn" disabled={this.state.page === this.state.totalPages ? true : false} onClick={() => this.nextPage()}>Next →</button>
+                                                        <button className="navbtn" onClick={(e) => this.handleClick('next')} disabled={this.state.currentPage === pageNumbers.length ? true : false}>Next →</button>
                                                     </div>
 
                                                 </div>
@@ -649,6 +636,7 @@ tableSelect_Blocked */}
 
                                     </div>
 
+                         
                                 </div>
 
                             </div>
