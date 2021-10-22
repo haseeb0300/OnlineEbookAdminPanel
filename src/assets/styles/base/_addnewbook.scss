@@ -38,6 +38,15 @@
     font-size: 11px;
     position: absolute;
 }
+.invaliderrorAddNewBookImageModal {
+    color: red;
+    left: 4%;
+    margin-top: 17px;
+    text-align: right;
+    margin-bottom: 0px;
+    line-height: 0.1;
+    font-size: 11px;
+}
 .managebookheading{
     font-size: 18px;
     color: #0D1B2A;
@@ -364,3 +373,18 @@ opacity: 0.8;
 }
 
 
+.loaderDiv{
+    position: absolute;
+left: 0;
+right: 0;
+z-index: 2;
+}
+.downloadIcon{
+    color: #FAC85B;
+font-size: 24px;
+}
+.downloadIcon:hover{
+    cursor: pointer;
+    color: #fab41c;
+
+}

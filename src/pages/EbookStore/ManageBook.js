@@ -359,14 +359,14 @@ class ManageBook extends Component {
                             this.props.createBook(addBookData).then((res) => {
                                 console.log(res)
                                 if (res.status) {
-                                    this.setState(({ list }) => ({
-                                        list: [
-                                            ...list.slice(0, index),
+                                    this.setState(({ bookList }) => ({
+                                        bookList: [
+                                            ...bookList.slice(0, index),
                                             {
-                                                ...list[index],
+                                                ...bookList[index],
                                                 Status: status,
                                             },
-                                            ...list.slice(index + 1)
+                                            ...bookList.slice(index + 1)
                                         ]
                                     }));
                                 }
@@ -439,16 +439,16 @@ tableSelect_Blocked */}
                         this.props.createBook(addBookData).then((res) => {
                             console.log(res)
                             if (res.status) {
-                                this.setState(({ list }) => ({
+                                this.setState(({ bookList }) => ({
 
                             
-                                    list: [
-                                        ...list.slice(0, i),
+                                    bookList: [
+                                        ...bookList.slice(0, i),
                                         {
-                                            ...list[i],
+                                            ...bookList[i],
                                             Active_Status: !item.Active_Status,
                                         },
-                                        ...list.slice(i + 1)
+                                        ...bookList.slice(i + 1)
                                     ]
                                 }));
                             }

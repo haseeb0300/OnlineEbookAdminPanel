@@ -19,6 +19,7 @@ import { uploadEpub, uploadImage, getBookCategory, createBook } from '../../stor
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup"
 
+import axios from 'axios';
 
 var cx = require('classnames');
 
@@ -41,10 +42,10 @@ class ManageBook extends Component {
             errors: {},
             serverError: {},
             isLoading: false,
-            isUploading:false,
+            isUploading: false,
             activeTab: 1,
             Url: "",
-            Preview:"",
+            Preview: "",
             epub: "",
             original_book_name: "",
             Author_Email: "",
@@ -61,9 +62,9 @@ class ManageBook extends Component {
             Category_ID: "",
             Image: "",
             Price: "",
-            Price_USD:"",
+            Price_USD: "",
             CtaegoryList: [],
-            tab2error:false,
+            tab2error: false,
             // errors: {},
             // serverError: {},
             Book_ID: "",
@@ -77,21 +78,39 @@ class ManageBook extends Component {
 
     }
 
-    tab2Error = () =>{
-        this.setState({tab2error:!this.state.tab2error})
+    tab2Error = () => {
+        this.setState({ tab2error: !this.state.tab2error })
+    }
+
+    downloadFile = (type, Book_Url) => {
+        this.setState({isUploading: true})
+        console.log('Book_Url',Book_Url)
+        axios({
+            url: 'https://littlebookcompany.net:3002/v1/api/download?Book_Name=' + Book_Url,
+            method: 'GET',
+            responseType: 'blob', // important
+        }).then((response) => {
+            this.setState({isUploading: false})
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', type+'.epub');
+            document.body.appendChild(link);
+            link.click();
+        });
     }
 
     componentWillMount() {
-      
-            if (this.props != null && this.props.location.state != null && this.props.location.state.book) {
-                console.log(this.props.location.state.book)
-                // this.setState({
-                //     bookList: this.props.location.state.books,
-                //     pageTitle: this.props.location.state.Author_Name,
 
-                // })
-                this.setValuesOfStates(this.props.location.state.book)
-            }
+        if (this.props != null && this.props.location.state != null && this.props.location.state.book) {
+            console.log(this.props.location.state.book)
+            // this.setState({
+            //     bookList: this.props.location.state.books,
+            //     pageTitle: this.props.location.state.Author_Name,
+
+            // })
+            this.setValuesOfStates(this.props.location.state.book)
+        }
     }
 
     setValuesOfStates = (book) => {
@@ -112,7 +131,7 @@ class ManageBook extends Component {
             Price: book.Price,
             Price_USD: book.Price_USD,
             Url: book.Url,
-            Preview: book.Preview == null?"":book.Preview,
+            Preview: book.Preview == null ? "" : book.Preview,
             Book_ID: book.Book_ID,
         })
     }
@@ -132,13 +151,15 @@ class ManageBook extends Component {
                 break
         }
     }
-    onFileChange(event,epubType) {
+    onFileChange(event, epubType) {
 
         event.preventDefault();
 
         let readers = new FileReader();
         let file = event.target.files[0];
-
+        console.log('epubType :',epubType)
+        console.log('event :',event)
+        
         readers.onloadend = () => {
             this.setState({
                 file: file,
@@ -157,15 +178,17 @@ class ManageBook extends Component {
         this.setState({ isUploading: true })
         this.props.uploadEpub(payload).then((res) => {
             console.log(res.content)
+            console.log('epubType :',epubType)
             this.setState({ isUploading: false })
             if (res.content.length > 0) {
                 console.log(res.content[0].url)
-                if(epubType === 'Url'){
-                this.setState({ Url: res.content[0].url, original_book_name: res.content[0].originalname })
-            }else if(epubType === 'Preview'){
-                this.setState({ Preview: res.content[0].url, preview_name: res.content[0].originalname })
- 
-            }
+                if (epubType === 'Url') {
+                    console.log('In Url')
+                    this.setState({ Url: res.content[0].url, original_book_name: res.content[0].originalname })
+                } else if (epubType === 'Preview') {
+                    this.setState({ Preview: res.content[0].url, preview_name: res.content[0].originalname })
+
+                }
             }
         }).catch((err) => {
             this.setState({ isUploading: false })
@@ -254,12 +277,12 @@ class ManageBook extends Component {
             "Price_USD": this.state.Price_USD,
             "Book_ID": this.state.Book_ID,
         }
-       
+        
         this.props.createBook(addBookData).then((res) => {
             console.log(res)
             if (res.status) {
                 console.log(res)
-                if(this.state.activeTab == 3){
+                if (this.state.activeTab == 3) {
                     this.setState({
                         Book_ID: res.content[0] && res.content[0].Book && res.content[0].Book.Book_ID,
                         activeTab: 1,
@@ -282,18 +305,18 @@ class ManageBook extends Component {
                         Category_ID: "",
                         Image: "",
                         Price: "",
-                        Price_USD:"",
+                        Price_USD: "",
                     })
-                }else{
-                this.setState({
-                    Book_ID: res.content[0] && res.content[0].Book && res.content[0].Book.Book_ID,
-                    activeTab: this.state.activeTab + 1,
-                })
-            }
+                } else {
+                    this.setState({
+                        Book_ID: res.content[0] && res.content[0].Book && res.content[0].Book.Book_ID,
+                        activeTab: this.state.activeTab + 1,
+                    })
+                }
                 // this.props.history.push('/menu/menugrid');
             }
         }).catch((err) => {
- 
+
             var validationError = {}
             var serverError = []
             console.log(err.hasOwnProperty('validation'))
@@ -346,7 +369,7 @@ class ManageBook extends Component {
     }
     render() {
 
-        const { isLoading,errors } = this.state;
+        const { isLoading, errors } = this.state;
 
         if (isLoading) {
             return (
@@ -390,7 +413,7 @@ class ManageBook extends Component {
                                     <p className="poppins_medium mt-4 congratulation_text"> Congratulation  </p>
                                     <p className="poppins_light mt-4 modal_text"> Your eBook is under review in order to track your book go to Manage Books  </p>
 
-                                    <button className="col-xl-4 poppins_semibold modalbtn " onClick = {() => this.onManageBook()}>Manage Books</button>
+                                    <button className="col-xl-4 poppins_semibold modalbtn " onClick={() => this.onManageBook()}>Manage Books</button>
 
                                 </div>
 
@@ -406,7 +429,7 @@ class ManageBook extends Component {
 
                     </Modal>
 
-         
+
 
                     <div className="row">
                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 managebookContainer">
@@ -417,51 +440,51 @@ class ManageBook extends Component {
 
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div className="row">
-                                    
+
                                     <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-3" onClick={() => this.onClickBottomBar(1)}>
                                         {/* <button className={cx({ "aboutbook_btn_slider_btn": true, "aboutbook_btn_slider_btn_active": this.state.activeTab === 1 })} onClick={() => this.onClickBottomBar(1)}>About Book</button> */}
 
                                         <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 1 })} >
                                             <label className="poppins_medium ml-3 manageBookTopBarCard-Heading mt-2 mb-0">ebook Detail</label><br></br>
-                                            <label className="poppins_light ml-4 manageBookTopBarCard-Text mt-2 mb-0"><img className="ml-2 mr-2" src={progressicon}/>{this.state.activeTab === 1? "In Progress...": "Completed"}</label>
+                                            <label className="poppins_light ml-4 manageBookTopBarCard-Text mt-2 mb-0"><img className="ml-2 mr-2" src={progressicon} />{this.state.activeTab === 1 ? "In Progress..." : "Completed"}</label>
 
                                         </div>
                                     </div>
                                     {this.state.Name && this.state.Language && this.state.Category_ID && this.state.Description && this.state.Author_Name && this.state.Author_Email && this.state.Author_Description && this.state.Author_Image ? (
-                                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-3" onClick={() => this.onClickBottomBar(2)}>
-                                        {/* <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 2 })} > */}
-                                        <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 2 })} >
+                                        <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-3" onClick={() => this.onClickBottomBar(2)}>
+                                            {/* <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 2 })} > */}
+                                            <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 2 })} >
 
-                                            <label className="poppins_medium ml-3 manageBookTopBarCard-Heading mt-2 mb-0">ebook Content</label><br></br>
-                                            <label className="poppins_light ml-4 manageBookTopBarCard-Text mt-2 mb-0"><img className="ml-2 mr-2" src={progressicon}></img>{this.state.activeTab === 2? "In Progress...":this.state.activeTab === 1? "Not Started...":"Completed..."}</label>
+                                                <label className="poppins_medium ml-3 manageBookTopBarCard-Heading mt-2 mb-0">ebook Content</label><br></br>
+                                                <label className="poppins_light ml-4 manageBookTopBarCard-Text mt-2 mb-0"><img className="ml-2 mr-2" src={progressicon}></img>{this.state.activeTab === 2 ? "In Progress..." : this.state.activeTab === 1 ? "Not Started..." : "Completed..."}</label>
 
+                                            </div>
                                         </div>
-                                    </div>
-                                    ):(
+                                    ) : (
                                         <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-3">
-                                        {/* <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 2 })} > */}
-                                        <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 2 })} >
+                                            {/* <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 2 })} > */}
+                                            <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 2 })} >
 
-                                            <label className="poppins_medium ml-3 manageBookTopBarCard-Heading mt-2 mb-0">ebook Content</label><br></br>
-                                            <label className="poppins_light ml-4 manageBookTopBarCard-Text mt-2 mb-0"><img className="ml-2 mr-2" src={progressicon}></img>{this.state.activeTab === 2? "In Progress...":this.state.activeTab === 1? "Not Started...":"Completed..."}</label>
+                                                <label className="poppins_medium ml-3 manageBookTopBarCard-Heading mt-2 mb-0">ebook Content</label><br></br>
+                                                <label className="poppins_light ml-4 manageBookTopBarCard-Text mt-2 mb-0"><img className="ml-2 mr-2" src={progressicon}></img>{this.state.activeTab === 2 ? "In Progress..." : this.state.activeTab === 1 ? "Not Started..." : "Completed..."}</label>
 
+                                            </div>
                                         </div>
-                                    </div> 
                                     )}
                                     {this.state.Url && this.state.Preview && this.state.Image ? (
-                                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-3" onClick={() => this.onClickBottomBar(3)}>
-                                        <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 3 })} >
-                                            <label className="poppins_medium ml-3 manageBookTopBarCard-Heading mt-2 mb-0">ebook Pricing</label><br></br>
-                                            <label className="poppins_light ml-4 manageBookTopBarCard-Text mt-2 mb-0"><img className="ml-2 mr-2" src={progressicon}></img>{this.state.activeTab !== 3? "Not Started...": "In Progress..."}</label>
+                                        <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-3" onClick={() => this.onClickBottomBar(3)}>
+                                            <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 3 })} >
+                                                <label className="poppins_medium ml-3 manageBookTopBarCard-Heading mt-2 mb-0">ebook Pricing</label><br></br>
+                                                <label className="poppins_light ml-4 manageBookTopBarCard-Text mt-2 mb-0"><img className="ml-2 mr-2" src={progressicon}></img>{this.state.activeTab !== 3 ? "Not Started..." : "In Progress..."}</label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    ):(
+                                    ) : (
                                         <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-3">
-                                        <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 3 })} >
-                                            <label className="poppins_medium ml-3 manageBookTopBarCard-Heading mt-2 mb-0">ebook Pricing</label><br></br>
-                                            <label className="poppins_light ml-4 manageBookTopBarCard-Text mt-2 mb-0"><img className="ml-2 mr-2" src={progressicon}></img>{this.state.activeTab !== 3? "Not Started...": "In Progress..."}</label>
+                                            <div className={cx({ "manageBookTopBarCard": true, "manageBookTopBarCard_active": this.state.activeTab === 3 })} >
+                                                <label className="poppins_medium ml-3 manageBookTopBarCard-Heading mt-2 mb-0">ebook Pricing</label><br></br>
+                                                <label className="poppins_light ml-4 manageBookTopBarCard-Text mt-2 mb-0"><img className="ml-2 mr-2" src={progressicon}></img>{this.state.activeTab !== 3 ? "Not Started..." : "In Progress..."}</label>
+                                            </div>
                                         </div>
-                                    </div>
                                     )}
 
                                 </div>
@@ -663,7 +686,7 @@ class ManageBook extends Component {
                                                     </div>
                                                     <div className="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-12 mt-4">
                                                         <div className="row">
-                                                        {this.state.isUploading && <div className="loader-small"></div>}
+                                                            {this.state.isUploading && <div className="loader-small"></div>}
 
 
                                                             <div className=" col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 vertical_center ">
@@ -679,7 +702,7 @@ class ManageBook extends Component {
                                                                         </div>
                                                                     </div>
                                                                     <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mt-4">
-                                                                        <button className="col-xl-12 poppins_semibold uploadbtn" onClick={(e) => this.upload.click()}>UPLOAD FILE<input type="file" onChange={(e) => this.onImageChange(e, 'AUTHOR')} name="Author_Image" ref={(ref) => this.upload = ref} style={{ display: 'none' }} /></button>
+                                                                        <button className="col-xl-12 poppins_semibold uploadbtn" onClick={(e) => this.upload1.click()}>UPLOAD FILE<input type="file" onChange={(e) => this.onImageChange(e, 'AUTHOR')} name="Author_Image" ref={(ref) => this.upload1 = ref} style={{ display: 'none' }} /></button>
 
                                                                         <p>Not be more than 1 MB</p>
                                                                     </div>
@@ -705,11 +728,11 @@ class ManageBook extends Component {
                                     </div>
 
                                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
-                                <div className="text-right">
-                                    <button className="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-6  poppins_semibold uploadbtn" onClick={this.onAddBook}>Save & Continue</button>
+                                        <div className="text-right">
+                                            <button className="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-6  poppins_semibold uploadbtn" onClick={this.onAddBook}>Save & Continue</button>
 
-                                </div>
-                            </div>
+                                        </div>
+                                    </div>
                                 </>
                             ) : this.state.activeTab === 2 ? (
                                 <>
@@ -720,16 +743,19 @@ class ManageBook extends Component {
                                             <label className="poppins_light  manageBookTopBarCard-Text mt-2 mb-0">Please upload your book content</label>
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
                                                 {this.state.tab2error && (
-                                                <div className ="text-center">
+                                                    <div className="text-center">
 
-                                                <p className="error_allfield">Please Provide all required details</p>
+                                                        <p className="error_allfield">Please Provide all required details</p>
 
-                                                </div>
+                                                    </div>
                                                 )}
 
 
                                                 <div className="row">
+                                                    <div className="loaderDiv">
 
+                                                        {this.state.isUploading && <div className="loader-large"></div>}
+                                                    </div>
                                                     <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 P mt-3">
                                                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                                                             <div className="row">
@@ -746,13 +772,25 @@ class ManageBook extends Component {
                                                                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ml-4 ">
                                                                         <p className="manageBookTopBarCard-Heading poppins_medium   mt-2 mb-0">Choose File</p>
                                                                         <label className="poppins_light  manageBookTopBarCard-Text mt-2 mb-0">Complete EPUB file</label><br></br>
-                                                                        
+
                                                                         {errors.Url && <div className="invaliderrorAddNewBookDescription">{errors.Url}</div>}
 
-                                                                        <label className=" mt-2 mb-0"><img src={epubuploadicon}></img> <label className="poppins_light  manageBookTopBarCard-Text ml-2"> {this.state.Url === '' ? 'No File Uploaded' : this.state.Name+ '.epub'}  </label></label> <br></br>
-                                                                        <button className="col-xl-5 poppins_semibold uploadbtn" onClick={(e) => this.upload.click()} > UPLOAD FILES<input id="myInput2" type="file" onChange={(event) => this.onFileChange(event,"Url")} name="Url" ref={(ref) => this.upload = ref} style={{ display: 'none' }} /></button>
+                                                                        <label className=" mt-2 mb-0"><img src={epubuploadicon}></img> <label className="poppins_light  manageBookTopBarCard-Text ml-2"> {this.state.Url === '' ? 'No File Uploaded' : this.state.Name + '.epub'}  </label></label> <br></br>
+                                                                        <div className="row">
+                                                                            <div className="col-5">
+
+                                                                                <button className="col-12 poppins_semibold uploadbtn" onClick={(e) => this.upload2.click()} > UPLOAD FILESss<input id="myInput2" type="file" onChange={(event) => this.onFileChange(event, "Url")} name="Url" ref={(ref) => this.upload2 = ref} style={{ display: 'none' }} /></button>
+                                                                            </div>
+
+                                                                            <div className="col-5 mt-2">
+                                                                                <span onClick = {() => this.downloadFile('file',this.state.Url)}><i class="fa fa-download downloadIcon" aria-hidden="true"></i></span>
+
+                                                                            </div>
+
+                                                                        </div>
 
                                                                     </div>
+
 
 
 
@@ -778,9 +816,18 @@ class ManageBook extends Component {
                                                                         <p className="manageBookTopBarCard-Heading poppins_medium   mt-2 mb-0">Choose Preview File</p>
                                                                         <label className="poppins_light  manageBookTopBarCard-Text mt-2 mb-0">Preview EPUB file</label><br></br>
 
-                                                                        <label className=" mt-2 mb-0"><img src={epubuploadicon}></img> <label className="poppins_light  manageBookTopBarCard-Text ml-2"> {this.state.Preview === '' ? 'No File Uploaded' : this.state.Name+ ".epub"}  </label></label> <br></br>
-                                                                        <button className="col-xl-5 poppins_semibold uploadbtn" onClick={(e) => this.upload.click()} > UPLOAD FILES<input id="myInput2" type="file" onChange={(event) => this.onFileChange(event,"Preview")} name="Preview" ref={(ref) => this.upload = ref} style={{ display: 'none' }} /></button>
+                                                                        <label className=" mt-2 mb-0"><img src={epubuploadicon}></img> <label className="poppins_light  manageBookTopBarCard-Text ml-2"> {this.state.Preview === '' ? 'No File Uploaded' : this.state.Name + " Preview.epub"}  </label></label> <br></br>
+                                                                        <div className="row">
+                                                                            <div className="col-5">
 
+
+                                                                                <button className="col-12 poppins_semibold uploadbtn" onClick={(e) => this.upload3.click()} > UPLOAD FILES<input id="myInput3" type="file" onChange={(event) => this.onFileChange(event, "Preview")} name="Preview" ref={(ref) => this.upload3 = ref} style={{ display: 'none' }} /></button>
+                                                                            </div>
+                                                                            <div className="col-5 mt-2">
+                                                                                <span onClick = {() => this.downloadFile('preview',this.state.Preview)}><i class="fa fa-download downloadIcon" aria-hidden="true"></i></span>
+
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
 
 
@@ -806,7 +853,11 @@ class ManageBook extends Component {
                                                         </div>
                                                      */}
                                                     </div>
+
+
                                                     <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
+
+
                                                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                                                             <div className="row">
                                                                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
@@ -828,12 +879,19 @@ class ManageBook extends Component {
                                                                                 </div>
                                                                                 <div className="col-xl-7 col-lg-7 col-md-6 col-sm-6 col-12 mt-4">
                                                                                     {/* <button className="col-xl-12 poppins_semibold uploadbtn">UPLOAD FILE</button> */}
-                                                                                    <button className="col-xl-12 poppins_semibold uploadbtn" onClick={(e) => this.uploads.click()}>UPLOAD FILE<input id="myInput" type="file" onChange={(e) => this.onImageChange(e, 'BOOK')} name="Image" ref={(ref) => this.uploads = ref} style={{ display: 'none' }} /></button>
+                                                                                    <button className="col-xl-12 poppins_semibold uploadbtn" onClick={(e) => this.upload4.click()}>UPLOAD FILE<input id="myInput" type="file" onChange={(e) => this.onImageChange(e, 'BOOK')} name="Image" ref={(ref) => this.upload4 = ref} style={{ display: 'none' }} /></button>
+                                                                                  <div className="col-12 text-center">
+
+                                                                                    <span ><i class="fa fa-download downloadIcon" aria-hidden="true"></i></span>
+                                                                                    </div>
 
                                                                                     <p className="mb-0 poppins_light  manageBookTopBarCard-Text">Not be more then 2 MB</p>
                                                                                     <p className="mb-0 poppins_light  manageBookTopBarCard-Text">Pixel Size 1645 x 2550 (Recommended)</p>
                                                                                     <p className="mb-0 poppins_light  manageBookTopBarCard-Text">Resolution 150 DPI</p>
                                                                                 </div>
+                                                                                {errors.Image && <div className="invaliderrorAddNewBookImage">{errors.Image}</div>}
+
+
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -847,21 +905,21 @@ class ManageBook extends Component {
 
                                     </div>
 
-                                    {this.state.Url && this.state.Preview && this.state.Image ?(
-                                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
-                                <div className="text-right">
-                                    <button className="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-6  poppins_semibold uploadbtn" onClick={this.onAddBook}>Save & Continue</button>
+                                    {this.state.Url && this.state.Preview && this.state.Image ? (
+                                        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
+                                            <div className="text-right">
+                                                <button className="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-6  poppins_semibold uploadbtn" onClick={this.onAddBook}>Save & Continue</button>
 
-                                </div>
-                            </div>
-                            ):(
-                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
-                                <div className="text-right">
-                                    <button className="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-6  poppins_semibold uploadbtn" onClick={this.tab2Error}>Save & Continue</button>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
+                                            <div className="text-right">
+                                                <button className="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-6  poppins_semibold uploadbtn" onClick={this.tab2Error}>Save & Continue</button>
 
-                                </div>
-                            </div>
-                            )}
+                                            </div>
+                                        </div>
+                                    )}
 
 
                                 </>
@@ -991,11 +1049,11 @@ class ManageBook extends Component {
 
                                     </div>
                                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
-                                <div className="text-right">
-                                    <button className="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-6  poppins_semibold uploadbtn" onClick={this.onAddBook}>Save & Continue</button>
+                                        <div className="text-right">
+                                            <button className="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-6  poppins_semibold uploadbtn" onClick={this.onAddBook}>Save & Continue</button>
 
-                                </div>
-                            </div>
+                                        </div>
+                                    </div>
 
                                 </>
 

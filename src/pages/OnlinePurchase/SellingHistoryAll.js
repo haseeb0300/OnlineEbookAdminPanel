@@ -33,7 +33,7 @@ class SellingHistoryAll extends Component {
         super(props);
         this.state = {
             orderList: [],
-            errors: {},
+            errors: [],
             serverError: {},
             isLoading: false,
             sortByName: false,
@@ -48,13 +48,16 @@ class SellingHistoryAll extends Component {
             dayPending: '',
             PrintModal: false,
             ReferenceModal: false,
-            author:{},
-            Reference_No:"",
-            Status:"",
-            Amount:"",
-            index:{},
+            author: {},
+            Reference_No: "",
+            Status: "",
+            Amount: "",
+            index: {},
             currentPage: 1,
             todosPerPage: 15,
+            isUploading: false,
+            OrderListFiltered: [],
+
 
 
 
@@ -71,7 +74,7 @@ class SellingHistoryAll extends Component {
 
     componentWillMount() {
         if (this?.props?.location?.state?.user) {
-            console.log("User :",this?.props?.location?.state?.user)
+            console.log("User :", this?.props?.location?.state?.user)
 
             this.props.getAllOrder(this?.props?.location?.state?.user?.User_ID).then((res) => {
                 console.log("OrderList :", res.content)
@@ -79,46 +82,46 @@ class SellingHistoryAll extends Component {
                     this.setState({
                         orderList: res.content,
                     })
-    
+
                 }
                 else {
                     alert(res)
                 }
             }).catch((err) => {
                 console.log(err)
-    
+
             })
-    
+
             this.props.getTotalEarning(300).then((res) => {
                 console.log("Total Earnings", res.content)
                 if (res.status) {
                     this.setState({
                         totalearning: res.content[0]?.order_book?.total_amount,
                     })
-    
+
                 }
                 else {
                     alert(res)
                 }
             }).catch((err) => {
                 console.log(err)
-    
+
             })
-    
+
             this.props.getTotalPending(7).then((res) => {
                 console.log(res.content)
                 if (res.status) {
                     this.setState({
                         pendingTotal: res.content[0]?.book?.total_amount,
                     })
-    
+
                 }
                 else {
                     alert(res)
                 }
             }).catch((err) => {
                 console.log(err)
-    
+
             })
 
             this.setState({
@@ -177,35 +180,46 @@ class SellingHistoryAll extends Component {
         // if (this.state.item_id != null) {
         //   msg = "Succsessfully Update item";
         // }
+        this.setState({ isUploading: true })
+
         this.props.createPaymentOfOrder(addBookData).then((res) => {
             console.log(res)
             if (res.status) {
+
                 console.log(res)
+
                 // this.setState({
                 //     Book_ID: res.content[0] && res.content[0].Book && res.content[0].Book.Book_ID,
                 //     activeTab: this.state.activeTab + 1,
                 // })
-                 //this.props.history.push('/trackmyrecord');
-                 this.props.getAllOrder(this.state.author?.User_ID).then((res) => {
+                //this.props.history.push('/trackmyrecord');
+
+                this.props.getAllOrders ('1').then((res) => {
+
                     if (res.status) {
+
                         this.setState({
                             orderList: res.content,
-                            ReferenceModal: false
+                            ReferenceModal: false,
+                            isUploading:false
                         })
-        
+
                     }
                     else {
                         alert(res)
                     }
-                    
+
                 }).catch((err) => {
-                    console.log(err)
                     
+                    console.log(err)
+
                 })
             }
         }).catch((err) => {
-            var validationError = {}
+            var validationError = []
             var serverError = []
+            this.setState({ isUploading: false })
+
             console.log(err.hasOwnProperty('validation'))
             if (err.hasOwnProperty('validation')) {
                 err.validation.map(obj => {
@@ -337,8 +351,28 @@ class SellingHistoryAll extends Component {
 
     onChange = (e) => {
         this.setState({ [e.target.name]: e.target.value }, () => {
-            this.onClickSearch()
+            this.onSearch(e.target.value)
         })
+    }
+
+    onSearch =async (searchStr) =>{
+        
+        if(!searchStr){
+            this.setState({OrderListFiltered:[]})
+return
+        }
+        let { orderList} =this.state
+        console.log(orderList)
+        let fiteredList = orderList.filter((item)=>{
+            if( item?.book?.Name.toLowerCase().includes(searchStr.toLowerCase()) || item?.order_book?.Payment_Method.toLowerCase().includes(searchStr.toLowerCase()))
+            return true 
+            return false
+        })
+        this.setState({
+            currentPage:  1
+        });
+        console.log(fiteredList)
+        this.setState({ OrderListFiltered: fiteredList})
     }
 
     onClickSearch = () => {
@@ -385,26 +419,32 @@ class SellingHistoryAll extends Component {
 
         return list.map((item, i) =>
 
-        <tr>
+            <tr>
 
 
-        <td><img className="sellingHistoryImg" src={item?.book?.Image}></img></td>
+                <td><img className="sellingHistoryImg" src={item?.book?.Image}></img></td>
 
-        <td>{item?.book?.Name}</td>
-        <td><Moment format="DD-MM-YY HH:MM">{item?.book?.createdAt}</Moment></td>
+                <td>{item?.book?.Name}</td>
+                <td><Moment format="DD-MM-YY HH:MM">{item?.book?.createdAt}</Moment></td>
 
-        <td>{item?.order_book?.Payment_Method === 'PayPal'? item?.book?.Price_USD * 150 + ' Rs.': item?.book?.Price + ' Rs.'}</td>
-        <td>{item?.order_book?.Payment_Method === 'PayPal'? (item?.book?.Price_USD * 150) * 0.7 + ' Rs.': item?.book?.Price * 0.7 + ' Rs.'}</td>
+                <td>{item?.order_book?.Payment_Method === 'PayPal' ? item?.book?.Price_USD * 150 + ' Rs.' : item?.book?.Price + ' Rs.'}</td>
+                <td>{item?.order_book?.Payment_Method === 'PayPal' ? (item?.book?.Price_USD * 150) * 0.7 + ' Rs.' : item?.book?.Price * 0.7 + ' Rs.'}</td>
+                <td>{item?.order_book?.Payment_Method }</td>
 
-        <td>
-            <div class={item?.Status === 'Cleared'? "tableSelect_Published" :"table-badge-review"}>
-                <label className="badge-label">{!item?.Status?'Pending': item?.Status}</label>
-            </div>
-        </td>
-        <td><img className="imgHover"  src={plus}  onClick={() => this.setState({ index: item, ReferenceModal: true },() => console.log(this.state.index))} /></td>
+                <td>
+                    <div class={item?.Status === 'Cleared' ? "tableSelect_Published" : "table-badge-review"}>
+                        <label className="badge-label">{!item?.Status ? 'Pending' : item?.Status}</label>
+                    </div>
+                </td>
+                {item?.Reference_No ? 
+                            <td>{item?.Reference_No }</td>
 
+            :
+            <td><img className="imgHover" src={plus} onClick={() => this.setState({ index: item, ReferenceModal: true }, () => console.log(this.state.index))} /></td>
 
-    </tr>
+            }
+
+            </tr>
         )
     }
 
@@ -434,19 +474,22 @@ class SellingHistoryAll extends Component {
     }
     render() {
 
-        const { isLoading, orderList, currentPage, todosPerPage } = this.state;
+        const { isLoading, orderList, currentPage, todosPerPage,OrderListFiltered } = this.state;
+        const {  errors } = this.state;
 
         if (isLoading) {
             return (
                 <div className="loader-large"></div>
             )
         }
+        let printList = this.state.search  ? OrderListFiltered:orderList
+
         const indexOfLastTodo = currentPage * todosPerPage;
         const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
-        const currentTodos = orderList.slice(indexOfFirstTodo, indexOfLastTodo);
+        const currentTodos = printList.slice(indexOfFirstTodo, indexOfLastTodo);
 
         const pageNumbers = [];
-        for (let i = 1; i <= Math.ceil(orderList.length / todosPerPage); i++) {
+        for (let i = 1; i <= Math.ceil(printList.length / todosPerPage); i++) {
             pageNumbers.push(i);
         }
 
@@ -510,7 +553,8 @@ class SellingHistoryAll extends Component {
 
                         <div className="  modal-body">
                             <div className="container-fluid ModalContainer">
-                            <div className="col-12">
+                                <div className="col-12">
+
                                     <div className="row">
                                         <div className="col-10">
                                             <p className="poppins_medium ModalHading">Reference ID:  {this.state.index?.ID}</p>
@@ -522,80 +566,89 @@ class SellingHistoryAll extends Component {
                                 </div>
 
                                 <div className="col-12">
+                                {this.state.isUploading && <div className="loader-small"></div>}
+
                                     <div className="row">
                                         <div className="col-8">
-   
-                                        <div className="col-12 mt-5">
-                                    <div className="row">
-                                        <div className="col-5 Vertical_center text-right">
-                                            <p className="poppins_medium Modaltext mb-0">Author Name</p>
-                                        </div>
-                                        <div className="col-7 ">
-                                            <input className="ModalInput col-12 " value={this.state.index?.book?.Author_Name} disabled={true}></input>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-12 mt-3">
-                                    <div className="row">
-                                        <div className="col-5 Vertical_center text-right">
-                                            <p className="poppins_medium Modaltext mb-0" >Book Name</p>
-                                        </div>
-                                        <div className="col-7 ">
-                                            <input className="ModalInput col-12 " value={this.state.index?.book?.Name} disabled={true}></input>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-12 mt-3">
-                                    <div className="row">
-                                        <div className="col-5 Vertical_center text-right">
-                                            <p className="poppins_medium Modaltext mb-0">Clearing Amount</p>
-                                        </div>
-                                        <div className="col-7 ">
-                                            <input className="ModalInput col-12 " name="Amount" onChange={this.onChangeText} value={this.state.Amount}></input>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-12 mt-3">
-                                    <div className="row">
-                                        <div className="col-5 Vertical_center text-right">
-                                            <p className="poppins_medium Modaltext mb-0">Payment Status</p>
-                                        </div>
-                                        <div className="col-7 ">
-                                            <select className="ModalInput col-12 " name="Status" onChange={this.onChangeText} value={this.state.Status}>
-                                            <option >Select ...</option>
-                                                <option value="Cleared" >Cleared</option>
-                                                <option value="Pending">Pending</option>
-                                                <option value="Failed">Failed</option>
 
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+                                            <div className="col-12 mt-5">
+                                                <div className="row">
+                                                    <div className="col-5 Vertical_center text-right">
+                                                        <p className="poppins_medium Modaltext mb-0">Author Name</p>
+                                                    </div>
+                                                    <div className="col-7 ">
+                                                        <input className="ModalInput col-12 " value={this.state.index?.book?.Author_Name} disabled={true}></input>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-12 mt-3">
+                                                <div className="row">
+                                                    <div className="col-5 Vertical_center text-right">
+                                                        <p className="poppins_medium Modaltext mb-0" >Book Name</p>
+                                                    </div>
+                                                    <div className="col-7 ">
+                                                        <input className="ModalInput col-12 " value={this.state.index?.book?.Name} disabled={true}></input>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-12 mt-3">
+                                                <div className="row">
+                                                    <div className="col-5 Vertical_center text-right">
+                                                        <p className="poppins_medium Modaltext mb-0">Clearing Amount</p>
+                                                    </div>
+                                                    <div className="col-7 ">
+                                                        <input className="ModalInput col-12 " name="Amount" onChange={this.onChangeText} value={this.state.Amount}></input>
+                                                    </div>
+                                                </div>
+                                                {errors.Amount && <div className="invaliderrorAddNewBookImageModal">{errors.Amount}</div>}
 
-                                <div className="col-12 mt-3">
-                                    <div className="row">
-                                        <div className="col-5 Vertical_center text-right">
-                                            <p className="poppins_medium Modaltext mb-0">Reference Number</p>
-                                        </div>
-                                        <div className="col-7 ">
-                                            <input className="ModalInput col-12 " name="Reference_No" onChange={this.onChangeText} value={this.state.Reference_No}/>
-                                            
+                                            </div>
+                                            <div className="col-12 mt-3">
+                                                <div className="row">
+                                                    <div className="col-5 Vertical_center text-right">
+                                                        <p className="poppins_medium Modaltext mb-0">Payment Status</p>
+                                                    </div>
+                                                    <div className="col-7 ">
+                                                        <select className="ModalInput col-12 " name="Status" onChange={this.onChangeText} value={this.state.Status}>
+                                                            <option >Select ...</option>
+                                                            <option value="Cleared" >Cleared</option>
+                                                            <option value="Pending">Pending</option>
+                                                            <option value="Failed">Failed</option>
 
-                                        </div>
-                                    </div>
-                                </div>
+                                                        </select>
+                                                        
+                                                        {errors.Status && <div className="invaliderrorAddNewBookImageModal">{errors.Status}</div>}
 
-                              
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="col-12 mt-3">
+                                                <div className="row">
+                                                    <div className="col-5 Vertical_center text-right">
+                                                        <p className="poppins_medium Modaltext mb-0">Reference Number</p>
+                                                    </div>
+                                                    <div className="col-7 ">
+                                                        <input className="ModalInput col-12 " name="Reference_No" onChange={this.onChangeText} value={this.state.Reference_No} />
+
+                                                        {errors.Reference_No && <div className="invaliderrorAddNewBookImageModal">{errors.Reference_No}</div>}
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
                                         </div>
                                         <div className="col-4  Vertical_center ">
-                                        <div className="col-12 mt-3">
-                                            <p className="poppins_medium Modaltext mb-0">Any Attachment </p>
-                                            <img className="mt-3 placeholderImg" src ={PlaceHolder}/>
-                                      
-                                </div>
-                                <div className="col-12 mt-3 text-center">
-                                    <button className="mdlBtn col-12 poppins_semibold" onClick={() => this.onPayment(this.state.index)}>Save Changes</button>
-                                </div>
+                                            <div className="col-12 mt-3">
+                                                <p className="poppins_medium Modaltext mb-0">Any Attachment </p>
+                                                <img className="mt-3 placeholderImg" src={PlaceHolder} />
+
+                                            </div>
+                                            <div className="col-12 mt-3 text-center">
+                                                <button className="mdlBtn col-12 poppins_semibold" onClick={() => this.onPayment(this.state.index)}>Save Changes</button>
+                                            </div>
 
                                         </div>
 
@@ -604,8 +657,8 @@ class SellingHistoryAll extends Component {
 
                                 </div>
 
-                             
-                          
+
+
                             </div>
 
                         </div>
@@ -735,7 +788,7 @@ class SellingHistoryAll extends Component {
                                                         <img className="searchicon" src={searchicon}></img>
 
                                                         <input className="search_input " placeholder="search here" name="search" onChange={this.onChange}></input>
-                                                        <button className="allbook-search-btn">search</button>
+                                                        <button className="allbook-search-btn" onClick={ ()=>this.onSearch(this.state.search)}>search</button>
 
                                                     </div>
 
@@ -752,63 +805,66 @@ class SellingHistoryAll extends Component {
 
                                                         {/* <th scope="col table_header poppins_medium">Book ID <img className="dropicon" src={Polygon}></img> </th> */}
 
-                                                        <th scope="col table_header poppins_medium">Book Title 
-                                                        {/* <img className="dropicon" src={Polygon}></img>  */}
-                                                         </th>
+                                                        <th scope="col table_header poppins_medium">Book Title
+                                                            {/* <img className="dropicon" src={Polygon}></img>  */}
+                                                        </th>
                                                         {this.state.sortByName ? (
-                                                            <th scope="col table_header poppins_medium">Book Name  
-                                                            {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Name', 'ASC')}></img>  */}
+                                                            <th scope="col table_header poppins_medium">Book Name
+                                                                {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Name', 'ASC')}></img>  */}
                                                             </th>
                                                         ) : (
-                                                            <th scope="col table_header poppins_medium">Book Name 
-                                                             {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Name', 'DESC')}></img> */}
-                                                              </th>
+                                                            <th scope="col table_header poppins_medium">Book Name
+                                                                {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Name', 'DESC')}></img> */}
+                                                            </th>
                                                         )}
                                                         {this.state.sortByDate ? (
-                                                            <th scope="col table_header poppins_medium">Date & Time 
-                                                            {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('createdAt', 'ASC')}></img>   */}
+                                                            <th scope="col table_header poppins_medium">Date & Time
+                                                                {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('createdAt', 'ASC')}></img>   */}
                                                             </th>
                                                         ) : (
                                                             <th scope="col table_header poppins_medium">Date & Time
-                                                             {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('createdAt', 'DESC')}></img>  */}
-                                                              </th>
+                                                                {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('createdAt', 'DESC')}></img>  */}
+                                                            </th>
                                                         )}
                                                         {this.state.sortByPrice ? (
-                                                            <th scope="col table_header poppins_medium">Amount  
-                                                            {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'ASC')}></img>  */}
+                                                            <th scope="col table_header poppins_medium">Amount
+                                                                {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'ASC')}></img>  */}
                                                             </th>
                                                         ) : (
-                                                            <th scope="col table_header poppins_medium">Amount 
-                                                             {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'DESC')}></img> */}
-                                                              </th>
+                                                            <th scope="col table_header poppins_medium">Amount
+                                                                {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'DESC')}></img> */}
+                                                            </th>
 
                                                         )}
+                                                        <th scope="col table_header poppins_medium">Payment Method
+                                                            {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'DESC')}></img> */}
+                                                        </th>
                                                         {this.state.sortByPrice ? (
-                                                            <th scope="col table_header poppins_medium">Earning 
-                                                             {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'ASC')}></img> */}
-                                                              </th>
+                                                            <th scope="col table_header poppins_medium">Earning
+                                                                {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'ASC')}></img> */}
+                                                            </th>
                                                         ) : (
-                                                            <th scope="col table_header poppins_medium">Earning 
-                                                             {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'DESC')}></img>  */}
-                                                             </th>
+                                                            <th scope="col table_header poppins_medium">Earning
+                                                                {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'DESC')}></img>  */}
+                                                            </th>
 
                                                         )}
                                                         {this.state.sortByStatus ? (
-                                                            <th scope="col table_header poppins_medium">Payment Status 
-                                                            {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Payment_Status', 'ASC')}></img>  */}
-                                                             </th>
+                                                            <th scope="col table_header poppins_medium">Payment Status
+                                                                {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Payment_Status', 'ASC')}></img>  */}
+                                                            </th>
                                                         ) : (
-                                                            <th scope="col table_header poppins_medium">Payment Status 
-                                                            {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Payment_Status', 'DESC')}></img>  */}
-                                                             </th>
+                                                            <th scope="col table_header poppins_medium">Payment Status
+                                                                {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Payment_Status', 'DESC')}></img>  */}
+                                                            </th>
                                                         )}
                                                         {this.state.sortByStatus ? (
-                                                            <th scope="col table_header poppins_medium">Reference No. 
-                                                            {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Reference_No', 'ASC')}></img>  */}
-                                                             </th>
+                                                            <th scope="col table_header poppins_medium">Reference No.
+                                                                {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Reference_No', 'ASC')}></img>  */}
+                                                            </th>
                                                         ) : (
-                                                            <th scope="col table_header poppins_medium">Reference No. 
-                                                            {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Reference_No', 'DESC')}></img>   */}
+                                                            <th scope="col table_header poppins_medium">Reference No.
+                                                                {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Reference_No', 'DESC')}></img>   */}
                                                             </th>
 
                                                         )}
@@ -816,9 +872,9 @@ class SellingHistoryAll extends Component {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    
 
-                                                    
+
+
 
                                                     {this.state.orderList.length > 0 && this.renderTableRows(currentTodos)}
 
@@ -829,45 +885,45 @@ class SellingHistoryAll extends Component {
 
                                         </div>
                                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  ">
-                                    <div className="row">
+                                            <div className="row">
 
-                                        <div className=" col-12  text-center">
-                                            <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  pb-3">
+                                                <div className=" col-12  text-center">
+                                                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  pb-3">
 
-                                                <div className="row">
-                                                    <div className="col-xl-3 col-lg-2 col-md-2 col-sm-2 col-2 ">
+                                                        <div className="row">
+                                                            <div className="col-xl-3 col-lg-2 col-md-2 col-sm-2 col-2 ">
 
 
-                                                        <button className="navbtn" onClick={(e) => this.handleClick('previous')} disabled={currentPage === 1 ? true : false}>← Previous</button>
-                                                    </div>
-                                                    <div className="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-8  pb-3">
+                                                                <button className="navbtn" onClick={(e) => this.handleClick('previous')} disabled={currentPage === 1 ? true : false}>← Previous</button>
+                                                            </div>
+                                                            <div className="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-8  pb-3">
 
-                                                        {/* <button className="roundbtn">1</button>
+                                                                {/* <button className="roundbtn">1</button>
                                                         <button className="roundbtn"> 2</button>
                                                         <button className="roundbtn">3</button>
                                                         <button className="roundbtn">4</button>
                                                         <button className="roundbtn">5</button> */}
-                                                        {/* <p className="allbooktext mb-0">{this.state.currentPage + '/' + pageNumbers.length}</p> */}
-                                                        <label className="poppins_bold">{this.state.currentPage}</label>
-                                                        <label className="poppins_regular ml-3 mr-3">out of</label>
-                                                        <label className="poppins_bold">{pageNumbers.length}</label>
+                                                                {/* <p className="allbooktext mb-0">{this.state.currentPage + '/' + pageNumbers.length}</p> */}
+                                                                <label className="poppins_bold">{this.state.currentPage}</label>
+                                                                <label className="poppins_regular ml-3 mr-3">out of</label>
+                                                                <label className="poppins_bold">{pageNumbers.length}</label>
 
-                                                    </div>
-                                                    <div className="col-xl-3 col-lg-2 col-md-2 col-sm-2 col-2 ">
+                                                            </div>
+                                                            <div className="col-xl-3 col-lg-2 col-md-2 col-sm-2 col-2 ">
 
-                                                        <button className="navbtn" onClick={(e) => this.handleClick('next')} disabled={this.state.currentPage === pageNumbers.length ? true : false}>Next →</button>
+                                                                <button className="navbtn" onClick={(e) => this.handleClick('next')} disabled={this.state.currentPage === pageNumbers.length ? true : false}>Next →</button>
+                                                            </div>
+
+                                                        </div>
                                                     </div>
 
                                                 </div>
+
+
                                             </div>
 
+
                                         </div>
-
-
-                                    </div>
-
-                               
-                                </div>
 
                                     </div>
 
