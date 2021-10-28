@@ -57,6 +57,8 @@ class SellingHistoryAll extends Component {
             todosPerPage: 15,
             isUploading: false,
             OrderListFiltered: [],
+            fromDate: '2021-05-01T01:10:00Z',
+            toDate: '2021-10-01T01:10:00Z',
 
 
 
@@ -139,6 +141,12 @@ class SellingHistoryAll extends Component {
             if (res.status) {
                 this.setState({
                     orderList: res.content,
+                }, () => {
+                    this.setState({ ["SORT" + 'createdAt']: 'DESC' })
+                    let { orderList, OrderListFiltered } = this.state
+                    let orderListSorted = orderList.sort(this.sortArrByOrder('createdAt', 'DESC'))
+                    let OrderListFilteredSorted = OrderListFiltered.sort(this.sortArrByOrder('createdAt', 'DESC'))
+                    this.setState({ orderList: orderListSorted, OrderListFiltered: OrderListFilteredSorted })
                 })
 
             }
@@ -194,14 +202,14 @@ class SellingHistoryAll extends Component {
                 // })
                 //this.props.history.push('/trackmyrecord');
 
-                this.props.getAllOrders ('1').then((res) => {
+                this.props.getAllOrders('1').then((res) => {
 
                     if (res.status) {
 
                         this.setState({
                             orderList: res.content,
                             ReferenceModal: false,
-                            isUploading:false
+                            isUploading: false
                         })
 
                     }
@@ -210,7 +218,7 @@ class SellingHistoryAll extends Component {
                     }
 
                 }).catch((err) => {
-                    
+
                     console.log(err)
 
                 })
@@ -287,14 +295,6 @@ class SellingHistoryAll extends Component {
                         sortByStatus: !this.state.sortByStatus
                     })
                 }
-
-                // if (colName == "Name") {
-                //     this.setState({
-                //         orderList: res.content,
-                //         sortByName: !this.state.sortByName
-                //     })
-                // }
-
             }
             else {
                 alert(res)
@@ -345,6 +345,8 @@ class SellingHistoryAll extends Component {
         })
     }
 
+
+
     onChangeText = (e) => {
         this.setState({ [e.target.name]: e.target.value })
     }
@@ -355,24 +357,24 @@ class SellingHistoryAll extends Component {
         })
     }
 
-    onSearch =async (searchStr) =>{
-        
-        if(!searchStr){
-            this.setState({OrderListFiltered:[]})
-return
+    onSearch = async (searchStr) => {
+
+        if (!searchStr) {
+            this.setState({ OrderListFiltered: [] })
+            return
         }
-        let { orderList} =this.state
+        let { orderList } = this.state
         console.log(orderList)
-        let fiteredList = orderList.filter((item)=>{
-            if( item?.book?.Name.toLowerCase().includes(searchStr.toLowerCase()) || item?.order_book?.Payment_Method.toLowerCase().includes(searchStr.toLowerCase()))
-            return true 
+        let fiteredList = orderList.filter((item) => {
+            if (item?.book?.Name.toLowerCase().includes(searchStr.toLowerCase()) || item?.order_book?.Payment_Method.toLowerCase().includes(searchStr.toLowerCase() ) || item?.Order_ID.toLowerCase().includes(searchStr.toLowerCase() ))
+                return true
             return false
         })
         this.setState({
-            currentPage:  1
+            currentPage: 1
         });
         console.log(fiteredList)
-        this.setState({ OrderListFiltered: fiteredList})
+        this.setState({ OrderListFiltered: fiteredList })
     }
 
     onClickSearch = () => {
@@ -407,6 +409,8 @@ return
 
     }
 
+
+
     renderTableRows = (list) => {
         if (list?.length < 1) {
 
@@ -425,24 +429,25 @@ return
                 <td><img className="sellingHistoryImg" src={item?.book?.Image}></img></td>
 
                 <td>{item?.book?.Name}</td>
+                <td>{item?.Order_ID}</td>
                 <td><Moment format="DD-MM-YY HH:MM">{item?.book?.createdAt}</Moment></td>
 
                 <td>{item?.order_book?.Payment_Method === 'PayPal' ? item?.book?.Price_USD * 150 + ' Rs.' : item?.book?.Price + ' Rs.'}</td>
                 <td>{item?.order_book?.Payment_Method === 'PayPal' ? (item?.book?.Price_USD * 150) * 0.7 + ' Rs.' : item?.book?.Price * 0.7 + ' Rs.'}</td>
-                <td>{item?.order_book?.Payment_Method }</td>
+                <td>{item?.order_book?.Payment_Method}</td>
 
                 <td>
                     <div class={item?.Status === 'Cleared' ? "tableSelect_Published" : "table-badge-review"}>
                         <label className="badge-label">{!item?.Status ? 'Pending' : item?.Status}</label>
                     </div>
                 </td>
-                {item?.Reference_No ? 
-                            <td>{item?.Reference_No }</td>
+                {item?.Reference_No ?
+                    <td>{item?.Reference_No}</td>
 
-            :
-            <td><img className="imgHover" src={plus} onClick={() => this.setState({ index: item, ReferenceModal: true }, () => console.log(this.state.index))} /></td>
+                    :
+                    <td><img className="imgHover" src={plus} onClick={() => this.setState({ index: item, ReferenceModal: true }, () => console.log(this.state.index))} /></td>
 
-            }
+                }
 
             </tr>
         )
@@ -472,17 +477,68 @@ return
             activeTab: val
         })
     }
+
+    onSort = (name, order) => {
+        console.log("ORDER : " + order)
+
+        this.setState({ ["SORT" + name]: order })
+        let { orderList, OrderListFiltered } = this.state
+        let orderListSorted = orderList.sort(this.sortArrByOrder(name, order))
+        let OrderListFilteredSorted = OrderListFiltered.sort(this.sortArrByOrder(name, order))
+        this.setState({ orderList: orderListSorted, OrderListFiltered: OrderListFilteredSorted })
+
+    }
+    sortArrByOrder = (prop, order) => {
+        if (order === "ASC")
+            return function (a, b) {
+                if (a[prop] > b[prop]) {
+                    return 1;
+                } else if (a[prop] < b[prop]) {
+                    return -1;
+                }
+                return 0;
+            }
+
+        return function (a, b) {
+            if (a[prop] < b[prop]) {
+                return 1;
+            } else if (a[prop] > b[prop]) {
+                return -1;
+            }
+            return 0;
+        }
+    }
+
+    getBetweenDate = () => {
+        const { orderList, OrderListFiltered, fromDate, toDate } = this.state
+        let start = new Date(fromDate).getTime();
+        let end = new Date(toDate).getTime();
+        console.log(orderList)
+
+        var orderListSorted = orderList.filter(d => {
+            var time = new Date(d.createdAt).getTime();
+            return (start < time && time < end);
+        });
+        var OrderListFilteredSorted = OrderListFiltered.filter(d => {
+            var time = new Date(d.createdAt).getTime();
+            return (start < time && time < end);
+        });
+        console.log('betweenList', orderListSorted)
+        this.setState({ orderList: orderListSorted, OrderListFiltered: OrderListFilteredSorted })
+
+    }
+
     render() {
 
-        const { isLoading, orderList, currentPage, todosPerPage,OrderListFiltered } = this.state;
-        const {  errors } = this.state;
+        const { isLoading, orderList, currentPage, todosPerPage, OrderListFiltered } = this.state;
+        const { errors } = this.state;
 
         if (isLoading) {
             return (
                 <div className="loader-large"></div>
             )
         }
-        let printList = this.state.search  ? OrderListFiltered:orderList
+        let printList = this.state.search ? OrderListFiltered : orderList
 
         const indexOfLastTodo = currentPage * todosPerPage;
         const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
@@ -523,15 +579,18 @@ return
                                 <div className="col-12">
                                     <div className="row">
                                         <div className="col-6">
-                                            <p className="poppins_medium Modaltext">Start Date <img className="ml-3 mr-3" src={Polygon} /></p>
+                                            <p className="poppins_medium Modaltext">Start Date </p>
+                                            <input type="date" name="fromDate" onChange={this.onChange} value={this.state.fromDate} />
                                         </div>
                                         <div className="col-6 ">
-                                            <p className="poppins_medium Modaltext">End Date <img className="ml-3 mr-3" src={Polygon} /></p>
+                                            <p className="poppins_medium Modaltext">End Date </p>
+                                            <input type="date" name="toDate" onChange={this.onChange} value={this.state.toDate} />
+
                                         </div>
                                     </div>
                                 </div>
                                 <div className="col-12 text-right mt-5 pt-5">
-                                    <button className="PrintModalBtn">Print Report</button>
+                                    <button className="PrintModalBtn" onClick={() => this.getBetweenDate()}>Print Report</button>
                                 </div>
 
                             </div>
@@ -566,7 +625,7 @@ return
                                 </div>
 
                                 <div className="col-12">
-                                {this.state.isUploading && <div className="loader-small"></div>}
+                                    {this.state.isUploading && <div className="loader-small"></div>}
 
                                     <div className="row">
                                         <div className="col-8">
@@ -616,7 +675,7 @@ return
                                                             <option value="Failed">Failed</option>
 
                                                         </select>
-                                                        
+
                                                         {errors.Status && <div className="invaliderrorAddNewBookImageModal">{errors.Status}</div>}
 
                                                     </div>
@@ -788,7 +847,7 @@ return
                                                         <img className="searchicon" src={searchicon}></img>
 
                                                         <input className="search_input " placeholder="search here" name="search" onChange={this.onChange}></input>
-                                                        <button className="allbook-search-btn" onClick={ ()=>this.onSearch(this.state.search)}>search</button>
+                                                        <button className="allbook-search-btn" onClick={() => this.onSearch(this.state.search)}>search</button>
 
                                                     </div>
 
@@ -817,13 +876,16 @@ return
                                                                 {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Name', 'DESC')}></img> */}
                                                             </th>
                                                         )}
-                                                        {this.state.sortByDate ? (
-                                                            <th scope="col table_header poppins_medium">Date & Time
-                                                                {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('createdAt', 'ASC')}></img>   */}
+                                                         <th scope="col table_header poppins_medium">Order ID
+                                                                {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Name', 'DESC')}></img> */}
+                                                            </th>
+                                                        {this.state["SORT" + "createdAt"] === "DESC" ? (
+                                                            <th onClick={(e) => this.onSort('createdAt', 'ASC')} scope="col table_header poppins_medium">Date & Time
+                                                                <span><i class="fa fa-caret-down" aria-hidden="true"></i></span>                                                           {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('createdAt', 'ASC')}></img>   */}
                                                             </th>
                                                         ) : (
-                                                            <th scope="col table_header poppins_medium">Date & Time
-                                                                {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('createdAt', 'DESC')}></img>  */}
+                                                            <th onClick={(e) => this.onSort('createdAt', 'DESC')} scope="col table_header poppins_medium">Date & Time
+                                                                <span><i class="fa fa-caret-up" aria-hidden="true"></i></span>                                                                  {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('createdAt', 'DESC')}></img>  */}
                                                             </th>
                                                         )}
                                                         {this.state.sortByPrice ? (

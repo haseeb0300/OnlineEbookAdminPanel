@@ -15,6 +15,7 @@ import SideBar from '../../components/SideBar';
  */
 import ManageBook from '../EbookStore/ManageBook'
 import Categories from '../EbookStore/Categories'
+import ParentCategory from '../EbookStore/ParentCategory'
 
 import AddNewBook from '../EbookStore/AddNewBook'
 import BankDetails from '../EbookStore/BankDetails'
@@ -87,6 +88,7 @@ const Main = ({
 
           <PrivateRoute   path="/managebook" component={ManageBook} /> 
           <PrivateRoute   path="/categories" component={Categories} /> 
+          <PrivateRoute   path="/parentcategory" component={ParentCategory} /> 
 
           <PrivateRoute   path="/addnewbook" component={AddNewBook} /> 
           <PrivateRoute   path="/sellinghistory" component={SellingHistory} /> 

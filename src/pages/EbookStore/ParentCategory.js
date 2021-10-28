@@ -33,7 +33,7 @@ var cx = require('classnames');
 
 
 
-class Categories extends Component {
+class ParentCategory extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -291,7 +291,7 @@ class Categories extends Component {
 
     render() {
 
-        const { isLoading, CtaegoryList, currentPage, todosPerPage } = this.state;
+        const { isLoading, ParentCtaegoryList, currentPage, todosPerPage } = this.state;
 
         if (isLoading) {
             return (
@@ -301,10 +301,10 @@ class Categories extends Component {
 
         const indexOfLastTodo = currentPage * todosPerPage;
         const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
-        const currentTodos = CtaegoryList.slice(indexOfFirstTodo, indexOfLastTodo);
+        const currentTodos = ParentCtaegoryList.slice(indexOfFirstTodo, indexOfLastTodo);
 
         const pageNumbers = [];
-        for (let i = 1; i <= Math.ceil(CtaegoryList.length / todosPerPage); i++) {
+        for (let i = 1; i <= Math.ceil(ParentCtaegoryList.length / todosPerPage); i++) {
             pageNumbers.push(i);
         }
 
@@ -440,9 +440,9 @@ class Categories extends Component {
                                     </div>
                                     <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12  ">
                                         <div className="row">
-                                            <div className="col-12 text-right mt-1 ">
+                                            {/* <div className="col-12 text-right mt-1 ">
                                                 <img className="ml-3 mr-1 imgHover " onClick={() => this.setState({ CategoryModal: true })} src={plus} /> <label className="poppins_regular AddModalText" onClick={() => this.setState({ CategoryModal: true })}>Add Category</label>
-                                            </div>
+                                            </div> */}
                                             {/* <div className="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12 p-0 pr-4 text-right">
                                                 <img className="searchicon" src={searchicon}></img>
 
@@ -587,7 +587,7 @@ class Categories extends Component {
 
 }
 
-Categories.propTypes = {
+ParentCategory.propTypes = {
 
 };
 
@@ -609,4 +609,4 @@ const mapDispatchToProps = ({
     createCategory,
     getFilterCategory,
 })
-export default connect(mapStateToProps, mapDispatchToProps)(Categories);
+export default connect(mapStateToProps, mapDispatchToProps)(ParentCategory);

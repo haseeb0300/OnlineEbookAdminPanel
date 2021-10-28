@@ -24,7 +24,9 @@ class GeneratedReport extends Component {
             original_book_name: "",
             reportContent: [],
             data: {},
-            totalEarning:0,
+            totalEarning: 0,
+            totalPayment:0,
+            paymentList: [],
 
         };
 
@@ -50,7 +52,7 @@ class GeneratedReport extends Component {
         if (this.props?.location?.state?.data) {
 
 
-            console.log(this.props.location.state.data)
+            //console.log(this.props.location.state.data)
             this.setState({
                 data: this.props.location.state.data
 
@@ -60,7 +62,9 @@ class GeneratedReport extends Component {
     }
     componentDidMount() {
         console.log(this.props.user)
-    this.getTotal()
+        this.getTotal()
+
+
     }
 
 
@@ -71,39 +75,76 @@ class GeneratedReport extends Component {
 
     getTotal = () => {
         var totalEarning = 0
-        for(var i =0; i < this.state.reportContent?.length; i ++){
-            if(this.state.reportContent[i]?.Payment_Method === "PayPal"){
+        var paymentList = this.state.paymentList
+        var totalPayment = 0
+        for (var i = 0; i < this.state.reportContent?.length; i++) {
+
+            if (this.state.reportContent[i]?.Payment_Method === "PayPal") {
                 totalEarning = totalEarning + parseInt(this.state.reportContent[i]?.order_has_books[0]?.book?.Price_USD * 150)
             }
-            else{
-            totalEarning = totalEarning + parseInt(this.state.reportContent[i]?.order_has_books[0]?.book?.Price)
+            else {
+                totalEarning = totalEarning + parseInt(this.state.reportContent[i]?.order_has_books[0]?.book?.Price)
+            }
+            if (this.state.reportContent[i]?.order_has_books[0]?.Status === 'Cleared') {
+                paymentList.push(this.state.reportContent[i]?.order_has_books[0])
+                totalPayment = totalPayment + parseInt(this.state.reportContent[i]?.order_has_books[0]?.Amount)
+
+            }
+            //console.log(totalEarning)
         }
-        console.log(totalEarning)
-        }
-        this.setState({totalEarning:totalEarning})
+        console.log("paymentList", paymentList)
+        this.setState({ totalEarning: totalEarning, paymentList: paymentList, totalPayment:totalPayment })
     }
 
     renderTableRows = () => {
         var myData = [];
-        
+
         return this.state.reportContent.map((item, i) =>
-        <>
+            <>
 
-            <tr>
-                <td>{item?.Order_ID}</td>
-                <td><Moment format="DD-MM-YY">{item.createdAt}</Moment></td>
-                <td>{item?.order_has_books[0]?.book?.Name}</td>
-                <td>{item?.Payment_Method == "PayPal"? item?.order_has_books[0]?.book?.Price_USD * 150:item?.order_has_books[0]?.book?.Price}</td>
-                <td>{item?.Payment_Method}</td>
+                <tr>
+                    <td>{item?.Order_ID}</td>
+                    <td><Moment format="DD-MM-YY">{item.createdAt}</Moment></td>
+                    <td>{item?.order_has_books[0]?.book?.Name}</td>
+                    <td>{item?.Payment_Method == "PayPal" ? item?.order_has_books[0]?.book?.Price_USD * 150 : item?.order_has_books[0]?.book?.Price}</td>
+                    <td>{item?.Payment_Method}</td>
 
-                <td>{item?.Payment_Method == "PayPal"? (item?.order_has_books[0]?.book?.Price_USD * 150) * 0.7:item?.order_has_books[0]?.book?.Price * 0.7}</td>
+                    <td>{item?.Payment_Method == "PayPal" ? (item?.order_has_books[0]?.book?.Price_USD * 150) * 0.7 : item?.order_has_books[0]?.book?.Price * 0.7}</td>
 
-            </tr>
-</>
+                </tr>
+            </>
         )
 
 
 
+    }
+
+    renderPayement = () => {
+
+        return this.state.paymentList.map((item, i) =>
+            <>
+                <tr>
+
+
+                    <td scope="col table_header poppins_medium"> <p className="mb-0">{<Moment format="DD-MM-YY">{item.createdAt}</Moment>}</p> </td>
+                    <td scope="col table_header poppins_medium"> <p className="mb-0">{item.Reference_No}</p> </td>
+
+                    <td scope="col table_header poppins_medium"> <p className="mb-0">{item?.book?.Author_Name}</p> </td>
+                    <td scope="col table_header poppins_medium"> <p className="mb-0">{item?.Amount}</p> </td>
+
+
+
+
+                </tr>
+
+
+            </>
+
+
+
+
+
+        )
     }
 
     render() {
@@ -245,19 +286,18 @@ class GeneratedReport extends Component {
 
                 </div>
 
-                {/* <div className="col-12 GenratedReportTable2 mt-5">
+                <div className="col-12 GenratedReportTable2 mt-5">
                     <p className="PaymentTransfer">Payment Transfer</p>
                     <table className="table table-hover thead-primary ">
                         <thead>
                             <tr>
 
 
-                                <th scope="col table_header poppins_medium"><p className="mb-0">Date</p> <p className="mb-0">20 Jan 2021</p> </th>
-                                <th scope="col table_header poppins_medium"><p className="mb-0">Reference No. </p> <p className="mb-0">125967</p> </th>
-                                <th scope="col table_header poppins_medium"><p className="mb-0">Bank Name</p> <p className="mb-0">UBL</p> </th>
+                                <th scope="col table_header poppins_medium"><p className="mb-0">Date</p>  </th>
+                                <th scope="col table_header poppins_medium"><p className="mb-0">Reference No. </p>  </th>
 
-                                <th scope="col table_header poppins_medium"><p className="mb-0">Account Title</p> <p className="mb-0">Ghazal Asif Farrukhi</p> </th>
-                                <th scope="col table_header poppins_medium"><p className="mb-0">Amount</p> <p className="mb-0">14,280</p> </th>
+                                <th scope="col table_header poppins_medium"><p className="mb-0">Author Title</p> </th>
+                                <th scope="col table_header poppins_medium"><p className="mb-0">Amount</p>  </th>
 
 
 
@@ -267,23 +307,25 @@ class GeneratedReport extends Component {
 
                         <tbody>
 
-                            <tr>
-                                <td scope="col table_header poppins_medium text-left" colspan="4"><p className="GenratedReportTotalEaring">Total </p></td>
 
-                                <td>14,280</td>
+
+
+                            {this.renderPayement()}
+
+                            <tr>
+                                <td scope="col table_header poppins_medium text-left" colspan="3"><p className="GenratedReportTotalEaring">Total </p></td>
+
+                                <td>{this.state.totalPayment}</td>
 
 
                             </tr>
                             <tr>
-                                <td scope="col table_header poppins_medium text-left" colspan="4"><p className="GenratedReportTotalEaring">Balance </p></td>
+                                <td scope="col table_header poppins_medium text-left" colspan="3"><p className="GenratedReportTotalEaring">Balance </p></td>
 
-                                <td>00.00 </td>
+                                <td>{(this.state.totalEarning * 0.7) - this.state.totalPayment} </td>
 
 
                             </tr>
-
-
-
 
 
 
@@ -293,9 +335,9 @@ class GeneratedReport extends Component {
 
                     </table>
 
-                </div> */}
+                </div>
 
-
+                {/* {this.renderPayement()} */}
 
                 <div className="mt-5 col-12 text-center">
                     <p className="PageNAv">Page 1 /1</p>

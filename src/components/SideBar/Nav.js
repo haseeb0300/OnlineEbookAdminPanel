@@ -64,6 +64,12 @@ class Nav extends Component {
          <li className="heading">
           <span className="poppins_semibold" >E-Book Store</span>
          </li>
+         <li className={location.pathname === '/parentcategory' ? 'active' : null}>
+          <Link to="/parentcategory" >
+            <i ><img src={location.pathname === '/parentcategory' ? ManageBookActive : ManageBook}></img> </i>
+             <p className="poppins_regular">Parent Category</p>
+           </Link>
+         </li>
          <li className={location.pathname === '/categories' ? 'active' : null}>
           <Link to="/categories" >
             <i ><img src={location.pathname === '/categories' ? ManageBookActive : ManageBook}></img> </i>
