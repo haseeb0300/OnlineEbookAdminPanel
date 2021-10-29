@@ -899,10 +899,7 @@ class SellingHistoryAll extends Component {
                                                             </th>
 
                                                         )}
-                                                        <th scope="col table_header poppins_medium">Payment Method
-                                                            {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'DESC')}></img> */}
-                                                        </th>
-                                                        {this.state.sortByPrice ? (
+                                                                                      {this.state.sortByPrice ? (
                                                             <th scope="col table_header poppins_medium">Earning
                                                                 {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'ASC')}></img> */}
                                                             </th>
@@ -912,6 +909,10 @@ class SellingHistoryAll extends Component {
                                                             </th>
 
                                                         )}
+                                                        <th scope="col table_header poppins_medium">Payment Method
+                                                            {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'DESC')}></img> */}
+                                                        </th>
+                          
                                                         {this.state.sortByStatus ? (
                                                             <th scope="col table_header poppins_medium">Payment Status
                                                                 {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Payment_Status', 'ASC')}></img>  */}
