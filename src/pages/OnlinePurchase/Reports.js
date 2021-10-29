@@ -117,9 +117,12 @@ class Reports extends Component {
                                             <tr>
 
 
-                                                <th scope="col table_header poppins_medium">Select Author/Publisher <img className="dropicon" src={Polygon} />  </th>
-                                                <th scope="col table_header poppins_medium">Start Date  <img className="dropicon" src={Polygon} /> </th>
-                                                <th scope="col table_header poppins_medium">End Date  <img className="dropicon" src={Polygon} /> </th>
+                                                <th scope="col table_header poppins_medium">Select Author/Publisher
+                                                  </th>
+                                                <th scope="col table_header poppins_medium">Start Date 
+                                                  </th>
+                                                <th scope="col table_header poppins_medium">End Date
+                                                  </th>
 
 
                                                 <th scope="col table_header generateReportth poppins_medium"><button className="generateReportBtn" onClick={this.onGenerateReport}>Generate Report</button> </th>

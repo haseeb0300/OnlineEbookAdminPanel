@@ -781,8 +781,9 @@ return
                                             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12  ">
                                                 <div className="row">
                                                     <div className="col-xl-5 col-lg-5 col-md-5 col-sm-4 col-4 ">
-                                                        <label className="ml-3 mr-3 allbooktext">Print Now</label>
+                                                        {/* <label className="ml-3 mr-3 allbooktext">Print Now</label>
                                                         <img className="ml-3 imgHover" onClick={() => this.setState({ PrintModal: true })} src={printIcon} />
+                                                     */}
                                                     </div>
                                                     <div className="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-12 text-right ">
                                                         <img className="searchicon" src={searchicon}></img>
