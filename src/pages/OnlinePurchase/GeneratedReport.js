@@ -103,8 +103,9 @@ class GeneratedReport extends Component {
             <>
 
                 <tr>
-                    <td>{item?.Order_ID}</td>
                     <td><Moment format="DD-MM-YY">{item.createdAt}</Moment></td>
+                    <td>{item?.Order_ID}</td>
+
                     <td>{item?.order_has_books[0]?.book?.Name}</td>
                     <td>{item?.Payment_Method == "PayPal" ? item?.order_has_books[0]?.book?.Price_USD * 150 : item?.order_has_books[0]?.book?.Price}</td>
                     <td>{item?.Payment_Method}</td>
@@ -127,6 +128,8 @@ class GeneratedReport extends Component {
 
 
                     <td scope="col table_header poppins_medium"> <p className="mb-0">{<Moment format="DD-MM-YY">{item.createdAt}</Moment>}</p> </td>
+                    <td>{item?.Order_ID}</td>
+
                     <td scope="col table_header poppins_medium"> <p className="mb-0">{item.Reference_No}</p> </td>
 
                     <td scope="col table_header poppins_medium"> <p className="mb-0">{item?.book?.Author_Name}</p> </td>
@@ -193,9 +196,9 @@ class GeneratedReport extends Component {
                     <table className="table table-hover thead-primary ">
                         <thead>
                             <tr>
+                            <th scope="col table_header poppins_medium">Date </th>
 
-                                <th scope="col table_header poppins_medium">Order_ID  </th>
-                                <th scope="col table_header poppins_medium">Date </th>
+                                <th scope="col table_header poppins_medium">Order ID  </th>
                                 <th scope="col table_header poppins_medium">Book Name </th>
                                 <th scope="col table_header poppins_medium">Book Price </th>
 
@@ -294,6 +297,8 @@ class GeneratedReport extends Component {
 
 
                                 <th scope="col table_header poppins_medium"><p className="mb-0">Date</p>  </th>
+                                <th scope="col table_header poppins_medium"><p className="mb-0">Order ID</p>  </th>
+
                                 <th scope="col table_header poppins_medium"><p className="mb-0">Reference No. </p>  </th>
 
                                 <th scope="col table_header poppins_medium"><p className="mb-0">Author Title</p> </th>

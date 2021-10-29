@@ -23,8 +23,8 @@ import Register from './pages/Auth/Register'
 if(process.env.NODE_ENV === 'production') {
   axios.defaults.baseURL = 'https://littlebookcompany.net:3002/v1';
 }else  {
-  //axios.defaults.baseURL = 'https://littlebookcompany.net:3002/v1';
-   axios.defaults.baseURL = 'http://localhost:4002/v1';
+  axios.defaults.baseURL = 'https://littlebookcompany.net:3002/v1';
+  //  axios.defaults.baseURL = 'http://localhost:4002/v1';
 } 
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
