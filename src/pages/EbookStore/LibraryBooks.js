@@ -9,7 +9,7 @@ import crossbtn from '../../assets/images/CongratulationModal/crossBtn.svg';
 import BackArrow from '../../assets/images/CongratulationModal/back-arrow.svg';
 import storytelling from '../../assets/images/CongratulationModal/storytelling.svg';
 import { uploadEpub } from '../../store/actions/bookAction';
-import searchicon from '../../assets/images/Managebooks/searchicon.svg'
+import searchicon from '../../assets/images/NoFile.png'
 import Polygon from '../../assets/images/Managebooks/Polygon.svg'
 import tableBook from '../../assets/images/Managebooks/tableBook.svg'
 import visibility from '../../assets/images/Managebooks/visibility.svg'
@@ -55,6 +55,8 @@ class ManageBook extends Component {
             search: '',
             Active_Status:false,
             User_ID: '',
+            deleteModal: false,
+
 
         };
         this.handleChange = this.handleChange.bind(this);
@@ -239,6 +241,35 @@ class ManageBook extends Component {
             )
     }
 
+     renderBooks = () => {
+        if (!this.state.isLoading && this.state.bookList?.length < 1) {
+
+            return <div className="nofile w-100">
+                <div className="text-center mt-5 pt-5">
+                    {/* <img src={NoFile} /> */}
+                    <p className="poppins_bold text-center SorryTextM mb-0">NO E-Book Found</p>
+                    <p className="poppins_bold text-center SorryTextS mb-0 " >Tweak some filters and check other categories to find more E-books</p>
+                </div>
+
+            </div>
+        }
+        return this.state.bookList.map((item, i) =>
+
+            <div className="col-xl-3 col-lg-3 col-md-6 col-sm-4 col-6  pt-3 pb-5 mt-3 mb-b  text-center" >
+
+                <img className="libBookImg w-100"
+                 src={this.state.isImageLoaded ? item.book?.Image : item.book?.Image}
+                 onLoad={() => this.setState({ isImageLoaded: true })}
+                 ></img> <br></br>
+
+                <label className=" cut-text poppins-medium book-title mt-3" >{item.book?.Name}</label><br></br>
+                <label className=" cut-text book-author poppins_light" >{"by " + item.book?.Author_Name}</label><br></br>
+                <label className="  DeleteText poppins_light" onClick={() => this.setState({ deleteModal: true })} >Delete from library</label><br></br>
+
+            
+            </div>
+        )
+    }
     render() {
 
         const { isLoading } = this.state;
@@ -252,17 +283,54 @@ class ManageBook extends Component {
         return (
             <div>
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div className="deleteModal">
+                    <Modal
 
+
+                        dialogClassName="col-sm-12 "
+                        show={this.state.deleteModal}
+                        size="md"
+                        aria-labelledby="contained-modal-title-vcenter"
+                        centered
+                    >
+
+
+                        <div className="  modal-body text-center deleteModal">
+                            <div className="container-fluid ModalContainer">
+                                <div className="col-12">
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <p className="poppins_medium ModalHading">Are You Sure You Want To Delete?</p>
+                                        </div>
+                                        <div className="col-12 mt-4">
+                                            <div className="row">
+                                                <div className="col-6 text-center">
+                                                    <button className="deleteModalCancelbtn" onClick={() => this.setState({ deleteModal: false })}>Cancel</button>
+                                                </div>
+                                                <div className="col-6 text-center">
+                                                    <button className="deleteModalYesbtn" >Delete</button>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+
+                    </Modal>
+                </div>
                     <div className="row">
                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 managebookContainer">
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 pt-3 AllbookContainer ">
                                 <div className="row">
-                                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
-
-
-                                        <p className="Allbook-heading mb-0">BookShelf</p>
-                                        <p className="allbooktext mb-0">All your books that are Published and under review</p>
-                                    </div>
+                                   
                                     {/* <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12  ">
                                         <div className="row">
                                             <div className="col-xl-5 col-lg-5 col-md-5 col-sm-4 col-4 "></div>
@@ -279,7 +347,7 @@ class ManageBook extends Component {
                                 </div>
                             </div>
 
-                            <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 pt-3 AllbookContainer ">
+                            {/* <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 pt-3 AllbookContainer ">
                                 <div className="table-responsive mt-4 checkout_container">
                                     <table className="table table-hover thead-primary">
                                         <thead>
@@ -356,6 +424,16 @@ class ManageBook extends Component {
 
                                 </div>
 
+                            </div> */}
+                            <div className="col-12 libarayContainer">
+                            <p className="Allbook-heading mb-0">BookShelf</p>
+                                        <p className="allbooktext mb-0">All your books in library </p>
+                                   
+                                <div className="row">
+                               
+                                {this.state.bookList && this.renderBooks()}
+
+                                </div>
                             </div>
 
 

@@ -256,7 +256,7 @@ class ManageBook extends Component {
 
                                     </select>
                                             {this.state.checkbook && 
-                                    <p className="poppins_light mt-4 modal_text"> {'Book is already allow to User'}   </p>
+                                    <p className="areadyallow mt-5"> {'Book is already allow to User'}   </p>
 }
 
                                     {this.state.isLoading && <FadeLoader color={"#38A3A5"} loading={true} css={override} size={150}></FadeLoader>}

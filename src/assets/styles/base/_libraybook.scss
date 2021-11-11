@@ -1,0 +1,96 @@
+.libarayContainer{
+    background: white;
+    height: 100%;
+    padding-bottom: 50px;
+}
+.SorryTextS{
+    color: #D8DDE2;
+    font-size: 14px;
+
+}
+.SorryTextM{
+    color: #D8DDE2;
+    font-size: 25px;
+
+}
+.book-title{
+    color: #444444;
+    font-size: 16px;
+}
+.book-author{
+    color: #444444;
+    font-size: 14px;
+}
+.libBookImg{
+    height: 280px;
+    
+}
+.cut-text { 
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    width: 160px; 
+    height: 1.2em; 
+    white-space: nowrap;
+  }
+  .DeleteText{
+      font-size: 13px;
+      color: red;
+  }
+  .DeleteText:hover{
+      cursor: pointer;
+      opacity: 0.8;
+  }
+
+  .areadyallow{
+    font-size: 16px;
+    color: red;
+    font-family: 'Poppins';
+    font-weight: 400;
+    text-align: center;
+  }
+  .deleteModal{
+
+    .modal-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        margin-right: auto;
+        margin-left: auto;
+        pointer-events: auto;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0,0,0,.2);
+        border-radius: .3rem;
+        outline: 0;
+    }
+    .deleteModalCancelbtn{
+        width: 100%;
+        height: 40px;
+        font-size: 16px;
+        font-family: 'Poppins';
+        font-weight: 400;
+        background: gray;
+        color: white;
+        border: none;
+        margin-top: 30px;
+    
+    }
+    .deleteModalCancelbtn:hover{
+        background-color: #4e4e4e;
+    }
+    .deleteModalYesbtn{
+        width: 100%;
+        height: 40px;
+        font-size: 16px;
+        font-family: 'Poppins';
+        font-weight: 400;
+        background: red;
+        color: white;
+        border: none;
+        margin-top: 30px;
+    
+    }
+    .deleteModalYesbtn:hover{
+        background: rgb(134, 33, 33);
+    }
+}
