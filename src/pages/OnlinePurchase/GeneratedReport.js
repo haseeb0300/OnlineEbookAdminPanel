@@ -101,18 +101,19 @@ class GeneratedReport extends Component {
 
         return this.state.reportContent.map((item, i) =>
             <>
-
+            {item?.order_has_books?.length > 0 && item?.order_has_books.map((citem, index) =>
                 <tr>
                     <td><Moment format="DD-MM-YY">{item.createdAt}</Moment></td>
                     <td>{item?.Order_ID}</td>
 
-                    <td>{item?.order_has_books[0]?.book?.Name}</td>
-                    <td>{item?.Payment_Method == "PayPal" ? item?.order_has_books[0]?.book?.Price_USD * 150 : item?.order_has_books[0]?.book?.Price}</td>
+                    <td>{citem.book?.Name}</td>
+                    <td>{item?.Payment_Method == "PayPal" ? citem?.book?.Price_USD * 150 : citem?.book?.Price}</td>
                     <td>{item?.Payment_Method}</td>
 
-                    <td>{item?.Payment_Method == "PayPal" ? (item?.order_has_books[0]?.book?.Price_USD * 150) * 0.7 : item?.order_has_books[0]?.book?.Price * 0.7}</td>
+                    <td>{item?.Payment_Method == "PayPal" ? (citem?.book?.Price_USD * 150) * 0.7 : citem?.book?.Price * 0.7}</td>
 
                 </tr>
+                )}
             </>
         )
 

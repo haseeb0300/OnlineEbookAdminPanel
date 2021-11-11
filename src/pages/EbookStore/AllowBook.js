@@ -13,7 +13,7 @@ import searchicon from '../../assets/images/Managebooks/searchicon.svg'
 import Polygon from '../../assets/images/Managebooks/Polygon.svg'
 import tableBook from '../../assets/images/Managebooks/tableBook.svg'
 import visibility from '../../assets/images/Managebooks/visibility.svg'
-import { getAllBooks, sortAllBooks, searchBook, createBook, putBookInLibrary } from '../../store/actions/bookAction';
+import { getAllBooks, sortAllBooks, searchBook, createBook, putBookInLibrary, getReaderBook } from '../../store/actions/bookAction';
 import { getAllReader } from '../../store/actions/authActions';
 
 import moment from 'moment'
@@ -49,6 +49,8 @@ class ManageBook extends Component {
             User_ID:'',
             Book_ID:'',
             isLoading:false,
+            libBookList: [],
+            checkbook: false,
 
         };
 
@@ -107,10 +109,35 @@ class ManageBook extends Component {
         this.setState({ [e.target.name]: e.target.value })
         let error = {}
         switch (e.target.name) {
-            case "book_title":
+            case "User_ID":
 
-                this.setState({ ...this.state.validation, [e.target.name]: " " })
+                this.props.getReaderBook(e.target.value).then((res) => {
+                    console.log(res.content[0]?.library_has_books)
+                    if (res.status == true) {
+                        this.setState({
+                            libBookList: res?.content[0]?.library_has_books,
+                        })
+        
+                    }
+                    else {
+                        alert(res)
+                    }
+                }).catch((err) => {
+                    console.log(err)
+        
+                })
                 break
+                case "Book_ID":
+                    if(this.state.libBookList.filter(i => i.Book_ID === e.target.value).length > 0){
+                        console.log('true')
+                        this.setState({checkbook:true})
+                          return true
+                      }else{
+                        console.log('false')
+
+                        this.setState({checkbook:false}) 
+                      }
+                break;
         }
     }
 
@@ -228,6 +255,9 @@ class ManageBook extends Component {
 
 
                                     </select>
+                                            {this.state.checkbook && 
+                                    <p className="poppins_light mt-4 modal_text"> {'Book is already allow to User'}   </p>
+}
 
                                     {this.state.isLoading && <FadeLoader color={"#38A3A5"} loading={true} css={override} size={150}></FadeLoader>}
 
@@ -297,5 +327,6 @@ const mapDispatchToProps = ({
     createBook,
     getAllReader,
     putBookInLibrary,
+    getReaderBook,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ManageBook);
