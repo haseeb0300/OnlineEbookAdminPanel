@@ -34,14 +34,14 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 // Check for token
 if (localStorage.jwtToken) {
   // Set auth token header auth
-  console.log(localStorage.jwtToken)
+  //console.log(localStorage.jwtToken)
   setAuthToken(localStorage.jwtToken);
 
  
   
   const decoded = jwt_decode(localStorage.jwtToken);
   var user = localStorage.getItem('user');
-  console.log(user)
+  //console.log(user)
   // Set user and isAuthenticated
    store.dispatch(setCurrentUser(user));
   //dispatch(setCurrentUser(user));

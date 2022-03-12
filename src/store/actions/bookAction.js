@@ -10,7 +10,7 @@ export const getFilterCategory = accountData => dispatch => {
     .catch(err => {
 
       if (err.response.data != null && err.response.data.validation) {
-        console.log(err.response.data);
+        //console.log(err.response.data);
         err = err.response.data
       } else {
         err = { "msg": "Something went wrong" }
@@ -32,7 +32,7 @@ export const createCategory = accountData => dispatch => {
     .catch(err => {
 
       if (err.response.data != null && err.response.data.validation) {
-        console.log(err.response.data);
+        //console.log(err.response.data);
         err = err.response.data
       } else {
         err = { "msg": "Something went wrong" }
@@ -54,7 +54,7 @@ export const putBookInLibrary = accountData => dispatch => {
     .catch(err => {
 
       if (err.response.data != null && err.response.data.validation) {
-        console.log(err.response.data);
+        //console.log(err.response.data);
         err = err.response.data
       } else {
         err = { "msg": "Something went wrong" }
@@ -79,7 +79,7 @@ export const uploadEpub = restaurantData => dispatch => {
       .catch(err => {
   
         if (err.response.data != null && err.response.data.validation) {
-          console.log(err.response.data);
+          //console.log(err.response.data);
           err = err.response.data
         } else {
           err = { "msg": "Something went wrong" }
@@ -101,7 +101,7 @@ export const uploadEpub = restaurantData => dispatch => {
       .catch(err => {
   
         if (err.response.data != null && err.response.data.validation) {
-          console.log(err.response.data);
+          //console.log(err.response.data);
           err = err.response.data
         } else {
           err = { "msg": "Something went wrong" }
@@ -116,10 +116,10 @@ export const uploadEpub = restaurantData => dispatch => {
     return axios
         .get('api/reader/book?user_id='+user_id)
         .then((res) => {
-            console.log(res)
+            //console.log(res)
             return Promise.resolve(res.data)
         }).catch((err) => {
-            console.log(err)
+            //console.log(err)
             return Promise.reject(err)
         })
   }
@@ -129,10 +129,10 @@ export const uploadEpub = restaurantData => dispatch => {
     return axios
         .get('api/publicationcategory')
         .then((res) => {
-            console.log(res)
+            //console.log(res)
             return Promise.resolve(res.data)
         }).catch((err) => {
-            console.log(err)
+            //console.log(err)
             return Promise.reject(err)
         })
   }
@@ -141,10 +141,10 @@ export const uploadEpub = restaurantData => dispatch => {
     return axios
         .get('api/parentcategory')
         .then((res) => {
-            console.log(res)
+            //console.log(res)
             return Promise.resolve(res.data)
         }).catch((err) => {
-            console.log(err)
+            //console.log(err)
             return Promise.reject(err)
         })
   }
@@ -157,7 +157,7 @@ export const uploadEpub = restaurantData => dispatch => {
       .catch(err => {
   
         if (err.response.data != null && err.response.data.validation) {
-          console.log(err.response.data.validation);
+          //console.log(err.response.data.validation);
           err = err.response.data
         } else {
           err = { "msg": "Something went wrong" }
@@ -174,11 +174,11 @@ export const uploadEpub = restaurantData => dispatch => {
     return axios
         .get('/api/all/book?page='+page)
         .then((res) => {
-            console.log(res)
+            //console.log(res)
 
             return Promise.resolve(res.data)
         }).catch((err) => {
-            console.log(err)
+            //console.log(err)
             return Promise.reject(err)
         })
 
@@ -196,7 +196,7 @@ export const uploadBook = restaurantData => dispatch => {
     .catch(err => {
 
       if (err.response.data != null && err.response.data.validation) {
-        console.log(err.response.data);
+        //console.log(err.response.data);
         err = err.response.data
       } else {
         err = { "msg": "Something went wrong" }
@@ -210,10 +210,10 @@ export const getConversionPrice = () => dispatch => {
   return axios
       .get('api/conversionprice')
       .then((res) => {
-          console.log(res)
+          //console.log(res)
           return Promise.resolve(res.data)
       }).catch((err) => {
-          console.log(err)
+          //console.log(err)
           return Promise.reject(err)
       })
 }
@@ -226,7 +226,7 @@ export const createBookConverReq = bookData => dispatch => {
     .catch(err => {
 
       if (err.response.data != null && err.response.data.validation) {
-        console.log(err.response.data);
+        //console.log(err.response.data);
         err = err.response.data
       } else {
         err = { "msg": "Something went wrong" }
@@ -242,11 +242,11 @@ export const getConversionBooks = () => dispatch => {
   return axios
       .get('/api/bookconvert')
       .then((res) => {
-          console.log(res)
+          //console.log(res)
 
           return Promise.resolve(res.data)
       }).catch((err) => {
-          console.log(err)
+          //console.log(err)
           return Promise.reject(err)
       })
 
@@ -272,11 +272,11 @@ export const sortAllBooks = (Name,Sort) => dispatch => {
   return axios
       .get('/api/publisher/sort/book?Name='+Name+'&Sort='+Sort)
       .then((res) => {
-          console.log(res)
+          //console.log(res)
 
           return Promise.resolve(res.data)
       }).catch((err) => {
-          console.log(err)
+          //console.log(err)
           return Promise.reject(err)
       })
 
@@ -286,11 +286,11 @@ export const searchBook = (Name) => dispatch => {
   return axios
       .get('/api/admin/search/book?Name='+Name)
       .then((res) => {
-          console.log(res)
+          //console.log(res)
 
           return Promise.resolve(res.data)
       }).catch((err) => {
-          console.log(err)
+          //console.log(err)
           return Promise.reject(err)
       })
 

@@ -113,7 +113,7 @@ class Segment extends Component {
                                 </div>
                                 <div className="col-6"></div>
                                 <div className="col-4">
-                                    <p class="">
+                                    <p className="">
                                         <input id="ABC" type="radio"    />
                                         <label className="poppins_bold SegmentRadioLabel ml-3" for="ABC">On board</label>
 
@@ -123,7 +123,7 @@ class Segment extends Component {
                                 
 
                                 <div className="col-4">
-                                <p class="">
+                                <p className="">
                                         <input id="ABCD" type="radio"    />
                                         <label className="poppins_bold SegmentRadioLabel ml-3" for="ABCD">Topic Subscribers</label>
 

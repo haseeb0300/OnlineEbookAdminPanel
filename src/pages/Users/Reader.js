@@ -109,10 +109,10 @@ class Reader extends Component {
         payload.append('book', this.state.file);
         this.setState({ isUploading: true })
         this.props.uploadEpub(payload).then((res) => {
-            console.log(res.content)
+            //console.log(res.content)
             this.setState({ isUploading: false })
             if (res.content.length > 0) {
-                console.log(res.content[0].url)
+                //console.log(res.content[0].url)
                 this.setState({ book_url: res.content[0].url, original_book_name: res.content[0].originalname })
             }
         }).catch((err) => {
@@ -129,7 +129,7 @@ class Reader extends Component {
     componentDidMount() {
         this.setState({ isLoading: true })
         this.props.getAllBooks().then((res) => {
-            console.log(res.content)
+            //console.log(res.content)
             if (res.status == true) {
                 this.setState({
                     bookList: res.content,
@@ -140,12 +140,12 @@ class Reader extends Component {
                 alert(res)
             }
         }).catch((err) => {
-            console.log(err)
+            //console.log(err)
 
         })
 
         this.props.getAllReader().then((res) => {
-            console.log(res.content)
+            //console.log(res.content)
             if (res.status == true) {
                 this.setState({
                     readerList: res.content,
@@ -157,7 +157,7 @@ class Reader extends Component {
                 alert(res)
             }
         }).catch((err) => {
-            console.log(err)
+            //console.log(err)
 
         })
 
@@ -170,7 +170,7 @@ class Reader extends Component {
 return
         }
         let { readerList} =this.state
-        console.log(readerList)
+        //console.log(readerList)
         let fiteredList = readerList.filter((item)=>{
             if( item.Full_Name.toLowerCase().includes(searchStr.toLowerCase()) || item.Email.toLowerCase().includes(searchStr.toLowerCase()))
             return true 
@@ -179,7 +179,7 @@ return
         this.setState({
             currentPage:  1
         });
-        console.log(fiteredList)
+        //console.log(fiteredList)
         this.setState({ readerListFiltered: fiteredList})
     }
 
@@ -187,7 +187,7 @@ return
 
         return
         this.props.sortAllBooks(colName, sort).then((res) => {
-            console.log(res.content)
+            //console.log(res.content)
             if (res.status == true) {
                 if (colName == "Author_Name") {
                     this.setState({
@@ -216,7 +216,7 @@ return
                 alert(res)
             }
         }).catch((err) => {
-            console.log(err)
+            //console.log(err)
 
         })
 
@@ -248,7 +248,7 @@ return
 
     onClickSearch = () => {
         this.props.searchBook(this.state.search).then((res) => {
-            console.log(res.content)
+            //console.log(res.content)
             if (res.status == true) {
                 this.setState({
                     bookList: res.content,
@@ -258,7 +258,7 @@ return
                 alert(res)
             }
         }).catch((err) => {
-            console.log(err)
+            //console.log(err)
 
         })
 
@@ -293,7 +293,7 @@ return
             return () =>
 
                 <tr>
-                    <td class="text-center" colspan="7"> <b>  No Data To Display</b>
+                    <td className="text-center" colspan="7"> <b>  No Data To Display</b>
 
                     </td>
                 </tr>
@@ -329,7 +329,7 @@ return
     }
 
      onSort = (name,order )=>{
-         console.log("ORDER : " + order)
+         //console.log("ORDER : " + order)
           
         this.setState({ ["SORT"+ name]:   order} )
         let { readerList,readerListFiltered } = this.state
@@ -418,14 +418,14 @@ return
 
 
                                                 {this.state["SORT"+"Full_Name"] ==="DESC" ?  
-                                                    <th onClick={(e) => this.onSort('Full_Name', 'ASC' )} scope="col table_header poppins_medium"> Name  <i class="fa fa-caret-up" aria-hidden="true"></i> </th>
+                                                    <th onClick={(e) => this.onSort('Full_Name', 'ASC' )} scope="col table_header poppins_medium"> Name  <i className="fa fa-caret-up" aria-hidden="true"></i> </th>
                                                   : 
-                                                    <th  onClick={(e) => this.onSort('Full_Name', 'DESC' )} scope="col table_header poppins_medium"> Name <i class="fa fa-caret-down" aria-hidden="true"></i> </th>
+                                                    <th  onClick={(e) => this.onSort('Full_Name', 'DESC' )} scope="col table_header poppins_medium"> Name <i className="fa fa-caret-down" aria-hidden="true"></i> </th>
                                                  }
                                                 {this.state["SORT"+"Email"] ==="DESC" ?  (
-                                                    <th scope="col table_header poppins_medium" onClick={() => this.onSort('Email', 'ASC')}>Email<i class="fa fa-caret-up" aria-hidden="true"></i></th>
+                                                    <th scope="col table_header poppins_medium" onClick={() => this.onSort('Email', 'ASC')}>Email<i className="fa fa-caret-up" aria-hidden="true"></i></th>
                                                 ) : (
-                                                    <th scope="col table_header poppins_medium" onClick={() => this.onSort('Email', 'DESC')}>Email <i class="fa fa-caret-down" aria-hidden="true"></i> </th>
+                                                    <th scope="col table_header poppins_medium" onClick={() => this.onSort('Email', 'DESC')}>Email <i className="fa fa-caret-down" aria-hidden="true"></i> </th>
                                                 )}
                                                 <th scope="col table_header poppins_medium">Actions  </th>
 
@@ -439,7 +439,7 @@ return
                                             {this.state.bookList.length > 0 && this.renderTableRows(currentTodos)}
                                             {this.state.bookList?.length < 1 &&
                                                 <tr>
-                                                    <td class="text-center" colspan="7"> <b>  No Data To Display</b>
+                                                    <td className="text-center" colspan="7"> <b>  No Data To Display</b>
 
                                                     </td>
 

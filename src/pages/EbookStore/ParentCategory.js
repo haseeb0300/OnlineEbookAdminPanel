@@ -390,9 +390,9 @@ class ParentCategory extends Component {
                                         <p className="poppins_medium Modaltext mb-0">Status</p>
                                     </div>
                                     <div className="col-9 checkout_container ">
-                                        <label class="blackSwitch">
+                                        <label className="blackSwitch">
                                             <input type="checkbox" />
-                                            <span class="blackslider round"></span>
+                                            <span className="blackslider round"></span>
                                         </label>
 
                                     </div>
@@ -462,7 +462,7 @@ class ParentCategory extends Component {
                                         <thead>
                                             <tr>
                                                 {/* <th scope="col">
-                                                    <div class="form-group">
+                                                    <div className="form-group">
                                                         <input type="checkbox" id="html1" />
                                                         <label for="html1"></label>
                                                     </div>
@@ -493,7 +493,7 @@ class ParentCategory extends Component {
                                             {this.state.CtaegoryList.length > 0 && this.renderTableRows(currentTodos)}
                                             {this.state.CtaegoryList?.length < 1 &&
                                                 <tr>
-                                                    <td class="text-center" colspan="7"> <b>  No Data To Display</b>
+                                                    <td className="text-center" colspan="7"> <b>  No Data To Display</b>
 
                                                     </td>
 

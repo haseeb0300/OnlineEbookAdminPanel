@@ -783,7 +783,7 @@ class ManageBook extends Component {
                                                                             </div>
 
                                                                             <div className="col-5 mt-2">
-                                                                                <span onClick = {() => this.downloadFile('file',this.state.Url)}><i class="fa fa-download downloadIcon" aria-hidden="true"></i></span>
+                                                                                <span onClick = {() => this.downloadFile('file',this.state.Url)}><i className="fa fa-download downloadIcon" aria-hidden="true"></i></span>
 
                                                                             </div>
 
@@ -824,7 +824,7 @@ class ManageBook extends Component {
                                                                                 <button className="col-12 poppins_semibold uploadbtn" onClick={(e) => this.upload3.click()} > UPLOAD FILES<input id="myInput3" type="file" onChange={(event) => this.onFileChange(event, "Preview")} name="Preview" ref={(ref) => this.upload3 = ref} style={{ display: 'none' }} /></button>
                                                                             </div>
                                                                             <div className="col-5 mt-2">
-                                                                                <span onClick = {() => this.downloadFile('preview',this.state.Preview)}><i class="fa fa-download downloadIcon" aria-hidden="true"></i></span>
+                                                                                <span onClick = {() => this.downloadFile('preview',this.state.Preview)}><i className="fa fa-download downloadIcon" aria-hidden="true"></i></span>
 
                                                                             </div>
                                                                         </div>
@@ -882,7 +882,7 @@ class ManageBook extends Component {
                                                                                     <button className="col-xl-12 poppins_semibold uploadbtn" onClick={(e) => this.upload4.click()}>UPLOAD FILE<input id="myInput" type="file" onChange={(e) => this.onImageChange(e, 'BOOK')} name="Image" ref={(ref) => this.upload4 = ref} style={{ display: 'none' }} /></button>
                                                                                   <div className="col-12 text-center">
 
-                                                                                    <span ><i class="fa fa-download downloadIcon" aria-hidden="true"></i></span>
+                                                                                    <span ><i className="fa fa-download downloadIcon" aria-hidden="true"></i></span>
                                                                                     </div>
 
                                                                                     <p className="mb-0 poppins_light  manageBookTopBarCard-Text">Not be more then 2 MB</p>

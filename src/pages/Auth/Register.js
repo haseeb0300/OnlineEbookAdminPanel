@@ -198,7 +198,7 @@ class Register extends Component {
                                 <div className="row">
                                     <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12   ">
 
-                                        <img class="registerLogo" src={logo}></img>
+                                        <img className="registerLogo" src={logo}></img>
                                     </div>
                                     <div className="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12  vertical_center  ">
 

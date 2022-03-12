@@ -69,7 +69,7 @@ class ManageBook extends Component {
 
     componentDidMount() {
         this.props.getAllReader().then((res) => {
-            console.log(res.content)
+            //console.log(res.content)
             if (res.status == true) {
                 this.setState({
                     readerList: res.content,
@@ -80,12 +80,12 @@ class ManageBook extends Component {
                 alert(res)
             }
         }).catch((err) => {
-            console.log(err)
+            //console.log(err)
 
         })
 
         this.props.getAllBooks().then((res) => {
-            console.log(res.content)
+            //console.log(res.content)
             if (res.status == true) {
                 this.setState({
                     bookList: res.content,
@@ -96,7 +96,7 @@ class ManageBook extends Component {
                 alert(res)
             }
         }).catch((err) => {
-            console.log(err)
+            //console.log(err)
 
         })
 
@@ -112,7 +112,7 @@ class ManageBook extends Component {
             case "User_ID":
 
                 this.props.getReaderBook(e.target.value).then((res) => {
-                    console.log(res.content[0]?.library_has_books)
+                    //console.log(res.content[0]?.library_has_books)
                     if (res.status == true) {
                         this.setState({
                             libBookList: res?.content[0]?.library_has_books,
@@ -123,17 +123,17 @@ class ManageBook extends Component {
                         alert(res)
                     }
                 }).catch((err) => {
-                    console.log(err)
+                    //console.log(err)
         
                 })
                 break
                 case "Book_ID":
                     if(this.state.libBookList.filter(i => i.Book_ID === e.target.value).length > 0){
-                        console.log('true')
+                        //console.log('true')
                         this.setState({checkbook:true})
                           return true
                       }else{
-                        console.log('false')
+                        //console.log('false')
 
                         this.setState({checkbook:false}) 
                       }
@@ -142,19 +142,19 @@ class ManageBook extends Component {
     }
 
     onAllow = () => {
-        console.log('jk')
+        //console.log('jk')
         this.setState({isLoading:true})
         this.props.putBookInLibrary({
             'user_id': this.state.User_ID,
             'Book_ID': this.state.Book_ID
         }).then((res) => {
-            console.log(res)
+            //console.log(res)
             this.setState({isLoading:false, User_ID:'',
             Book_ID:'',})
         })
             .catch((err) => {
                 this.setState({isLoading:false})
-                console.log(err)
+                //console.log(err)
 
             })
     }

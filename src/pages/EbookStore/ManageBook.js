@@ -88,7 +88,7 @@ class ManageBook extends Component {
             page: this.state.page + 1
         },() => {
             this.props.getAllBooks(this.state.page).then((res) => {
-                console.log(res.content)
+                //console.log(res.content)
                 if (res.status == true) {
                     this.setState({
                         bookList: res.content,
@@ -100,7 +100,7 @@ class ManageBook extends Component {
                     alert(res)
                 }
             }).catch((err) => {
-                console.log(err)
+                //console.log(err)
     
             })
         })
@@ -112,7 +112,7 @@ class ManageBook extends Component {
         }
         ,() => {
             this.props.getAllBooks(this.state.page).then((res) => {
-                console.log(res.content)
+                //console.log(res.content)
                 if (res.status == true) {
                     this.setState({
                         bookList: res.content,
@@ -124,7 +124,7 @@ class ManageBook extends Component {
                     alert(res)
                 }
             }).catch((err) => {
-                console.log(err)
+                //console.log(err)
     
             })
         })
@@ -154,10 +154,10 @@ class ManageBook extends Component {
         payload.append('book', this.state.file);
         this.setState({ isUploading: true })
         this.props.uploadEpub(payload).then((res) => {
-            console.log(res.content)
+            //console.log(res.content)
             this.setState({ isUploading: false })
             if (res.content.length > 0) {
-                console.log(res.content[0].url)
+                //console.log(res.content[0].url)
                 this.setState({ book_url: res.content[0].url, original_book_name: res.content[0].originalname })
             }
         }).catch((err) => {
@@ -174,7 +174,7 @@ class ManageBook extends Component {
     componentDidMount() {
         this.setState({isLoading:true})
         this.props.getAllBooks(this.state.page).then((res) => {
-            console.log(res.content)
+            //console.log(res.content)
             if (res.status == true) {
                 this.setState({
                     // totalPages:(Math.ceil(res.content?.count / 15)),
@@ -188,7 +188,7 @@ class ManageBook extends Component {
                 alert(res)
             }
         }).catch((err) => {
-            console.log(err)
+            //console.log(err)
 
         })
 
@@ -198,7 +198,7 @@ class ManageBook extends Component {
     onPressSortByName = (colName, sort) => {
 
         this.props.sortAllBooks(colName, sort).then((res) => {
-            console.log(res.content)
+            //console.log(res.content)
             if (res.status == true) {
                 if (colName == "Author_Name") {
                     this.setState({
@@ -227,7 +227,7 @@ class ManageBook extends Component {
                 alert(res)
             }
         }).catch((err) => {
-            console.log(err)
+            //console.log(err)
 
         })
 
@@ -259,7 +259,7 @@ class ManageBook extends Component {
 
     onClickSearch = () => {
         this.props.searchBook(this.state.search).then((res) => {
-            console.log(res.content)
+            //console.log(res.content)
             if (res.status == true) {
                 this.setState({
                     bookList: res.content,
@@ -271,7 +271,7 @@ class ManageBook extends Component {
                 alert(res)
             }
         }).catch((err) => {
-            console.log(err)
+            //console.log(err)
 
         })
 
@@ -301,7 +301,7 @@ class ManageBook extends Component {
             return () =>
 
                 <tr>
-                    <td class="text-center" colspan="7"> <b>  No Data To Display</b>
+                    <td className="text-center" colspan="7"> <b>  No Data To Display</b>
 
                     </td>
                 </tr>
@@ -312,7 +312,7 @@ class ManageBook extends Component {
 
                 <tr>
                     {/* <td>
-                <div class="form-group">
+                <div className="form-group">
                     <input type="checkbox" id="html1" />
                     <label for="html1"></label>
                 </div>
@@ -325,7 +325,7 @@ class ManageBook extends Component {
                     <td>{item.Author_Name}</td>
                     <td><Moment format="DD-MM-YY HH:MM">{item.createdAt}</Moment></td>
                     <td>
-                        {/* <div class={item.Status == 'Published'? "table-badge-publish": item.Status == 'On Review'?"table-badge-review": item.Status == "UnPublished"?'table-badge-unpublish':"table-badge-blocked"}>
+                        {/* <div className={item.Status == 'Published'? "table-badge-publish": item.Status == 'On Review'?"table-badge-review": item.Status == "UnPublished"?'table-badge-unpublish':"table-badge-blocked"}>
                             <label className="badge-label">
                                 {item.Status}
                             </label>
@@ -337,7 +337,7 @@ class ManageBook extends Component {
                          ["tableSelect_Blocked"] :item.Status ==="Blocked",
                          
                         })} onChange={(e) => {
-                            console.log(e.target.value)
+                            //console.log(e.target.value)
                             var addBookData = {
                                 "Name": item.Name,
                                 "Language": item.Language,
@@ -353,11 +353,11 @@ class ManageBook extends Component {
                                 "Status": e.target.value,
                                 "Book_ID": item.Book_ID,
                             }
-                            console.log(addBookData)
+                            //console.log(addBookData)
                             const status = e.target.value 
                             const index = i
                             this.props.createBook(addBookData).then((res) => {
-                                console.log(res)
+                                //console.log(res)
                                 if (res.status) {
                                     this.setState(({ bookList }) => ({
                                         bookList: [
@@ -374,10 +374,10 @@ class ManageBook extends Component {
  
                                 var validationError = {}
                                 var serverError = []
-                                console.log(err.hasOwnProperty('validation'))
+                                //console.log(err.hasOwnProperty('validation'))
                     
                                 if (err.hasOwnProperty('validation')) {
-                                    console.log(err)
+                                    //console.log(err)
                     
                                     err.validation.map(obj => {
                                         if (obj.hasOwnProperty('param')) {
@@ -385,7 +385,7 @@ class ManageBook extends Component {
                                         } else {
                                             serverError = [...serverError, obj]
                                         }
-                                        console.log(obj["msg"])
+                                        //console.log(obj["msg"])
                                     });
                                     this.setState({ errors: validationError });
                                     this.setState({ serverError: serverError });
@@ -419,7 +419,7 @@ tableSelect_Blocked */}
 
 
                     <td>
-                        <label class="blackSwitch">
+                        <label className="blackSwitch">
                             <input type="checkbox" checked={item.Active_Status} name="Active_Status" onChange={ ()=>{
                           var addBookData = {
                             "Name": item.Name,
@@ -437,7 +437,7 @@ tableSelect_Blocked */}
                             "Book_ID": item.Book_ID,
                         }
                         this.props.createBook(addBookData).then((res) => {
-                            console.log(res)
+                            //console.log(res)
                             if (res.status) {
                                 this.setState(({ bookList }) => ({
 
@@ -456,10 +456,10 @@ tableSelect_Blocked */}
 
                             var validationError = {}
                             var serverError = []
-                            console.log(err.hasOwnProperty('validation'))
+                            //console.log(err.hasOwnProperty('validation'))
                 
                             if (err.hasOwnProperty('validation')) {
-                                console.log(err)
+                                //console.log(err)
                 
                                 err.validation.map(obj => {
                                     if (obj.hasOwnProperty('param')) {
@@ -467,7 +467,7 @@ tableSelect_Blocked */}
                                     } else {
                                         serverError = [...serverError, obj]
                                     }
-                                    console.log(obj["msg"])
+                                    //console.log(obj["msg"])
                                 });
                                 this.setState({ errors: validationError });
                                 this.setState({ serverError: serverError });
@@ -479,7 +479,7 @@ tableSelect_Blocked */}
                    
                        
                             }}/>
-                            <span class="blackslider round"></span>
+                            <span className="blackslider round"></span>
                         </label>
                     </td>
                     <td>
@@ -545,7 +545,7 @@ tableSelect_Blocked */}
                                         <thead>
                                             <tr>
                                                 {/* <th scope="col">
-                                                    <div class="form-group">
+                                                    <div className="form-group">
                                                         <input type="checkbox" id="html1" />
                                                         <label for="html1"></label>
                                                     </div>
@@ -584,7 +584,7 @@ tableSelect_Blocked */}
                                             {this.state.bookList.length > 0 && this.renderTableRows(currentTodos)}
                                             {this.state.bookList?.length < 1 &&
                                                 <tr>
-                                                    <td class="text-center" colspan="7"> <b>  No Data To Display</b>
+                                                    <td className="text-center" colspan="7"> <b>  No Data To Display</b>
 
                                                     </td>
 

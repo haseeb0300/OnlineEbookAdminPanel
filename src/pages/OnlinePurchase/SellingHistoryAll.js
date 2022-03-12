@@ -59,6 +59,8 @@ class SellingHistoryAll extends Component {
             OrderListFiltered: [],
             fromDate: '2021-05-01T01:10:00Z',
             toDate: '2021-10-01T01:10:00Z',
+            earning: 0,
+            isLoading: true
 
 
 
@@ -74,75 +76,18 @@ class SellingHistoryAll extends Component {
     }
 
 
-    componentWillMount() {
-        if (this?.props?.location?.state?.user) {
-            console.log("User :", this?.props?.location?.state?.user)
 
-            this.props.getAllOrder(this?.props?.location?.state?.user?.User_ID).then((res) => {
-                console.log("OrderList :", res.content)
-                if (res.status) {
-                    this.setState({
-                        orderList: res.content,
-                    })
-
-                }
-                else {
-                    alert(res)
-                }
-            }).catch((err) => {
-                console.log(err)
-
-            })
-
-            this.props.getTotalEarning(300).then((res) => {
-                console.log("Total Earnings", res.content)
-                if (res.status) {
-                    this.setState({
-                        totalearning: res.content[0]?.order_book?.total_amount,
-                    })
-
-                }
-                else {
-                    alert(res)
-                }
-            }).catch((err) => {
-                console.log(err)
-
-            })
-
-            this.props.getTotalPending(7).then((res) => {
-                console.log(res.content)
-                if (res.status) {
-                    this.setState({
-                        pendingTotal: res.content[0]?.book?.total_amount,
-                    })
-
-                }
-                else {
-                    alert(res)
-                }
-            }).catch((err) => {
-                console.log(err)
-
-            })
-
-            this.setState({
-                author: this.props.location.state.user
-
-            })
-        }
-
-    }
 
 
     componentDidMount() {
         this.props.getAllOrders('1').then((res) => {
-            console.log(res.content)
+           // console.log(res.content)
             if (res.status) {
                 this.setState({
                     orderList: res.content,
                 }, () => {
-                    this.setState({ ["SORT" + 'createdAt']: 'DESC' })
+                    this.getTotalEarning(res.content)
+                    this.setState({ ["SORT" + 'createdAt']: 'DESC', isLoading: false })
                     let { orderList, OrderListFiltered } = this.state
                     let orderListSorted = orderList.sort(this.sortArrByOrder('createdAt', 'DESC'))
                     let OrderListFilteredSorted = OrderListFiltered.sort(this.sortArrByOrder('createdAt', 'DESC'))
@@ -157,21 +102,21 @@ class SellingHistoryAll extends Component {
             console.log(err)
 
         })
-        this.props.getTotalEarning(300).then((res) => {
-            console.log("Total Earnings", res.content)
-            if (res.status) {
-                this.setState({
-                    totalearning: res.content[0]?.order_book?.total_amount,
-                })
+        // this.props.getTotalEarning(300).then((res) => {
+        //     console.log("Total Earnings", res.content)
+        //     if (res.status) {
+        //         this.setState({
+        //             totalearning: res.content[0]?.order_book?.total_amount,
+        //         })
 
-            }
-            else {
-                alert(res)
-            }
-        }).catch((err) => {
-            console.log(err)
+        //     }
+        //     else {
+        //         alert(res)
+        //     }
+        // }).catch((err) => {
+        //     console.log(err)
 
-        })
+        // })
 
     }
 
@@ -364,16 +309,16 @@ class SellingHistoryAll extends Component {
             return
         }
         let { orderList } = this.state
-        console.log(orderList)
+        //console.log(orderList)
         let fiteredList = orderList.filter((item) => {
-            if (item?.book?.Name.toLowerCase().includes(searchStr.toLowerCase()) || item?.order_book?.Payment_Method.toLowerCase().includes(searchStr.toLowerCase() ) || item?.Order_ID.toLowerCase().includes(searchStr.toLowerCase() ))
+            if (item?.book?.Name.toLowerCase().includes(searchStr.toLowerCase()) || item?.order_book?.Payment_Method.toLowerCase().includes(searchStr.toLowerCase()) || item?.Order_ID.toLowerCase().includes(searchStr.toLowerCase()))
                 return true
             return false
         })
         this.setState({
             currentPage: 1
         });
-        console.log(fiteredList)
+        //console.log(fiteredList)
         this.setState({ OrderListFiltered: fiteredList })
     }
 
@@ -409,13 +354,21 @@ class SellingHistoryAll extends Component {
 
     }
 
-
+    getTotalEarning = (list) => { 
+        if (list.length > 0) {
+            var earning = 0
+            for (var i = 0; i < list.length -1 ; i++) {
+                earning =  parseInt(list[i].order_book?.Amount) +  earning 
+            }
+            this.setState({ earning: earning })
+        }
+    }
 
     renderTableRows = (list) => {
         if (list?.length < 1) {
 
             return <tr>
-                <td class="text-center" ><b className="table-text"> No Result</b>
+                <td className="text-center" ><b className="table-text"> No Result</b>
 
                 </td>
             </tr>
@@ -437,7 +390,7 @@ class SellingHistoryAll extends Component {
                 <td>{item?.order_book?.Payment_Method}</td>
 
                 <td>
-                    <div class={item?.Status === 'Cleared' ? "tableSelect_Published" : "table-badge-review"}>
+                    <div className={item?.Status === 'Cleared' ? "tableSelect_Published" : "table-badge-review"}>
                         <label className="badge-label">{!item?.Status ? 'Pending' : item?.Status}</label>
                     </div>
                 </td>
@@ -737,12 +690,12 @@ class SellingHistoryAll extends Component {
                                         <div className="SellingHistoryTopBarCard">
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
 
-                                                <p className="EaringRs">{this.state.totalearning * 0.3 + ' RS'}</p>
+                                                <p className="EaringRs">{this.state.earning == 0 ? '0.00' : Math.round(this.state.earning * 0.3) + ' RS'}</p>
                                                 <p className="totalEaring">Total Earning</p>
                                             </div>
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                                                 <div className="row ">
-                                                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-5 ">
+                                                    {/* <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-5 ">
                                                         <p className="viewtext">View all</p>
                                                     </div>
 
@@ -753,7 +706,7 @@ class SellingHistoryAll extends Component {
                                                             <option value='30'>30days</option>
 
                                                         </select>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
 
                                             </div>
@@ -768,7 +721,7 @@ class SellingHistoryAll extends Component {
                                                 <p className="totalEaring">Cleared Bills</p>
                                             </div>
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                                <div className="row ">
+                                                {/* <div className="row ">
                                                     <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-5 ">
                                                         <p className="viewtext">View all</p>
                                                     </div>
@@ -781,7 +734,7 @@ class SellingHistoryAll extends Component {
 
                                                         </select>
                                                     </div>
-                                                </div>
+                                                </div> */}
 
                                             </div>
                                         </div>
@@ -795,7 +748,7 @@ class SellingHistoryAll extends Component {
                                                 <p className="totalEaring">Pending Balances </p>
                                             </div>
                                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                                <div className="row ">
+                                                {/* <div className="row ">
                                                     <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-5 ">
                                                         <p className="viewtext">View all</p>
                                                     </div>
@@ -808,7 +761,7 @@ class SellingHistoryAll extends Component {
 
                                                         </select>
                                                     </div>
-                                                </div>
+                                                </div> */}
 
                                             </div>
                                         </div>
@@ -877,16 +830,16 @@ class SellingHistoryAll extends Component {
                                                                 {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Name', 'DESC')}></img> */}
                                                             </th>
                                                         )}
-                                                         <th scope="col table_header poppins_medium">Order ID
-                                                                {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Name', 'DESC')}></img> */}
-                                                            </th>
+                                                        <th scope="col table_header poppins_medium">Order ID
+                                                            {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Name', 'DESC')}></img> */}
+                                                        </th>
                                                         {this.state["SORT" + "createdAt"] === "DESC" ? (
                                                             <th onClick={(e) => this.onSort('createdAt', 'ASC')} scope="col table_header poppins_medium">Date & Time
-                                                                <span><i class="fa fa-caret-down" aria-hidden="true"></i></span>                                                           {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('createdAt', 'ASC')}></img>   */}
+                                                                <span><i className="fa fa-caret-down" aria-hidden="true"></i></span>                                                           {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('createdAt', 'ASC')}></img>   */}
                                                             </th>
                                                         ) : (
                                                             <th onClick={(e) => this.onSort('createdAt', 'DESC')} scope="col table_header poppins_medium">Date & Time
-                                                                <span><i class="fa fa-caret-up" aria-hidden="true"></i></span>                                                                  {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('createdAt', 'DESC')}></img>  */}
+                                                                <span><i className="fa fa-caret-up" aria-hidden="true"></i></span>                                                                  {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('createdAt', 'DESC')}></img>  */}
                                                             </th>
                                                         )}
                                                         {this.state.sortByPrice ? (
@@ -899,7 +852,7 @@ class SellingHistoryAll extends Component {
                                                             </th>
 
                                                         )}
-                                                                                      {this.state.sortByPrice ? (
+                                                        {this.state.sortByPrice ? (
                                                             <th scope="col table_header poppins_medium">Earning
                                                                 {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'ASC')}></img> */}
                                                             </th>
@@ -912,7 +865,7 @@ class SellingHistoryAll extends Component {
                                                         <th scope="col table_header poppins_medium">Payment Method
                                                             {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'DESC')}></img> */}
                                                         </th>
-                          
+
                                                         {this.state.sortByStatus ? (
                                                             <th scope="col table_header poppins_medium">Payment Status
                                                                 {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByOrder('Payment_Status', 'ASC')}></img>  */}

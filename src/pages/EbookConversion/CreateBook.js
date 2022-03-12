@@ -398,8 +398,8 @@ class CreateBook extends Component {
 
                                                                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  ml-2 mr-2">
                                                                     {this.state.priceList.map((item, index) => (
-                                                                        <p class="mt-3">
-                                                                            <input type="radio" id={index} name="radio-group" name="price" onChange={this.onChange} value={index+1} />
+                                                                        <p className="mt-3">
+                                                                            <input type="radio" id={index}  name="price" onChange={this.onChange} value={index+1} />
                                                                             <label className="poppins_regular ml-3" for={index}>{item.Price + " PKR"}</label>
                                                                             <label className="poppins_regular ml-3" >{item.Detail}</label>
 
@@ -407,7 +407,7 @@ class CreateBook extends Component {
                                                                     )}
 
 
-                                                                    {/* <p class="mt-3">
+                                                                    {/* <p className="mt-3">
                                                                         <input type="radio" id="Easy_paisa" name="radio-group" />
                                                                         <label className="poppins_regular ml-3" for="Easy_paisa">6000 PKR</label>
                                                                         <label className="poppins_regular ml-3" >(200 - 500 Pages Book)</label>
@@ -415,7 +415,7 @@ class CreateBook extends Component {
                                                                     </p>
 
 
-                                                                    <p class="mt-3">
+                                                                    <p className="mt-3">
                                                                         <input type="radio" id="Easy_paisa" name="radio-group" />
                                                                         <label className="poppins_regular ml-3" for="Easy_paisa">8000 PKR</label>
                                                                         <label className="poppins_regular ml-3" >(500 - 800 Pages Book)</label>

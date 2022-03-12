@@ -168,9 +168,9 @@ class AddTranslation extends Component {
                                         <p className="poppins_medium Modaltext mb-0">Status</p>
                                     </div>
                                     <div className="col-9 checkout_container ">
-                                        <label class="blackSwitch">
+                                        <label className="blackSwitch">
                                             <input type="checkbox" />
-                                            <span class="blackslider round"></span>
+                                            <span className="blackslider round"></span>
                                         </label>
 
                                     </div>

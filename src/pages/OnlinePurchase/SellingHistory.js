@@ -392,7 +392,7 @@ class SellingHistory extends Component {
         if (list.length < 1) {
 
             return <tr>
-                <td class="text-center" ><b className="table-text"> No Result</b>
+                <td className="text-center" ><b className="table-text"> No Result</b>
 
                 </td>
             </tr>
@@ -412,7 +412,7 @@ class SellingHistory extends Component {
         <td>{item?.order_book?.Payment_Method === 'PayPal'? (item?.book?.Price_USD * 150) * 0.7 + ' Rs.': item?.book?.Price * 0.7 + ' Rs.'}</td>
 
         <td>
-            <div class={item?.Status === 'Cleared'? "tableSelect_Published" :"table-badge-review"}>
+            <div className={item?.Status === 'Cleared'? "tableSelect_Published" :"table-badge-review"}>
                 <label className="badge-label">{!item?.Status?'Pending': item?.Status}</label>
             </div>
         </td>

@@ -374,7 +374,7 @@ class ManageBook extends Component {
                                             {this?.state?.bookList?.length > 0 && this.renderTableRows()}
                                             {this?.state?.bookList?.length < 1 &&
                                                 <tr>
-                                                    <td class="text-center" colspan="7"> <b>  No Data To Display</b>
+                                                    <td className="text-center" colspan="7"> <b>  No Data To Display</b>
 
                                                     </td>
 

@@ -163,9 +163,9 @@ class PushNotification extends Component {
 
                             </div>
                             <div className="noty-input-container checkout_container userbackgroundContainer">
-                                <label class="blackSwitch">
+                                <label className="blackSwitch">
                                     <input type="checkbox" />
-                                    <span class="blackslider round"></span>
+                                    <span className="blackslider round"></span>
                                     <label className="poppins_bold SelectLAbel lauchTxt  mb-0">LAUNCH</label>
                                 </label>
                                 <p className="payment_methodImgHeight ml-4 mb-0 mt-3">
@@ -185,9 +185,9 @@ class PushNotification extends Component {
                             </div>
 
                             <div className="noty-input-container checkout_container userbackgroundContainer">
-                                <label class="blackSwitch">
+                                <label className="blackSwitch">
                                     <input type="checkbox" />
-                                    <span class="blackslider round"></span>
+                                    <span className="blackslider round"></span>
                                     <label className="poppins_bold SelectLAbel lauchTxt  mb-0">SendLater</label>
                                 </label>
                               

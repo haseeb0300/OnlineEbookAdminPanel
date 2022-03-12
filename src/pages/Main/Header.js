@@ -42,7 +42,7 @@ class Header extends Component {
         .substring(0, 2);
 
         [firstName].forEach(w => {
-          console.log(`${w}: ${toInitials(w)}`)
+         // console.log(`${w}: ${toInitials(w)}`)
           this.setState({
             title: `${toInitials(w)}`
           })
@@ -55,7 +55,7 @@ class Header extends Component {
   render() {
     const { toggleMobileNavVisibility, logoutUser } = this.props
     return (
-      <Navbar class="navbar" fluid={true} collapseOnSelect>
+      <Navbar className="navbar" fluid={true} collapseOnSelect>
 
 
 
@@ -72,7 +72,7 @@ class Header extends Component {
         <Nav className="nav-right">
 
 
-          {/* <button class="nav-item"  onClick={logoutUser}>Log out</button> */}
+          {/* <button className="nav-item"  onClick={logoutUser}>Log out</button> */}
           {/* <Link to="/setting">
 
               <img className="header-img" src={setting}></img>

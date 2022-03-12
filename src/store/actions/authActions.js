@@ -8,13 +8,13 @@ export const validateUser =  UserData  => dispatch => {
   return axios
      .post('/api/sendmail', UserData )
      .then(res =>{ 
-         console.log(res.data)
+         //console.log(res.data)
         return Promise.resolve(res.data)
      })
      .catch(err =>{
- console.log(err)
+ //console.log(err)
        if(err.response.data != null && err.response.data.validation){
-         console.log(err.response.data);
+         //console.log(err.response.data);
          err= err.response.data 
        }else{
          err = {"msg":"Something went wrong"}
@@ -34,12 +34,12 @@ export const loginUser = userData => dispatch => {
        .post('/api/admin/login', userData )
        .then(res => {
          // Save to localStorage
-         console.log(res)
+         //console.log(res)
          if(res.data.content != null && res.data.content.length > 0){
           const { token, user } = res.data.content[0];
          // Set token to ls
          localStorage.setItem('jwtToken', token);
-         console.log(user)
+         //console.log(user)
          // Set token to Auth header
          localStorage.setItem('user' ,JSON.stringify(user) );
          setAuthToken(token);
@@ -53,9 +53,9 @@ export const loginUser = userData => dispatch => {
         return Promise.resolve(res.data)
        })
        .catch(err =>{
-         console.log(err);
+         //console.log(err);
          if(err.response.data != null && err.response.data.validation){
-           console.log(err.response.data);
+           //console.log(err.response.data);
            err= err.response.data
          }else{
            err = {"msg":"Something went wrong"}
@@ -97,7 +97,7 @@ export const loginUser = userData => dispatch => {
    
 
          if(err.response.data != null && err.response.data.validation){
-           console.log(err.response.data);
+           //console.log(err.response.data);
            err= err.response.data 
          }else{
            err = {"msg":"Something went wrong"}
@@ -114,7 +114,7 @@ export const loginUser = userData => dispatch => {
 
    export const setCurrentUser = (decoded) => {
  
-    console.log(decoded)
+    //console.log(decoded)
     return {
       type: SET_CURRENT_USER,
       payload: decoded
@@ -124,7 +124,7 @@ export const loginUser = userData => dispatch => {
 
   // Log user out
 export const logoutUser = () => dispatch=> {
-    console.log('here')
+    //console.log('here')
     // Remove token from localStorage
     localStorage.removeItem('jwtToken');
     // Remove auth header for future requests
@@ -137,13 +137,13 @@ export const logoutUser = () => dispatch=> {
     return axios
       .get('/api/restaurentowner')
       .then((res) => {
-        console.log(res)
+        //console.log(res)
         return Promise.resolve(res.data)
       })
       .catch((err) => {
-        console.log(err)
+        //console.log(err)
         if(err.response.data != null && err.response.data.validation){
-          console.log(err.response.data);
+          //console.log(err.response.data);
           err= err.response.data 
         }else{
           err = {"msg":"Something went wrong"}
@@ -157,13 +157,13 @@ export const logoutUser = () => dispatch=> {
     return axios
       .get('/api/reader')
       .then((res) => {
-        console.log(res)
+        //console.log(res)
         return Promise.resolve(res.data)
       })
       .catch((err) => {
-        console.log(err)
+        //console.log(err)
         if(err.response.data != null && err.response.data.validation){
-          console.log(err.response.data);
+          //console.log(err.response.data);
           err= err.response.data 
         }else{
           err = {"msg":"Something went wrong"}
@@ -177,13 +177,13 @@ export const logoutUser = () => dispatch=> {
     return axios
       .get('/api/publisher')
       .then((res) => {
-        console.log(res)
+        //console.log(res)
         return Promise.resolve(res.data)
       })
       .catch((err) => {
-        console.log(err)
+        //console.log(err)
         if(err.response.data != null && err.response.data.validation){
-          console.log(err.response.data);
+          //console.log(err.response.data);
           err= err.response.data 
         }else{
           err = {"msg":"Something went wrong"}

@@ -19,6 +19,7 @@ import star from '../../assets/images/Dashborad/star.svg'
 import { Link, withRouter } from 'react-router-dom';
 import { getTotalEarning } from '../../store/actions/orderAction';
 import { getTotalOrdersAndBook, getTopSellingBooks, getLatestBook,getTotalBook,getTotalPublisher } from '../../store/actions/dashboardAction';
+import { getAllOrders} from '../../store/actions/orderAction';
 
 import grosssale from '../../assets/images/Dashborad/cards/grosssale.png'
 import grosssale2 from '../../assets/images/Dashborad/cards/2.png'
@@ -75,7 +76,8 @@ class Dashboard extends Component {
             totalPublisher: "",
             bookList: [],
             newBookList: [],
-
+            earning:0,
+            bookSoldTotal:0,
         };
 
     }
@@ -85,12 +87,39 @@ class Dashboard extends Component {
 
     }
 
-
+    getTotalEarning = (list) => { 
+        if (list.length > 0) {
+            var earning = 0
+            var bookSoldTotal = 0
+            for (var i = 0; i < list.length -1 ; i++) {
+                earning =  parseInt(list[i].order_book?.Amount) +  earning 
+                bookSoldTotal++
+            }
+            this.setState({ earning: earning,bookSoldTotal:bookSoldTotal })
+        }
+    }
 
     componentDidMount() {
+        this.props.getAllOrders('1').then((res) => {
+            // console.log(res.content)
+             if (res.status) {
+                 this.setState({
+                     orderList: res.content,
+                 }, () => {
+                     this.getTotalEarning(res.content)
+                    })
+ 
+             }
+             else {
+                 alert(res)
+             }
+         }).catch((err) => {
+             console.log(err)
+ 
+         })
 
         this.props.getTotalEarning(300).then((res) => {
-            console.log("totalearning : ", res.content)
+            //console.log("totalearning : ", res.content)
             if (res.status) {
                 this.setState({
                     totalearning: res.content[0]?.order_book?.total_amount,
@@ -101,12 +130,12 @@ class Dashboard extends Component {
                 alert(res)
             }
         }).catch((err) => {
-            console.log(err)
+            //console.log(err)
 
         })
 
         this.props.getTotalOrdersAndBook().then((res) => {
-            console.log(res.content)
+            //console.log(res.content)
             if (res.status) {
                 this.setState({
                     totalorders: res.content[0]?.total_order,
@@ -118,12 +147,12 @@ class Dashboard extends Component {
                 alert(res)
             }
         }).catch((err) => {
-            console.log(err)
+            //console.log(err)
 
         })
 
         this.props.getTotalBook().then((res) => {
-            console.log(res.content)
+            //console.log(res.content)
             if (res.status) {
                 this.setState({
                     totalBooks: res.content[0]?.total_book,
@@ -134,12 +163,12 @@ class Dashboard extends Component {
                 alert(res)
             }
         }).catch((err) => {
-            console.log(err)
+            //console.log(err)
 
         })
 
         this.props.getTotalPublisher().then((res) => {
-            console.log(res.content)
+            //console.log(res.content)
             if (res.status) {
                 this.setState({
                     totalPublisher: res.content[0]?.total_publisher,
@@ -150,12 +179,12 @@ class Dashboard extends Component {
                 alert(res)
             }
         }).catch((err) => {
-            console.log(err)
+            //console.log(err)
 
         })
 
         this.props.getTopSellingBooks().then((res) => {
-            console.log("bookList ",res.content)
+            //console.log("bookList ",res.content)
             if (res.status) {
                 this.setState({
                     bookList: res.content,
@@ -167,12 +196,12 @@ class Dashboard extends Component {
                 alert(res)
             }
         }).catch((err) => {
-            console.log(err)
+            //console.log(err)
 
         })
 
         this.props.getLatestBook().then((res) => {
-            console.log("newBookList", res.content)
+            //console.log("newBookList", res.content)
             if (res.status) {
                 this.setState({
                     newBookList: res.content,
@@ -184,7 +213,7 @@ class Dashboard extends Component {
                 alert(res)
             }
         }).catch((err) => {
-            console.log(err)
+            //console.log(err)
 
         })
     }
@@ -229,7 +258,7 @@ class Dashboard extends Component {
                                                         <img className="costinner" src={grosssale}></img>
                                                         <label className="ml-2 mb-0 earningText poppins_semibold">Gross Sale</label> <br></br>
                                                         <div className="text-right mt-2">
-                                                            <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalearning + '.00 RS'}</label>
+                                                            <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.earning === 0? '0.00': this.state.earning + '.00 RS'}</label>
                                                         </div>
                                                     </div>
 
@@ -245,7 +274,7 @@ class Dashboard extends Component {
                                                         <img className="costinner" src={grosssale2}></img>
                                                         <label className="ml-2 mb-0 earningText poppins_semibold">Total Book Sold</label> <br></br>
                                                         <div className="text-right mt-2">
-                                                            <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalorders}</label>
+                                                            <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.bookSoldTotal}</label>
                                                         </div>
 
                                                     </div>
@@ -260,7 +289,7 @@ class Dashboard extends Component {
                                                         <img className="costinner" src={openbook}></img>
                                                         <label className="ml-2 mb-0 earningText poppins_semibold">Net Profit</label> <br></br>
                                                         <div className="text-right mt-2">
-                                                            <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.totalearning * 0.3 + ' RS'}</label>
+                                                            <label className=" mr-3  mb-0 earningAmount poppins_bold">{this.state.earning === 0?'0.00':Math.round(this.state.earning * 0.3) + ' RS'}</label>
                                                         </div>
                                                         {/* <img className="editicon" src={editbook}></img> */}
                                                     </div>
@@ -722,7 +751,7 @@ const mapDispatchToProps = ({
     getTotalPublisher,
     getTopSellingBooks,
     getLatestBook,
-
+    getAllOrders,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
 
