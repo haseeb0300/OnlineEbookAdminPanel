@@ -81,7 +81,7 @@ class SellingHistoryAll extends Component {
 
     componentDidMount() {
         this.props.getAllOrders('1').then((res) => {
-           // console.log(res.content)
+            console.log(res.content)
             if (res.status) {
                 this.setState({
                     orderList: res.content,
@@ -383,11 +383,14 @@ class SellingHistoryAll extends Component {
 
                 <td>{item?.book?.Name}</td>
                 <td>{item?.Order_ID}</td>
-                <td><Moment format="DD-MM-YY HH:MM">{item?.book?.createdAt}</Moment></td>
+                <td><Moment format="DD-MM-YY HH:MM">{item?.order_book?.createdAt}</Moment></td>
 
                 <td>{item?.order_book?.Payment_Method === 'PayPal' ? item?.book?.Price_USD * 150 + ' Rs.' : item?.book?.Price + ' Rs.'}</td>
                 <td>{item?.order_book?.Payment_Method === 'PayPal' ? (item?.book?.Price_USD * 150) * 0.7 + ' Rs.' : item?.book?.Price * 0.7 + ' Rs.'}</td>
                 <td>{item?.order_book?.Payment_Method}</td>
+
+                <td>{item?.order_book?.Reference_No}</td>
+
 
                 <td>
                     <div className={item?.Status === 'Cleared' ? "tableSelect_Published" : "table-badge-review"}>
@@ -431,7 +434,7 @@ class SellingHistoryAll extends Component {
         })
     }
 
-    onSort = (name, order) => {
+    onSort =  (name, order) => {
         console.log("ORDER : " + order)
 
         this.setState({ ["SORT" + name]: order })
@@ -441,21 +444,31 @@ class SellingHistoryAll extends Component {
         this.setState({ orderList: orderListSorted, OrderListFiltered: OrderListFilteredSorted })
 
     }
+
+    getValue = (item,prop)=>{
+        switch(prop) {
+            case 'createdAt': return item.order_book.createdAt;
+            default: return item[prop];
+          }
+    }
+
     sortArrByOrder = (prop, order) => {
+
+        
         if (order === "ASC")
-            return function (a, b) {
-                if (a[prop] > b[prop]) {
+            return  (a, b)=> {
+                if (this.getValue(a,prop) >  this.getValue(b,prop)) {
                     return 1;
-                } else if (a[prop] < b[prop]) {
+                } else if (this.getValue(a,prop) < this.getValue(b,prop)) {
                     return -1;
                 }
                 return 0;
             }
 
-        return function (a, b) {
-            if (a[prop] < b[prop]) {
+        return  (a, b)=> {
+            if (this.getValue(a,prop) <  this.getValue(b,prop)) {
                 return 1;
-            } else if (a[prop] > b[prop]) {
+            } else if (this.getValue(a,prop) >  this.getValue(b,prop)) {
                 return -1;
             }
             return 0;
@@ -863,6 +876,10 @@ class SellingHistoryAll extends Component {
 
                                                         )}
                                                         <th scope="col table_header poppins_medium">Payment Method
+                                                            {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'DESC')}></img> */}
+                                                        </th>
+
+                                                        <th scope="col table_header poppins_medium">Transaction ID
                                                             {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'DESC')}></img> */}
                                                         </th>
 
