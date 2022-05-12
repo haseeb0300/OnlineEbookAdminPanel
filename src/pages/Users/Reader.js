@@ -147,9 +147,12 @@ class Reader extends Component {
         this.props.getAllReader().then((res) => {
             //console.log(res.content)
             if (res.status == true) {
+                let readerListSorted = res.content.sort(this.sortArrByOrder("createdAt","DESC"))
                 this.setState({
-                    readerList: res.content,
+                    readerList: readerListSorted,
                     isLoading: false
+                },()=>{
+
                 })
 
             }
@@ -163,11 +166,11 @@ class Reader extends Component {
 
     }
 
-    onSearch =async (searchStr) =>{
-        
-        if(!searchStr){
-            this.setState({readerListFiltered:[]})
-return
+    onSearch = async (searchStr) => {
+
+        if (!searchStr) {
+            this.setState({ readerListFiltered: [] })
+            return
         }
         let { readerList} =this.state
         //console.log(readerList)
@@ -177,7 +180,7 @@ return
             return false
         })
         this.setState({
-            currentPage:  1
+            currentPage: 1
         });
         //console.log(fiteredList)
         this.setState({ readerListFiltered: fiteredList})
@@ -309,10 +312,11 @@ return
 
                 <td>{item.Full_Name}</td>
                 <td>{item.Email}</td>
+                <td><Moment format="DD-MM-YY">{item?.createdAt}</Moment></td>
 
 
 
-{/* 
+                {/* 
                 <td>
                     <img className="pointerr" src={visibility} onClick={() => this.onClickView(item)}></img>
                 </td> */}
@@ -362,17 +366,17 @@ return
 
     render() {
 
-        const { isLoading, readerList,readerListFiltered ,currentPage, todosPerPage } = this.state;
+        const { isLoading, readerList, readerListFiltered, currentPage, todosPerPage } = this.state;
 
         if (isLoading) {
             return (
                 <div className="loader-large"></div>
             )
         }
-        let printList = this.state.search  ? readerListFiltered:readerList
+        let printList = this.state.search ? readerListFiltered : readerList
         const indexOfLastTodo = currentPage * todosPerPage;
         const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
-        const currentTodos =  printList.slice(indexOfFirstTodo, indexOfLastTodo);
+        const currentTodos = printList.slice(indexOfFirstTodo, indexOfLastTodo);
 
         const pageNumbers = [];
         for (let i = 1; i <= Math.ceil(printList.length / todosPerPage); i++) {
@@ -401,7 +405,7 @@ return
                                                 <img className="searchicon" src={searchicon}></img>
 
                                                 <input className="search_input " placeholder="search here" name="search" onChange={this.onChange}></input>
-                                                <button className="allbook-search-btn" onClick={ ()=>this.onSearch(this.state.search)}>search</button>
+                                                <button className="allbook-search-btn" onClick={() => this.onSearch(this.state.search)}>search</button>
 
                                             </div>
 
@@ -427,6 +431,12 @@ return
                                                 ) : (
                                                     <th scope="col table_header poppins_medium" onClick={() => this.onSort('Email', 'DESC')}>Email <i className="fa fa-caret-down" aria-hidden="true"></i> </th>
                                                 )}
+                                                {this.state["SORT" + "createdAt"] === "DESC" ? (
+                                                    <th scope="col table_header poppins_medium" onClick={() => this.onSort('createdAt', 'ASC')}>Date of Joining<i class="fa fa-caret-up" aria-hidden="true"></i></th>
+                                                ) : (
+                                                    <th scope="col table_header poppins_medium" onClick={() => this.onSort('createdAt', 'DESC')}>Date of Joining <i class="fa fa-caret-down" aria-hidden="true"></i> </th>
+                                                )}
+
                                                 <th scope="col table_header poppins_medium">Actions  </th>
 
 
