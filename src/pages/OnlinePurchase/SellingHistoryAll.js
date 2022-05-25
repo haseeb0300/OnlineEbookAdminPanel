@@ -391,10 +391,13 @@ class SellingHistoryAll extends Component {
 
                 <td>{item?.order_book?.Reference_No}</td>
 
+                <td>{item?.order_book?.user?.Email}</td>
+
+
 
                 <td>
                     <div className={item?.Status === 'Cleared' ? "tableSelect_Published" : "table-badge-review"}>
-                        <label className="badge-label">{!item?.Status ? 'Pending' : item?.Status}</label>
+                        <label className="badge-label">{!item?.Status ? 'Pending' : item?.Status === 'Published'?'Sold':item?.Status}</label>
                     </div>
                 </td>
                 {item?.Reference_No ?
@@ -880,6 +883,10 @@ class SellingHistoryAll extends Component {
                                                         </th>
 
                                                         <th scope="col table_header poppins_medium">Transaction ID
+                                                            {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'DESC')}></img> */}
+                                                        </th>
+
+                                                        <th scope="col table_header poppins_medium">Buyer Email
                                                             {/* <img className="dropicon" src={Polygon} onClick={() => this.onPressSortByBook('Price', 'DESC')}></img> */}
                                                         </th>
 
