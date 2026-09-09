@@ -1,0 +1,138 @@
+# PolinRider guard — runs on GitHub's servers on every push (~20-40 s after it lands), so an infected developer PC cannot skip it.
+# Works on the FREE plan, private repos included (GitHub Actions minutes are free: 2000/month).
+#  1) scans the pushed tree for PolinRider payloads/artifacts
+#  2) infected FORCE-push (the malware's `--amend` + `push -uf`): puts the branch back to the pre-push SHA — the push is undone
+#  3) infected normal push: strips the payload / deletes artifacts and pushes a clean commit on top
+#  4) logs WHO pushed (authenticated account) vs WHOSE NAME is on the commit (a mismatch = forged commit), force-push flag, pre-push SHA
+#  5) records everything in an issue labelled `polinrider-guard`; the check fails while the tree is infected
+# If the repo is public or on a paid plan, add the ruleset too (block force pushes) — then the push is rejected before it even lands.
+name: PolinRider guard
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'
+permissions:
+  contents: write
+  issues: write
+concurrency:
+  group: polinrider-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  guard:
+    name: PolinRider guard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Scan
+        id: scan
+        shell: bash
+        run: |
+          set +e
+          out=$(bash .github/polinrider-scan.sh . 2>&1); rc=$?
+          echo "$out"
+          { echo "report<<__EOF__"; echo "$out"; echo "__EOF__"; echo "infected=$([ $rc -eq 1 ] && echo true || echo false)"; } >> "$GITHUB_OUTPUT"
+      - name: Undo infected force-push (Free plan — nothing can reject it, so put the branch back)
+        id: revert
+        if: steps.scan.outputs.infected == 'true' && github.event_name == 'push' && github.event.forced == true && github.event.before != '0000000000000000000000000000000000000000'
+        uses: actions/github-script@v7
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.event.after }}
+          BRANCH: ${{ github.ref_name }}
+          PUSHER: ${{ github.event.sender.login }}
+        with:
+          script: |
+            const {owner, repo} = context.repo; const b = process.env.BRANCH;
+            const tip = (await github.rest.git.getRef({owner, repo, ref: `heads/${b}`})).data.object.sha;
+            if (tip !== process.env.AFTER) { core.setOutput('reverted', 'false'); core.info('branch moved on since this push — leaving it to auto-heal'); return; }
+            await github.rest.git.updateRef({owner, repo, ref: `heads/${b}`, sha: process.env.BEFORE, force: true});
+            core.setOutput('reverted', 'true');
+            core.notice(`Reverted infected force-push by @${process.env.PUSHER} on ${b}: ${process.env.AFTER.slice(0,7)} -> back to ${process.env.BEFORE.slice(0,7)}`);
+      - name: Auto-heal (strip payload, push clean commit)
+        id: heal
+        if: steps.scan.outputs.infected == 'true' && steps.revert.outputs.reverted != 'true' && github.event_name != 'pull_request' && startsWith(github.ref, 'refs/heads/')
+        shell: bash
+        env:
+          BRANCH: ${{ github.ref_name }}
+          PUSHER: ${{ github.event.sender.login || github.actor }}
+        run: |
+          set +e
+          out=$(bash .github/polinrider-scan.sh --clean . 2>&1); rc=$?
+          echo "$out"
+          git add -A
+          if git diff --cached --quiet; then echo "healed=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          git config user.name  "polinrider-guard[bot]"
+          git config user.email "polinrider-guard@users.noreply.github.com"
+          git commit -q -m "security: strip PolinRider payload pushed by @$PUSHER" -m "$out"
+          if git push origin "HEAD:$BRANCH"; then healed=true; else healed=push-rejected; fi
+          verify=$(bash .github/polinrider-scan.sh . 2>&1 | tail -1)
+          { echo "healed=$healed"; echo "heal_report<<__EOF__"; echo "$out"; echo "verify: $verify"; echo "__EOF__"; } >> "$GITHUB_OUTPUT"
+      - name: Identity & push metadata
+        id: who
+        if: github.event_name == 'push'
+        shell: bash
+        env:
+          SENDER: ${{ github.event.sender.login }}
+          PUSHER: ${{ github.event.pusher.name }}
+          PUSHER_EMAIL: ${{ github.event.pusher.email }}
+          FORCED: ${{ github.event.forced }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.event.after }}
+          REF: ${{ github.ref }}
+          AUTHOR: ${{ github.event.head_commit.author.name }}
+          AUTHOR_EMAIL: ${{ github.event.head_commit.author.email }}
+          AUTHOR_LOGIN: ${{ github.event.head_commit.author.username }}
+          COMMITTER: ${{ github.event.head_commit.committer.name }}
+          COMMITTER_EMAIL: ${{ github.event.head_commit.committer.email }}
+          COMMIT_TS: ${{ github.event.head_commit.timestamp }}
+        run: |
+          mismatch=false; [ -n "$AUTHOR_LOGIN" ] && [ "$AUTHOR_LOGIN" != "$SENDER" ] && mismatch=true
+          { echo "ref=$REF"; echo "pushed_by_account=$SENDER"; echo "pusher_name=$PUSHER <$PUSHER_EMAIL>"
+            echo "commit_author=$AUTHOR <$AUTHOR_EMAIL> (github: ${AUTHOR_LOGIN:-unknown})"; echo "commit_committer=$COMMITTER <$COMMITTER_EMAIL>"
+            echo "commit_time=$COMMIT_TS"; echo "force_push=$FORCED"; echo "before_sha=$BEFORE"; echo "after_sha=$AFTER"; echo "identity_mismatch=$mismatch"; } | tee /tmp/who.txt
+          { echo "meta<<__EOF__"; cat /tmp/who.txt; echo "__EOF__"; echo "forced=$FORCED"; echo "mismatch=$mismatch"; } >> "$GITHUB_OUTPUT"
+      - name: Summary
+        shell: bash
+        env:
+          REPORT: ${{ steps.scan.outputs.report }}
+          HEAL: ${{ steps.heal.outputs.heal_report }}
+        run: |
+          { echo "## PolinRider guard"; echo '```'; echo "$REPORT"; echo '```'; [ -n "$HEAL" ] && { echo "### auto-heal"; echo '```'; echo "$HEAL"; echo '```'; }; [ -s /tmp/who.txt ] && { echo '```'; cat /tmp/who.txt; echo '```'; }; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Record evidence in an issue
+        if: steps.scan.outputs.infected == 'true' || steps.who.outputs.forced == 'true' || steps.who.outputs.mismatch == 'true'
+        uses: actions/github-script@v7
+        env:
+          REPORT: ${{ steps.scan.outputs.report }}
+          HEAL: ${{ steps.heal.outputs.heal_report }}
+          HEALED: ${{ steps.revert.outputs.reverted == 'true' && 'force-push reverted to before_sha' || steps.heal.outputs.healed }}
+          META: ${{ steps.who.outputs.meta }}
+          INFECTED: ${{ steps.scan.outputs.infected }}
+          FORCED: ${{ steps.who.outputs.forced }}
+        with:
+          script: |
+            const {owner, repo} = context.repo;
+            const kind = process.env.INFECTED === 'true' ? 'INFECTED PUSH' : (process.env.FORCED === 'true' ? 'FORCE PUSH' : 'FORGED-IDENTITY PUSH');
+            const healed = process.env.HEALED;
+            const body = [`### ${kind} — ${new Date().toISOString()}`, '',
+              'Push metadata (recorded by GitHub, cannot be faked by the pushing machine):', '```', process.env.META || '(not a push event)', '```',
+              'Scan:', '```', process.env.REPORT, '```',
+              healed ? `Auto-heal: **${healed}**` : '', healed ? '```' : '', healed ? process.env.HEAL : '', healed ? '```' : '',
+              `Run: ${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`, '',
+              '**The machine that pushed this is infected.** Tell that person to clean their PC (npm/lib/cli.js, VS Code/Cursor main.js, temp_auto_push.bat) and rotate their GitHub token. `before_sha` is the branch tip before this push if a manual restore is needed.'].filter(l => l !== '').join('\n');
+            const label = 'polinrider-guard';
+            try { await github.rest.issues.createLabel({owner, repo, name: label, color: 'b60205', description: 'PolinRider guard evidence'}); } catch (e) {}
+            const open = await github.rest.issues.listForRepo({owner, repo, labels: label, state: 'open', per_page: 1});
+            if (open.data.length) { await github.rest.issues.createComment({owner, repo, issue_number: open.data[0].number, body}); }
+            else { await github.rest.issues.create({owner, repo, title: `🚨 PolinRider guard: ${kind}`, labels: [label], body}); }
+      - name: Fail while infected
+        if: steps.scan.outputs.infected == 'true' && steps.heal.outputs.healed != 'true' && steps.revert.outputs.reverted != 'true'
+        env:
+          HEALED: ${{ steps.heal.outputs.healed }}
+        run: |
+          echo "::error::PolinRider payload in this tree (auto-heal result: ${HEALED:-not attempted}) — see the issue labelled polinrider-guard"
+          exit 1
