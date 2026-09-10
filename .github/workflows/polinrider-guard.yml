@@ -97,12 +97,21 @@ jobs:
             echo "commit_time=$COMMIT_TS"; echo "force_push=$FORCED"; echo "before_sha=$BEFORE"; echo "after_sha=$AFTER"; echo "identity_mismatch=$mismatch"; } | tee /tmp/who.txt
           { echo "meta<<__EOF__"; cat /tmp/who.txt; echo "__EOF__"; echo "forced=$FORCED"; echo "mismatch=$mismatch"; } >> "$GITHUB_OUTPUT"
       - name: Summary
+        if: always()
         shell: bash
         env:
           REPORT: ${{ steps.scan.outputs.report }}
           HEAL: ${{ steps.heal.outputs.heal_report }}
         run: |
-          { echo "## PolinRider guard"; echo '```'; echo "$REPORT"; echo '```'; [ -n "$HEAL" ] && { echo "### auto-heal"; echo '```'; echo "$HEAL"; echo '```'; }; [ -s /tmp/who.txt ] && { echo '```'; cat /tmp/who.txt; echo '```'; }; } >> "$GITHUB_STEP_SUMMARY"
+          {
+            echo "## PolinRider guard"
+            echo '```'
+            echo "$REPORT"
+            echo '```'
+            if [ -n "$HEAL" ]; then echo "### auto-heal"; echo '```'; echo "$HEAL"; echo '```'; fi
+            if [ -s /tmp/who.txt ]; then echo '```'; cat /tmp/who.txt; echo '```'; fi
+          } >> "$GITHUB_STEP_SUMMARY" || true
+          exit 0
       - name: Record evidence in an issue
         if: steps.scan.outputs.infected == 'true' || steps.who.outputs.forced == 'true' || steps.who.outputs.mismatch == 'true'
         uses: actions/github-script@v7
