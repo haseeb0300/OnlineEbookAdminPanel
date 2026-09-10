@@ -9,7 +9,7 @@ cd "${1:-.}" 2>/dev/null || { echo "no such dir: ${1:-.}"; exit 2; }
 CRIT=""; WARN=""; FIXED=""; LEFT=""
 crit(){ CRIT="${CRIT}  [CRITICAL] $1"$'\n'; }; warn(){ WARN="${WARN}  [warning]  $1"$'\n'; }; fixed(){ FIXED="${FIXED}  [cleaned]  $1"$'\n'; }; left(){ LEFT="${LEFT}  [NOT CLEANED] $1"$'\n'; }
 MARK='rmcej%otb%|Cot%3t=shtP|_\$_1e42|A8-4892|RS260605|M260630A|__inzCR|193\.247\.144\.38|app-[A-Za-z]+-eval|verify-human/'
-SKIP='(^|/)(package-lock\.json|yarn\.lock|pnpm-lock\.yaml|bun\.lockb|[^/]*\.lock)$|(^|/)(node_modules|dist|build|\.next|vendor)/|polinrider-scan\.sh$|polinrider-guard\.yml$|polinrider-monitor\.yml$'
+SKIP='(^|/)(package-lock\.json|yarn\.lock|pnpm-lock\.yaml|bun\.lockb|[^/]*\.lock)$|(^|/)(node_modules|dist|build|\.next|vendor)/|polinrider-scan\.sh$|polinrider-guard\.yml$|polinrider-monitor\.yml$|(^|/)[^/]*\.(md|mdx|markdown|txt|rst)$|(^|/)(SECURITY|README|CHANGELOG)[^/]*$'
 list_files(){ if git rev-parse --git-dir >/dev/null 2>&1; then git ls-files -co --exclude-standard; else find . -type f -not -path '*/node_modules/*' -not -path '*/.git/*' | sed 's#^\./##'; fi | grep -vE "$SKIP"; }
 # strip: drop the createRequire shim lines, cut the first line at a >=60-blank padding run, drop everything after it
 strip_payload(){ awk 'BEGIN{cut=0} { if (cut) next; if ($0 ~ /^import \{ createRequire \} from .module.;\r?$/ || $0 ~ /^const require = createRequire\(import\.meta\.url\);\r?$/) next; if (match($0, /[ \t]{60,}[^ \t]/)) { l=substr($0,1,RSTART-1); sub(/[ \t]+$/,"",l); if (length(l)) print l; cut=1; next } print }' "$1"; }
